@@ -84,103 +84,89 @@
             border-color: var(--accent-color);
             box-shadow: 0 0 12px var(--accent-glow);
         }
-        .nav-btn.success {
-            border-color: rgba(34, 197, 94, 0.4);
-            color: var(--success-color);
-        }
-        .nav-btn.success:hover {
-            background-color: rgba(34, 197, 94, 0.1);
-            border-color: var(--success-color);
-        }
-        .nav-btn.admin {
-            border-color: rgba(255, 215, 0, 0.5);
-            color: var(--gold-color);
-        }
-        .nav-btn.admin:hover {
-            background-color: rgba(255, 215, 0, 0.1);
-            border-color: var(--gold-color);
-        }
-        .nav-btn.admin.active {
-            background-color: var(--gold-color);
-            color: #000;
-            border-color: var(--gold-color);
-        }
+        .nav-btn.success { border-color: rgba(34, 197, 94, 0.4); color: var(--success-color); }
+        .nav-btn.success:hover { background-color: rgba(34, 197, 94, 0.1); border-color: var(--success-color); }
+        .nav-btn.admin { border-color: rgba(255, 215, 0, 0.5); color: var(--gold-color); }
+        .nav-btn.admin:hover { background-color: rgba(255, 215, 0, 0.1); border-color: var(--gold-color); }
+        .nav-btn.admin.active { background-color: var(--gold-color); color: #000; border-color: var(--gold-color); }
         .discord-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #5865F2;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            font-family: inherit;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+            background-color: #5865F2; color: white; border: none;
+            padding: 8px 14px; font-size: 0.9rem; font-weight: 600; font-family: inherit;
+            border-radius: 6px; cursor: pointer; text-decoration: none;
             transition: all 0.2s ease;
         }
         .discord-btn:hover { filter: brightness(1.15); }
         .lang-select {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-color); color: var(--text-color);
             border: 1px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
+            padding: 8px 12px; border-radius: 6px;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; outline: none;
         }
         .main-container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-            width: 100%;
-            flex: 1;
+            max-width: 1400px; margin: 30px auto; padding: 0 20px;
+            width: 100%; flex: 1;
         }
-        .view-section {
-            display: none;
-            animation: fadeIn 0.25s ease-in-out;
-        }
+        .view-section { display: none; animation: fadeIn 0.25s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .list-layout {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 25px;
-            align-items: start;
+        .left-banners {
+            position: fixed; left: 20px; top: 120px;
+            display: flex; flex-direction: column; gap: 14px; z-index: 5;
         }
-        .levels-sidebar {
+        .left-banner {
+            width: 130px; height: 190px; border-radius: 10px; overflow: hidden;
+            position: relative; border: 1px solid var(--border-color);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6); cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             background-color: var(--panel-bg);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
+        .left-banner:hover {
+            transform: translateX(6px) scale(1.04);
+            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.35);
+            border-color: var(--accent-color);
+        }
+        .left-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .left-banner-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 24px 8px 8px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            text-align: left;
+        }
+        .left-banner-rank {
+            display: inline-block; background: var(--accent-color); color: white;
+            font-size: 0.65rem; font-weight: 800; padding: 1px 6px;
+            border-radius: 3px; margin-bottom: 3px; letter-spacing: 0.5px;
+        }
+        .left-banner-rank.top-1 { background: var(--gold-color); color: #000; }
+        .left-banner-name {
+            font-size: 0.75rem; font-weight: 700; color: white; line-height: 1.2;
+            overflow: hidden; text-overflow: ellipsis;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }
+        @media (max-width: 1750px) { .left-banners { display: none; } }
+        .list-layout { display: grid; grid-template-columns: 380px 1fr; gap: 25px; }
+        .levels-sidebar {
+            background-color: var(--panel-bg); border-radius: 10px;
+            border: 1px solid var(--border-color); overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            align-self: start;
+        }
+        .detail-sticky-wrapper { min-height: 100%; }
         .sidebar-header {
-            padding: 15px 20px;
-            background-color: #101017;
+            padding: 15px 20px; background-color: #101017;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.85rem; font-weight: 700; color: var(--accent-color);
+            text-transform: uppercase; letter-spacing: 1px;
         }
         .level-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            border-bottom: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: background-color 0.15s ease;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 18px; border-bottom: 1px solid var(--border-color);
+            cursor: pointer; transition: background-color 0.15s ease;
         }
         .level-item:last-child { border-bottom: none; }
         .level-item:hover { background-color: var(--card-hover); }
@@ -189,298 +175,198 @@
             border-left: 4px solid var(--accent-color);
         }
         .level-item-left { display: flex; align-items: center; gap: 12px; }
-        .level-item-rank {
-            font-weight: 800;
-            font-size: 1rem;
-            color: var(--accent-color);
-            width: 35px;
-        }
+        .level-item-rank { font-weight: 800; font-size: 1rem; color: var(--accent-color); width: 35px; }
         .level-item-rank.top-1 { color: var(--gold-color); }
         .level-item-name { font-weight: 600; font-size: 0.95rem; }
         .level-item-points { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+
+        /* 🔥 Badge NEW */
+        .new-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-left: 6px;
+            vertical-align: middle;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+            animation: newPulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes newPulse {
+            0%, 100% { box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+            50% { box-shadow: 0 0 14px rgba(34, 197, 94, 0.9); }
+        }
+        .new-badge-inline { margin-left: 10px; font-size: 0.7rem; padding: 4px 10px; }
+
         .level-detail-box {
-            background-color: var(--panel-bg);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            padding: 30px;
+            background-color: var(--panel-bg); border-radius: 10px;
+            border: 1px solid var(--border-color); padding: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            position: sticky;
-            top: 100px;
+            position: sticky; top: 100px; min-height: 500px;
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat; overflow: hidden;
         }
-        .detail-banner-container {
-            width: 100%;
-            height: 280px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            margin-bottom: 25px;
-            background-color: #0b0b0f;
-        }
-        .detail-banner { width: 100%; height: 100%; object-fit: cover; }
         .detail-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
         }
-        .detail-title-row h2 { font-size: 2rem; font-weight: 800; }
+        .detail-title-row h2 { font-size: 2rem; font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; }
         .detail-rank-tag {
-            background-color: rgba(255, 51, 102, 0.15);
-            color: var(--accent-color);
+            background-color: rgba(255, 51, 102, 0.15); color: var(--accent-color);
             border: 1px solid rgba(255, 51, 102, 0.3);
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: 800;
+            padding: 6px 14px; border-radius: 6px; font-weight: 800;
         }
         .detail-info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 20px; margin-bottom: 30px;
         }
         .info-card {
             background-color: rgba(13, 13, 18, 0.6);
             border: 1px solid var(--border-color);
-            padding: 15px 20px;
-            border-radius: 8px;
+            padding: 15px 20px; border-radius: 8px; backdrop-filter: blur(4px);
         }
         .info-card .label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            font-size: 0.8rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
         }
-        .info-card .value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .info-card .value { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: #ff0000;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            transition: opacity 0.2s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: #ff0000; color: white; padding: 12px 24px;
+            border-radius: 8px; text-decoration: none; font-weight: 700;
+            font-size: 0.95rem; width: 100%; border: none; cursor: pointer;
+            font-family: inherit; transition: opacity 0.2s ease;
         }
         .btn-action:hover { opacity: 0.9; }
         .btn-primary {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            background-color: var(--accent-color); color: white;
+            padding: 12px 20px; border-radius: 8px; border: none;
+            cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.95rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             transition: all 0.2s ease;
         }
         .btn-primary:hover { filter: brightness(1.1); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-secondary {
-            background-color: transparent;
-            color: var(--text-color);
+            background-color: transparent; color: var(--text-color);
             border: 1px solid var(--border-color);
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 12px 20px; border-radius: 8px;
+            cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.95rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             transition: all 0.2s ease;
         }
         .btn-secondary:hover { border-color: var(--accent-color); color: var(--accent-color); }
         .btn-danger {
-            background-color: transparent;
-            color: var(--error-color);
+            background-color: transparent; color: var(--error-color);
             border: 1px solid rgba(239, 68, 68, 0.4);
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            padding: 8px 14px; border-radius: 6px;
+            cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 6px;
             transition: all 0.2s ease;
         }
         .btn-danger:hover { background-color: rgba(239, 68, 68, 0.1); }
         .btn-danger-solid {
-            background-color: var(--error-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+            background-color: var(--error-color); color: white;
+            border: none; padding: 12px 20px; border-radius: 8px;
+            cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.95rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn-danger-solid:hover { filter: brightness(1.1); }
         .btn-approve {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            background-color: var(--success-color); color: white;
+            border: none; padding: 8px 16px; border-radius: 6px;
+            cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 6px;
         }
         .btn-approve:hover { filter: brightness(1.1); }
-        .table-card {
-            background-color: var(--panel-bg);
-            border-radius: 10px;
+        .btn-icon {
+            background-color: transparent; color: var(--text-color);
             border: 1px solid var(--border-color);
-            overflow: hidden;
+            padding: 6px 10px; border-radius: 6px;
+            cursor: pointer; font-family: inherit; font-size: 0.85rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease; min-width: 34px;
+        }
+        .btn-icon:hover { border-color: var(--accent-color); color: var(--accent-color); background-color: rgba(255,51,102,0.1); }
+        .btn-icon:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-icon:disabled:hover { border-color: var(--border-color); color: var(--text-color); background-color: transparent; }
+        .table-card {
+            background-color: var(--panel-bg); border-radius: 10px;
+            border: 1px solid var(--border-color); overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th, td { padding: 16px 20px; vertical-align: middle; }
         th {
-            background-color: #101017;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            font-weight: 700;
+            background-color: #101017; color: var(--accent-color);
+            text-transform: uppercase; font-size: 0.75rem;
+            letter-spacing: 1px; font-weight: 700;
             border-bottom: 1px solid var(--border-color);
         }
         tr:not(:last-child) td { border-bottom: 1px solid var(--border-color); }
         tbody tr { transition: background-color 0.15s ease; }
         tbody tr:hover { background-color: var(--card-hover); }
         .user-link {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-color); text-decoration: none; font-weight: 600;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
         }
         .user-link:hover { color: var(--accent-color); }
         .user-avatar-mini {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
+            width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
             border: 2px solid var(--border-color);
             background: linear-gradient(135deg, var(--accent-color), #880022);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.8rem; font-weight: 700;
         }
         .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--panel-bg);
-            color: var(--accent-color);
+            display: inline-flex; align-items: center; gap: 8px;
+            background-color: var(--panel-bg); color: var(--accent-color);
             border: 1px solid var(--border-color);
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 20px;
+            padding: 10px 18px; border-radius: 8px; font-weight: 600;
+            cursor: pointer; margin-bottom: 20px;
             transition: all 0.2s ease;
-            font-family: inherit;
-            font-size: 0.95rem;
+            font-family: inherit; font-size: 0.95rem;
         }
         .btn-back:hover { background-color: var(--accent-color); color: white; }
         .profile-card {
-            background-color: var(--panel-bg);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            padding: 30px;
+            background-color: var(--panel-bg); border-radius: 10px;
+            border: 1px solid var(--border-color); padding: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border-top: 4px solid var(--accent-color);
         }
         .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 20px;
+            margin-bottom: 25px; padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color); flex-wrap: wrap;
         }
         .profile-avatar {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
+            width: 65px; height: 65px; border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-color), #880022);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            color: white;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 2px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: white; overflow: hidden;
+            flex-shrink: 0; border: 2px solid var(--border-color);
         }
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .avatar-large {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
+            width: 110px; height: 110px; border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-color), #880022);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 3px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; color: white; overflow: hidden;
+            flex-shrink: 0; border: 3px solid var(--border-color);
         }
         .avatar-large img { width: 100%; height: 100%; object-fit: cover; }
         .record-item {
             background-color: rgba(13, 13, 18, 0.6);
-            padding: 14px 18px;
-            border-radius: 8px;
+            padding: 14px 18px; border-radius: 8px;
             border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            gap: 12px;
-            flex-wrap: wrap;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px; gap: 12px; flex-wrap: wrap;
         }
         .record-item.pending {
             border-color: rgba(245, 158, 11, 0.4);
@@ -489,32 +375,21 @@
         .record-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
         .record-thumb { width: 70px; height: 42px; border-radius: 6px; object-fit: cover; }
         .badge-pending {
-            background-color: rgba(245, 158, 11, 0.2);
-            color: var(--warning-color);
+            background-color: rgba(245, 158, 11, 0.2); color: var(--warning-color);
             border: 1px solid rgba(245, 158, 11, 0.4);
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            padding: 3px 10px; border-radius: 4px;
+            font-size: 0.75rem; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 4px;
         }
         footer {
-            text-align: center;
-            padding: 25px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 50px;
+            text-align: center; padding: 25px 0;
+            color: var(--text-muted); font-size: 0.85rem;
+            border-top: 1px solid var(--border-color); margin-top: 50px;
         }
         .auth-box {
-            max-width: 480px;
-            margin: 30px auto;
-            background-color: var(--panel-bg);
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            padding: 40px;
+            max-width: 480px; margin: 30px auto;
+            background-color: var(--panel-bg); border-radius: 10px;
+            border: 1px solid var(--border-color); padding: 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border-top: 4px solid var(--accent-color);
         }
@@ -522,27 +397,18 @@
         .auth-box .auth-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 30px; font-size: 0.9rem; }
         .form-group { margin-bottom: 18px; }
         .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: block; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-muted); margin-bottom: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
         .form-group input,
         .form-group textarea,
         .form-group select {
-            width: 100%;
-            background-color: var(--bg-color);
+            width: 100%; background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 12px 14px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s ease;
+            color: var(--text-color); padding: 12px 14px;
+            border-radius: 8px; font-family: inherit; font-size: 0.95rem;
+            outline: none; transition: border-color 0.2s ease;
         }
         .form-group input:focus,
         .form-group textarea:focus,
@@ -553,37 +419,28 @@
         .auth-switch a { color: var(--accent-color); cursor: pointer; font-weight: 700; text-decoration: none; }
         .auth-switch a:hover { text-decoration: underline; }
         .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: none;
+            padding: 12px 16px; border-radius: 8px; margin-bottom: 18px;
+            font-size: 0.9rem; font-weight: 600; display: none;
         }
         .alert.error {
             background-color: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #fca5a5;
-            display: block;
+            color: #fca5a5; display: block;
         }
         .alert.success {
             background-color: rgba(34, 197, 94, 0.15);
             border: 1px solid rgba(34, 197, 94, 0.4);
-            color: #86efac;
-            display: block;
+            color: #86efac; display: block;
         }
         .alert.warning {
             background-color: rgba(245, 158, 11, 0.15);
             border: 1px solid rgba(245, 158, 11, 0.4);
-            color: #fcd34d;
-            display: block;
+            color: #fcd34d; display: block;
         }
         .account-section {
             background-color: rgba(13, 13, 18, 0.5);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
+            border-radius: 10px; padding: 25px; margin-bottom: 25px;
         }
         .account-section.danger {
             border-color: rgba(239, 68, 68, 0.3);
@@ -598,35 +455,82 @@
         }
         .empty-state { color: var(--text-muted); font-size: 0.9rem; font-style: italic; padding: 15px 0; text-align: center; }
         .loading-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(13,13,18,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            font-size: 1.2rem;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; font-size: 1.2rem; font-weight: 700;
             color: var(--accent-color);
         }
         .loading-overlay.hidden { display: none; }
         .admin-record {
             background-color: rgba(13, 13, 18, 0.6);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 18px;
+            border-radius: 8px; padding: 18px;
             margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            display: flex; justify-content: space-between;
+            align-items: center; gap: 15px; flex-wrap: wrap;
         }
         .admin-record-info { flex: 1; min-width: 250px; }
-        .admin-record-user { font-weight: 700; color: var(--accent-color); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .admin-record-user { font-weight: 700; color: var(--accent-color); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-record-level { font-weight: 600; margin-top: 4px; }
         .admin-record-date { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-        .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+        .badges-row {
+            display: inline-flex; align-items: center; gap: 6px;
+            flex-wrap: wrap; vertical-align: middle; margin-left: 8px;
+        }
+        .badge-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 26px; height: 26px; border-radius: 50%;
+            background: rgba(20, 20, 28, 0.9);
+            border: 2px solid var(--border-color);
+            font-size: 0.72rem; cursor: help; position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
+        }
+        .badge-chip:hover { transform: scale(1.18); box-shadow: 0 0 14px currentColor; }
+        .badge-chip .tooltip {
+            position: absolute; bottom: calc(100% + 10px); left: 50%;
+            transform: translateX(-50%);
+            background: #000; color: white; padding: 8px 12px;
+            border-radius: 6px; font-size: 0.72rem; font-weight: 600;
+            white-space: nowrap; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease; z-index: 1000;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .badge-chip .tooltip::after {
+            content: ''; position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent; border-top-color: #000;
+        }
+        .badge-chip:hover .tooltip { opacity: 1; }
+
+        .badge-toggle {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 4px; width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(20, 20, 28, 0.9);
+            border: 2px solid var(--border-color);
+            cursor: pointer; font-size: 0.8rem;
+            transition: all 0.2s ease; opacity: 0.35; filter: grayscale(1);
+        }
+        .badge-toggle.active { opacity: 1; filter: none; box-shadow: 0 0 8px currentColor; }
+        .badge-toggle:hover { transform: scale(1.1); }
+        .admin-user-row {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 15px; flex-wrap: wrap;
+            background-color: rgba(13, 13, 18, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 14px 18px; margin-bottom: 10px;
+        }
+        .admin-user-name {
+            font-weight: 700; color: var(--text-color);
+            display: flex; align-items: center; gap: 10px;
+            flex: 1; min-width: 180px;
+        }
+        .badge-toggles { display: flex; gap: 6px; flex-wrap: wrap; }
+
         @media (max-width: 950px) {
             .list-layout { grid-template-columns: 1fr; }
             .level-detail-box { position: relative; top: 0; }
@@ -640,6 +544,8 @@
 <body>
 
     <div id="loading" class="loading-overlay">Cargando Unu List...</div>
+
+    <div class="left-banners" id="left-banners"></div>
 
     <header>
         <div class="header-title">
@@ -671,11 +577,11 @@
                     <i class="fa-solid fa-right-from-bracket"></i> <span id="nav-logout">Logout</span>
                 </button>
             </nav>
-            <a href="https://discord.gg/w5bv5HUKFt" target="_blank" rel="noopener noreferrer" class="discord-btn">
+            <a href="https://discord.gg/TU_INVITE_AQUI" target="_blank" rel="noopener noreferrer" class="discord-btn">
                 <i class="fa-brands fa-discord"></i> Discord
             </a>
             <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
-                <option value="en" selected>English</option>
+                <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="ru">Русский</option>
             </select>
@@ -689,7 +595,9 @@
                     <div class="sidebar-header" id="sidebar-header-title">Demons Leaderboard</div>
                     <div id="sidebar-levels-list"></div>
                 </div>
-                <div class="level-detail-box" id="level-detail-panel"></div>
+                <div class="detail-sticky-wrapper">
+                    <div class="level-detail-box" id="level-detail-panel"></div>
+                </div>
             </div>
         </section>
 
@@ -794,9 +702,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <script>
-        /* ============================================================
-           🔥 CONFIGURACIÓN DE FIREBASE (TU PROYECTO: unu-list)
-        ============================================================ */
         const firebaseConfig = {
             apiKey: "AIzaSyBYGbZRgP1_wYwWeUSPWq9_LQpaXMzbPJI",
             authDomain: "unu-list.firebaseapp.com",
@@ -811,12 +716,54 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        /* ============================================================
-           TRADUCCIONES
-        ============================================================ */
+        const BADGES = {
+            top1_creator: {
+                icon: 'fa-hammer', color: '#ffd700',
+                label: { en: 'Top 1 Creator', es: 'Creador de un Top 1', ru: 'Создатель Топ 1' },
+                desc: { en: 'Created a level that reached #1', es: 'Creó un nivel que alcanzó el #1', ru: 'Создал уровень, ставший #1' }
+            },
+            top1_verifier: {
+                icon: 'fa-circle-check', color: '#22c55e',
+                label: { en: 'Top 1 Verifier', es: 'Verificador de un Top 1', ru: 'Верификатор Топ 1' },
+                desc: { en: 'Verified a level that reached #1', es: 'Verificó un nivel que alcanzó el #1', ru: 'Верифицировал уровень, ставший #1' }
+            },
+            top1_first_victor: {
+                icon: 'fa-crown', color: '#ff3366',
+                label: { en: 'Top 1 First Victor', es: 'Primer Victor de un Top 1', ru: 'Первый победитель Топ 1' },
+                desc: { en: 'First person to beat the #1 level', es: 'Primera persona en pasarse el nivel #1', ru: 'Первый, кто прошёл уровень #1' }
+            },
+            top1_completion: {
+                icon: 'fa-trophy', color: '#f59e0b',
+                label: { en: 'Top 1 Completion', es: 'Completion de un Top 1', ru: 'Прохождение Топ 1' },
+                desc: { en: 'Completed the #1 level', es: 'Completó el nivel #1', ru: 'Прошёл уровень #1' }
+            },
+            top10_completion: {
+                icon: 'fa-medal', color: '#9494a0',
+                label: { en: 'Top 10-2 Completion', es: 'Completion de un Top 10-2', ru: 'Прохождение Топ 10-2' },
+                desc: { en: 'Completed a level ranked #2 to #10', es: 'Completó un nivel entre el #2 y el #10', ru: 'Прошёл уровень с рангом #2-#10' }
+            }
+        };
+
+        function renderUserBadges(user) {
+            const badges = user.badges || [];
+            if (badges.length === 0) return '';
+            const lang = currentLang;
+            return `<span class="badges-row">` + badges.map(bid => {
+                const b = BADGES[bid];
+                if (!b) return '';
+                const tip = `${b.label[lang] || b.label.en} — ${b.desc[lang] || b.desc.en}`;
+                return `
+                    <span class="badge-chip" style="color:${b.color}; border-color:${b.color};">
+                        <i class="fa-solid ${b.icon}"></i>
+                        <span class="tooltip">${tip}</span>
+                    </span>
+                `;
+            }).join('') + `</span>`;
+        }
+
         const translations = {
             en: {
-                subtitle: "The official list of the hardest Geometry Dash levels",
+                subtitle: "The official list of the hardest UNU levels of Geometry Dash",
                 navLevels: "Levels", navUsers: "User Area",
                 navAccount: "My Account", navAdmin: "Admin", navLogin: "Login", navLogout: "Logout",
                 sidebarHeader: "Demons Leaderboard",
@@ -848,7 +795,6 @@
                 levelAlreadyCompleted: "You already completed this level.",
                 levelAlreadyPending: "You already have a pending submission for this level.",
                 invalidVideoUrl: "Please provide a valid video URL.",
-                accountCreated: "Account created!",
                 invalidCredentials: "Invalid username or password.",
                 userExists: "That username is already taken.",
                 passwordsNoMatch: "Passwords do not match.",
@@ -888,25 +834,28 @@
                 tooManyRequests: "Too many attempts. Please try again later.",
                 requiresRecentLogin: "Please log out and log in again to continue.",
                 addNewLevel: "Add New Level",
-                manageLevels: "Manage Levels",
-                levelNameField: "Level Name",
-                levelCreator: "Creator",
-                levelVerifier: "Verifier",
-                levelPoints: "Points",
-                thumbnailUrl: "Thumbnail URL (optional)",
+                levelNameField: "Level Name", levelCreator: "Creator", levelVerifier: "Verifier",
+                levelPoints: "Points", thumbnailUrl: "Thumbnail URL (optional)",
                 levelVideoUrl: "Verification Video URL (optional)",
-                addLevel: "Add Level",
-                levelAdded: "Level added successfully!",
+                levelRank: "Rank Position (optional)",
+                levelRankHint: "Leave empty to add at the end. If you specify a rank, other levels will shift down.",
+                addLevel: "Add Level", levelAdded: "Level added successfully!",
                 levelDeleted: "Level deleted.",
                 levelAlreadyExists: "A level with that name already exists.",
                 confirmDeleteLevel: "Delete this level? This cannot be undone and will remove all associated completions points.",
                 noLevelsYet: "No levels yet. Admins can add levels from the Admin Panel.",
                 existingLevels: "Existing Levels",
                 fillRequired: "Please fill all required fields.",
-                rankingNote: "New levels are added at the end of the list (highest rank number)."
+                rankingNote: "Manage level positions with the arrows, or click the number to set a specific rank.",
+                moveUp: "Move up", moveDown: "Move down", setRank: "Set specific rank",
+                rankSet: "Rank updated!",
+                invalidRank: "Invalid rank.",
+                manageBadges: "Manage Badges",
+                manageBadgesSubtitle: "Click badges to assign or remove them from users.",
+                noUsersYet: "No users yet."
             },
             es: {
-                subtitle: "La lista oficial de los niveles más difíciles de Geometry Dash",
+                subtitle: "La lista oficial de los niveles UNU más difíciles de Geometry Dash",
                 navLevels: "Niveles", navUsers: "User Area",
                 navAccount: "Mi Cuenta", navAdmin: "Admin", navLogin: "Iniciar Sesión", navLogout: "Salir",
                 sidebarHeader: "Tabla de Niveles",
@@ -938,7 +887,6 @@
                 levelAlreadyCompleted: "Ya completaste este nivel.",
                 levelAlreadyPending: "Ya tienes un envío pendiente para este nivel.",
                 invalidVideoUrl: "URL inválida.",
-                accountCreated: "¡Cuenta creada!",
                 invalidCredentials: "Usuario o contraseña incorrectos.",
                 userExists: "Ese usuario ya está en uso.",
                 passwordsNoMatch: "Las contraseñas no coinciden.",
@@ -978,25 +926,28 @@
                 tooManyRequests: "Demasiados intentos. Inténtalo más tarde.",
                 requiresRecentLogin: "Cierra sesión y vuelve a entrar para continuar.",
                 addNewLevel: "Añadir Nuevo Nivel",
-                manageLevels: "Gestionar Niveles",
-                levelNameField: "Nombre del Nivel",
-                levelCreator: "Creador",
-                levelVerifier: "Verificador",
-                levelPoints: "Puntos",
-                thumbnailUrl: "URL de Miniatura (opcional)",
+                levelNameField: "Nombre del Nivel", levelCreator: "Creador", levelVerifier: "Verificador",
+                levelPoints: "Puntos", thumbnailUrl: "URL de Miniatura (opcional)",
                 levelVideoUrl: "URL del Video de Verificación (opcional)",
-                addLevel: "Añadir Nivel",
-                levelAdded: "¡Nivel añadido correctamente!",
+                levelRank: "Posición en el Ranking (opcional)",
+                levelRankHint: "Déjalo vacío para añadirlo al final. Si pones un número, los demás niveles bajan de posición.",
+                addLevel: "Añadir Nivel", levelAdded: "¡Nivel añadido correctamente!",
                 levelDeleted: "Nivel eliminado.",
                 levelAlreadyExists: "Ya existe un nivel con ese nombre.",
                 confirmDeleteLevel: "¿Eliminar este nivel? No se puede deshacer y eliminará los puntos asociados.",
                 noLevelsYet: "Aún no hay niveles. Los admins pueden añadirlos desde el Panel de Admin.",
                 existingLevels: "Niveles Existentes",
                 fillRequired: "Por favor rellena todos los campos obligatorios.",
-                rankingNote: "Los niveles nuevos se añaden al final de la lista (número de rank más alto)."
+                rankingNote: "Mueve las posiciones con las flechas, o haz clic en el número para escribir un rank concreto.",
+                moveUp: "Subir", moveDown: "Bajar", setRank: "Poner rank específico",
+                rankSet: "¡Posición actualizada!",
+                invalidRank: "Rank inválido.",
+                manageBadges: "Gestionar Insignias",
+                manageBadgesSubtitle: "Haz clic en las insignias para asignarlas o quitarlas a los usuarios.",
+                noUsersYet: "Aún no hay usuarios."
             },
             ru: {
-                subtitle: "Официальный список самых сложных уровней Geometry Dash",
+                subtitle: "Официальный список самых сложных UNU уровней Geometry Dash",
                 navLevels: "Уровни", navUsers: "Игроки",
                 navAccount: "Мой Аккаунт", navAdmin: "Админ", navLogin: "Войти", navLogout: "Выйти",
                 sidebarHeader: "Таблица Уровней",
@@ -1028,7 +979,6 @@
                 levelAlreadyCompleted: "Вы уже прошли уровень.",
                 levelAlreadyPending: "Уже есть заявка на этот уровень.",
                 invalidVideoUrl: "Неверный URL.",
-                accountCreated: "Аккаунт создан!",
                 invalidCredentials: "Неверные данные.",
                 userExists: "Имя занято.",
                 passwordsNoMatch: "Пароли не совпадают.",
@@ -1068,28 +1018,30 @@
                 tooManyRequests: "Слишком много попыток.",
                 requiresRecentLogin: "Войдите заново.",
                 addNewLevel: "Добавить Уровень",
-                manageLevels: "Управление Уровнями",
-                levelNameField: "Название уровня",
-                levelCreator: "Создатель",
-                levelVerifier: "Верификатор",
-                levelPoints: "Очки",
-                thumbnailUrl: "URL миниатюры (необязательно)",
+                levelNameField: "Название уровня", levelCreator: "Создатель", levelVerifier: "Верификатор",
+                levelPoints: "Очки", thumbnailUrl: "URL миниатюры (необязательно)",
                 levelVideoUrl: "URL видео (необязательно)",
-                addLevel: "Добавить",
-                levelAdded: "Уровень добавлен!",
+                levelRank: "Позиция в рейтинге (необязательно)",
+                levelRankHint: "Оставьте пустым, чтобы добавить в конец. Если указать позицию, остальные уровни сдвинутся вниз.",
+                addLevel: "Добавить", levelAdded: "Уровень добавлен!",
                 levelDeleted: "Уровень удалён.",
                 levelAlreadyExists: "Уровень с таким названием уже есть.",
                 confirmDeleteLevel: "Удалить уровень? Отменить нельзя, очки исчезнут.",
                 noLevelsYet: "Уровней пока нет. Админы могут добавить их в панели.",
                 existingLevels: "Существующие уровни",
                 fillRequired: "Заполните обязательные поля.",
-                rankingNote: "Новые уровни добавляются в конец списка."
+                rankingNote: "Меняйте позиции стрелками, или нажмите на номер, чтобы ввести ранг напрямую.",
+                moveUp: "Вверх", moveDown: "Вниз", setRank: "Указать ранг",
+                rankSet: "Ранг обновлён!",
+                invalidRank: "Неверный ранг.",
+                manageBadges: "Управление Значками",
+                manageBadgesSubtitle: "Нажмите на значки, чтобы выдать или забрать их у игрока.",
+                noUsersYet: "Пользователей пока нет."
             }
         };
 
-        /* ============================================================
-           ESTADO GLOBAL
-        ============================================================ */
+        const LANG_KEY = 'unulist_lang';
+
         let currentLang = 'en';
         let currentProfileUser = null;
         let selectedLevelId = null;
@@ -1099,18 +1051,47 @@
         let currentUid = null;
         let pendingAvatarData = null;
         let levelsData = [];
+        let leftBannersInitialized = false;
 
-        /* ============================================================
-           UTILIDADES
-        ============================================================ */
         function usernameToEmail(username) {
             return username.toLowerCase().replace(/[^a-z0-9]/g, '') + '@unulist.app';
         }
 
         function slugify(str) {
-            return str.toLowerCase().trim()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-|-$/g, '');
+            return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        }
+
+        /* 🔥 Renumera todos los niveles secuencialmente (1, 2, 3...) según el orden de IDs dado */
+        async function applyLevelOrder(orderedIds) {
+            const batch = db.batch();
+            let changed = false;
+            orderedIds.forEach((id, idx) => {
+                const newRank = idx + 1;
+                const lvl = levelsData.find(l => l.id === id);
+                if (lvl && lvl.rank !== newRank) {
+                    batch.update(db.collection('levels').doc(id), { rank: newRank });
+                    changed = true;
+                }
+            });
+            if (changed) await batch.commit();
+        }
+
+        /* 🔥 Devuelve un Set con los IDs de los 3 niveles más recientes (solo niveles con fecha real) */
+        function getNewLevelIds() {
+            if (levelsData.length === 0) return new Set();
+            const withDate = [];
+            levelsData.forEach(l => {
+                let ts = null;
+                if (l.createdAt) {
+                    if (typeof l.createdAt.toMillis === 'function') ts = l.createdAt.toMillis();
+                    else if (typeof l.createdAt === 'number') ts = l.createdAt;
+                    else if (typeof l.createdAt === 'object' && l.createdAt.seconds) ts = l.createdAt.seconds * 1000;
+                }
+                if (ts && ts > 0) withDate.push({ id: l.id, ts });
+            });
+            withDate.sort((a, b) => b.ts - a.ts);
+            const top = withDate.slice(0, 3);
+            return new Set(top.map(l => l.id));
         }
 
         function showAlert(elId, message, type = 'error') {
@@ -1136,11 +1117,9 @@
             return d.toLocaleString();
         }
 
-        /* ============================================================
-           TRADUCCIÓN
-        ============================================================ */
         function changeLanguage(lang) {
             currentLang = lang;
+            try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
             document.getElementById('langSelect').value = lang;
             const t = translations[lang];
 
@@ -1179,32 +1158,57 @@
             renderSidebarLevels();
             renderLevelDetail(selectedLevelId);
             renderUserArea();
+            renderLeftBanners(true);
             updateAuthUI();
             if (currentProfileUser) openUserProfile(currentProfileUser);
+            if (document.getElementById('admin-view').classList.contains('active')) renderAdminPanel();
+            if (document.getElementById('account-view').classList.contains('active')) renderAccountView();
         }
 
-        /* ============================================================
-           SIDEBAR
-        ============================================================ */
+        function renderLeftBanners(force = false) {
+            const container = document.getElementById('left-banners');
+            if (!container) return;
+            if (leftBannersInitialized && !force && container.children.length > 0) return;
+            if (levelsData.length === 0) { container.innerHTML = ''; return; }
+            const newIds = getNewLevelIds();
+            const shuffled = [...levelsData].sort(() => Math.random() - 0.5);
+            const picks = shuffled.slice(0, Math.min(4, shuffled.length));
+            container.innerHTML = picks.map(lvl => {
+                const rankClass = lvl.rank === 1 ? 'top-1' : '';
+                const imgUrl = lvl.thumbnail || `https://via.placeholder.com/130x190/14141c/ff3366?text=${encodeURIComponent(lvl.name)}`;
+                const newBadge = newIds.has(lvl.id) ? ' <span class="new-badge">NEW</span>' : '';
+                return `
+                    <div class="left-banner" onclick="selectLevel('${lvl.id}')" title="${lvl.name}">
+                        <img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/130x190/14141c/ff3366?text=Level'">
+                        <div class="left-banner-info">
+                            <span class="left-banner-rank ${rankClass}">#${lvl.rank}</span>
+                            <div class="left-banner-name">${lvl.name}${newBadge}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            leftBannersInitialized = true;
+        }
+
         function renderSidebarLevels() {
             const container = document.getElementById('sidebar-levels-list');
             const t = translations[currentLang];
             container.innerHTML = '';
-
             if (levelsData.length === 0) {
                 container.innerHTML = `<div class="empty-state" style="padding: 20px;">${t.noLevelsYet}</div>`;
                 return;
             }
-
+            const newIds = getNewLevelIds();
             levelsData.forEach(level => {
                 const item = document.createElement('div');
                 item.className = `level-item ${level.id === selectedLevelId ? 'selected' : ''}`;
                 item.onclick = () => selectLevel(level.id);
                 let rankClass = level.rank === 1 ? 'top-1' : '';
+                const newBadge = newIds.has(level.id) ? '<span class="new-badge">NEW</span>' : '';
                 item.innerHTML = `
                     <div class="level-item-left">
                         <span class="level-item-rank ${rankClass}">#${level.rank}</span>
-                        <span class="level-item-name">${level.name}</span>
+                        <span class="level-item-name">${level.name}${newBadge}</span>
                     </div>
                     <span class="level-item-points">${level.points} ${t.pts}</span>
                 `;
@@ -1216,23 +1220,26 @@
             selectedLevelId = levelId;
             renderSidebarLevels();
             renderLevelDetail(levelId);
+            if (window.innerWidth < 950) {
+                document.getElementById('level-detail-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        /* ============================================================
-           DETALLE DEL NIVEL
-        ============================================================ */
         function renderLevelDetail(levelId) {
             const t = translations[currentLang];
             const panel = document.getElementById('level-detail-panel');
-
             if (levelsData.length === 0) {
+                panel.style.backgroundImage = '';
                 panel.innerHTML = `<div class="empty-state" style="padding: 40px;">${t.noLevelsYet}</div>`;
                 return;
             }
-
             const level = levelsData.find(l => l.id === levelId) || levelsData[0];
             if (!level) return;
-
+            const bgUrl = level.thumbnail || `https://via.placeholder.com/1200x800/14141c/ff3366?text=${encodeURIComponent(level.name)}`;
+            panel.style.backgroundImage = `
+                linear-gradient(180deg, rgba(13,13,18,0.55) 0%, rgba(13,13,18,0.85) 40%, rgba(13,13,18,0.96) 100%),
+                url('${bgUrl}')
+            `;
             let completers = [];
             for (const uid in allUsers) {
                 const u = allUsers[uid];
@@ -1240,19 +1247,14 @@
                     completers.push(u.username);
                 }
             }
-
             const completersHTML = completers.length
                 ? completers.map(u => `<span class="user-link" onclick="openUserProfile('${u}')" style="margin-right:12px;"><i class="fa-solid fa-user"></i> ${u}</span>`).join('')
                 : `<span style="color:var(--text-muted); font-size:0.9rem;">${t.noOneCompleted}</span>`;
-
+            const newIds = getNewLevelIds();
+            const newBadge = newIds.has(level.id) ? '<span class="new-badge new-badge-inline">NEW</span>' : '';
             panel.innerHTML = `
-                <div class="detail-banner-container">
-                    <img src="${level.thumbnail || ''}"
-                         onerror="this.src='https://via.placeholder.com/600x280/14141c/ff3366?text=${encodeURIComponent(level.name)}'"
-                         alt="${level.name}" class="detail-banner">
-                </div>
                 <div class="detail-title-row">
-                    <h2>${level.name}</h2>
+                    <h2>${level.name}${newBadge}</h2>
                     <div class="detail-rank-tag">#${level.rank}</div>
                 </div>
                 <div class="detail-info-grid">
@@ -1280,9 +1282,6 @@
             `;
         }
 
-        /* ============================================================
-           LEADERBOARD
-        ============================================================ */
         function calculateLeaderboard() {
             const userList = [];
             for (const uid in allUsers) {
@@ -1296,7 +1295,8 @@
                     name: user.username,
                     avatar: user.avatar,
                     completedCount: completed.length,
-                    totalPoints: totalPoints
+                    totalPoints: totalPoints,
+                    badges: user.badges || []
                 });
             }
             userList.sort((a, b) => b.totalPoints - a.totalPoints);
@@ -1308,24 +1308,22 @@
             tbody.innerHTML = '';
             const t = translations[currentLang];
             const leaderboard = calculateLeaderboard();
-
             if (leaderboard.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No users yet.</td></tr>`;
                 return;
             }
-
             leaderboard.forEach((user, index) => {
                 const rank = index + 1;
                 const avatarHTML = user.avatar
                     ? `<img src="${user.avatar}" class="user-avatar-mini">`
                     : `<div class="user-avatar-mini">${user.name.charAt(0).toUpperCase()}</div>`;
-
+                const badgesHTML = renderUserBadges(user);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td style="text-align: center; font-weight: 800; color: ${rank === 1 ? 'var(--gold-color)' : 'var(--accent-color)'};">#${rank}</td>
                     <td>
                         <span class="user-link" onclick="openUserProfile('${user.name}')">
-                            ${avatarHTML} ${user.name}
+                            ${avatarHTML} ${user.name} ${badgesHTML}
                         </span>
                     </td>
                     <td style="text-align: right; color: var(--text-muted);">${user.completedCount}</td>
@@ -1335,9 +1333,6 @@
             });
         }
 
-        /* ============================================================
-           PERFIL PÚBLICO
-        ============================================================ */
         function getUserByUsername(username) {
             for (const uid in allUsers) {
                 if (allUsers[uid].username === username) return allUsers[uid];
@@ -1349,7 +1344,6 @@
             currentProfileUser = username;
             const user = getUserByUsername(username);
             if (!user) return;
-
             const t = translations[currentLang];
             const leaderboard = calculateLeaderboard();
             const rankIndex = leaderboard.findIndex(u => u.name === username);
@@ -1359,12 +1353,20 @@
                 const lvl = levelsData.find(l => l.id === curr.levelId);
                 return acc + (lvl ? lvl.points : 0);
             }, 0);
-
             const container = document.getElementById('profile-container');
-
             const avatarHTML = user.avatar
                 ? `<div class="profile-avatar"><img src="${user.avatar}"></div>`
                 : `<div class="profile-avatar"><i class="fa-solid fa-user"></i></div>`;
+            const badgesArr = user.badges || [];
+            const badgesHTML = badgesArr.length ? `<div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">${badgesArr.map(bid => {
+                const b = BADGES[bid];
+                if (!b) return '';
+                const tip = `${b.label[currentLang] || b.label.en} — ${b.desc[currentLang] || b.desc.en}`;
+                return `<span class="badge-chip" style="color:${b.color}; border-color:${b.color};">
+                    <i class="fa-solid ${b.icon}"></i>
+                    <span class="tooltip">${tip}</span>
+                </span>`;
+            }).join('')}</div>` : '';
 
             let completedHTML = '';
             if (completed.length === 0) {
@@ -1414,13 +1416,13 @@
             container.innerHTML = `
                 <div class="profile-header">
                     ${avatarHTML}
-                    <div>
+                    <div style="flex: 1;">
                         <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username} ${user.isAdmin ? '<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:1rem;" title="Admin"></i>' : ''}</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">${user.bio || t.verifiedPlayer}</p>
                         ${user.youtube ? `<a href="${user.youtube}" target="_blank" style="color: var(--accent-color); font-size: 0.85rem; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-youtube"></i> YouTube</a>` : ''}
+                        ${badgesHTML}
                     </div>
                 </div>
-
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
                     <div class="info-card" style="text-align: center;">
                         <div class="label">${t.rankPosition}</div>
@@ -1435,22 +1437,16 @@
                         <div class="value" style="justify-content: center; color: var(--gold-color); font-size: 1.4rem;">${completed.length}</div>
                     </div>
                 </div>
-
                 <h3 style="margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-circle-check" style="color: var(--accent-color);"></i> ${t.completedLevelsTitle}</h3>
                 <div style="margin-bottom: 25px;">${completedHTML}</div>
-
                 ${progressHTML ? `
                 <h3 style="margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-chart-line" style="color: var(--gold-color);"></i> ${t.progressTitle}</h3>
                 <div>${progressHTML}</div>
                 ` : ''}
             `;
-
             switchTab('profile');
         }
 
-        /* ============================================================
-           AUTH
-        ============================================================ */
         async function handleRegister(e) {
             e.preventDefault();
             const t = translations[currentLang];
@@ -1458,14 +1454,8 @@
             const password = document.getElementById('register-password').value;
             const password2 = document.getElementById('register-password2').value;
             const youtube = document.getElementById('register-youtube').value.trim();
-
-            if (password !== password2) {
-                showAlert('register-alert', t.passwordsNoMatch, 'error');
-                return;
-            }
-
+            if (password !== password2) { showAlert('register-alert', t.passwordsNoMatch, 'error'); return; }
             setLoading('register-submit-btn', t.registering);
-
             try {
                 const snap = await db.collection('users').where('username', '==', username).get();
                 if (!snap.empty) {
@@ -1473,36 +1463,23 @@
                     resetLoading('register-submit-btn', t.btnRegister);
                     return;
                 }
-
                 const email = usernameToEmail(username);
                 const cred = await auth.createUserWithEmailAndPassword(email, password);
-
                 await db.collection('users').doc(cred.user.uid).set({
-                    username: username,
-                    avatar: null,
-                    bio: "",
-                    youtube: youtube || "",
-                    completedLevels: [],
-                    progresses: [],
-                    isAdmin: false,
+                    username, avatar: null, bio: "", youtube: youtube || "",
+                    completedLevels: [], progresses: [], badges: [], isAdmin: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
                 document.getElementById('register-username').value = '';
                 document.getElementById('register-password').value = '';
                 document.getElementById('register-password2').value = '';
                 document.getElementById('register-youtube').value = '';
-
                 switchTab('account');
             } catch (err) {
                 console.error(err);
-                if (err.code === 'auth/email-already-in-use') {
-                    showAlert('register-alert', t.userExists, 'error');
-                } else if (err.code === 'auth/weak-password') {
-                    showAlert('register-alert', 'Password too weak (min 6 characters).', 'error');
-                } else {
-                    showAlert('register-alert', err.message || t.genericError, 'error');
-                }
+                if (err.code === 'auth/email-already-in-use') showAlert('register-alert', t.userExists, 'error');
+                else if (err.code === 'auth/weak-password') showAlert('register-alert', 'Password too weak (min 6 characters).', 'error');
+                else showAlert('register-alert', err.message || t.genericError, 'error');
             } finally {
                 resetLoading('register-submit-btn', t.btnRegister);
             }
@@ -1513,9 +1490,7 @@
             const t = translations[currentLang];
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
-
             setLoading('login-submit-btn', t.loggingIn);
-
             try {
                 const email = usernameToEmail(username);
                 await auth.signInWithEmailAndPassword(email, password);
@@ -1545,29 +1520,31 @@
             document.getElementById('logout-btn').style.display = logged ? 'flex' : 'none';
             document.getElementById('account-btn').style.display = logged ? 'flex' : 'none';
             document.getElementById('admin-btn').style.display = isAdmin ? 'flex' : 'none';
-
-            if (!logged) {
-                currentProfileUser = null;
-            }
+            if (!logged) currentProfileUser = null;
         }
 
-        /* ============================================================
-           ACCOUNT VIEW
-        ============================================================ */
         function renderAccountView() {
             if (!currentUserData) { switchTab('login'); return; }
             const user = currentUserData;
             const t = translations[currentLang];
             const container = document.getElementById('account-container');
-
             const avatarHTML = user.avatar
                 ? `<img src="${user.avatar}" id="acc-avatar-img">`
                 : `<i class="fa-solid fa-user"></i>`;
-
             const completed = user.completedLevels || [];
             const progresses = user.progresses || [];
-
             const myPending = Object.values(allPendingRecords).filter(r => r.uid === currentUid);
+
+            const myBadges = user.badges || [];
+            const myBadgesHTML = myBadges.length ? `<div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">${myBadges.map(bid => {
+                const b = BADGES[bid];
+                if (!b) return '';
+                const tip = `${b.label[currentLang] || b.label.en} — ${b.desc[currentLang] || b.desc.en}`;
+                return `<span class="badge-chip" style="color:${b.color}; border-color:${b.color};">
+                    <i class="fa-solid ${b.icon}"></i>
+                    <span class="tooltip">${tip}</span>
+                </span>`;
+            }).join('')}</div>` : '';
 
             let compHTML = '';
             if (completed.length === 0) {
@@ -1662,12 +1639,12 @@
                     <div style="flex: 1;">
                         <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username} ${user.isAdmin ? '<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:1rem;" title="Admin"></i>' : ''}</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">${user.bio || t.verifiedPlayer}</p>
+                        ${myBadgesHTML}
                     </div>
                 </div>
 
                 <div class="account-section">
                     <h3><i class="fa-solid fa-user-pen" style="color: var(--accent-color);"></i> ${t.editProfile}</h3>
-
                     <div class="avatar-upload-row" style="margin-bottom: 20px;">
                         <div class="avatar-large" id="avatar-preview-box-2">${avatarHTML}</div>
                         <div class="avatar-upload-controls">
@@ -1678,26 +1655,21 @@
                             ${user.avatar ? `<button class="btn-danger" onclick="removeAvatar()"><i class="fa-solid fa-trash"></i> ${t.removeAvatar}</button>` : ''}
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>${t.bio}</label>
                         <textarea id="account-bio" maxlength="200" placeholder="${t.bio}...">${user.bio || ''}</textarea>
                     </div>
-
                     <div class="form-group">
                         <label>${t.youtubeChannel}</label>
                         <input type="url" id="account-youtube" value="${user.youtube || ''}" placeholder="https://youtube.com/@...">
                     </div>
-
                     <button class="btn-primary" id="save-profile-btn" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> ${t.saveChanges}</button>
                 </div>
 
                 <div class="account-section">
                     <h3><i class="fa-solid fa-circle-check" style="color: var(--accent-color);"></i> ${t.myCompletions}</h3>
-
                     ${pendingHTML}
                     <div style="margin-bottom: 20px;">${compHTML}</div>
-
                     ${availableLevels.length > 0 ? `
                     <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
                         <h4 style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-plus"></i> ${t.addCompletion}</h4>
@@ -1718,9 +1690,7 @@
 
                 <div class="account-section">
                     <h3><i class="fa-solid fa-chart-line" style="color: var(--gold-color);"></i> ${t.myProgresses}</h3>
-
                     <div style="margin-bottom: 20px;">${progHTML}</div>
-
                     <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
                         <h4 style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-plus"></i> ${t.addProgress}</h4>
                         <div class="form-row">
@@ -1797,24 +1767,16 @@
             const t = translations[currentLang];
             const btn = document.getElementById('save-profile-btn');
             btn.disabled = true;
-
             try {
                 const update = {
                     bio: document.getElementById('account-bio').value.trim(),
                     youtube: document.getElementById('account-youtube').value.trim()
                 };
-                if (pendingAvatarData) {
-                    update.avatar = pendingAvatarData;
-                    pendingAvatarData = null;
-                }
+                if (pendingAvatarData) { update.avatar = pendingAvatarData; pendingAvatarData = null; }
                 await db.collection('users').doc(currentUid).update(update);
                 alert(t.profileUpdated);
-            } catch (err) {
-                console.error(err);
-                alert(t.genericError);
-            } finally {
-                btn.disabled = false;
-            }
+            } catch (err) { console.error(err); alert(t.genericError); }
+            finally { btn.disabled = false; }
         }
 
         async function removeAvatar() {
@@ -1829,44 +1791,27 @@
             const t = translations[currentLang];
             const levelId = document.getElementById('completion-level').value;
             const videoUrl = document.getElementById('completion-video').value.trim();
-
             if (!levelId) return;
-            if ((currentUserData.completedLevels || []).some(c => c.levelId === levelId)) {
-                alert(t.levelAlreadyCompleted);
-                return;
-            }
+            if ((currentUserData.completedLevels || []).some(c => c.levelId === levelId)) { alert(t.levelAlreadyCompleted); return; }
             const alreadyPending = Object.values(allPendingRecords).some(r => r.uid === currentUid && r.levelId === levelId);
-            if (alreadyPending) {
-                alert(t.levelAlreadyPending);
-                return;
-            }
+            if (alreadyPending) { alert(t.levelAlreadyPending); return; }
             if (!videoUrl) { alert(t.invalidVideoUrl); return; }
-
             try {
                 await db.collection('pendingRecords').add({
-                    uid: currentUid,
-                    username: currentUserData.username,
-                    levelId: levelId,
-                    videoUrl: videoUrl,
+                    uid: currentUid, username: currentUserData.username,
+                    levelId, videoUrl,
                     submittedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 alert(t.submittedSuccess);
                 renderAccountView();
-            } catch (err) {
-                console.error(err);
-                alert(t.genericError);
-            }
+            } catch (err) { console.error(err); alert(t.genericError); }
         }
 
         async function cancelPending(recordId) {
             const t = translations[currentLang];
             if (!confirm(t.confirmRemoveCompletion)) return;
-            try {
-                await db.collection('pendingRecords').doc(recordId).delete();
-                renderAccountView();
-            } catch (err) {
-                console.error(err);
-            }
+            try { await db.collection('pendingRecords').doc(recordId).delete(); renderAccountView(); }
+            catch (err) { console.error(err); }
         }
 
         async function removeCompletion(idx) {
@@ -1885,9 +1830,7 @@
             const levelName = document.getElementById('progress-name').value.trim();
             const percent = document.getElementById('progress-percent').value.trim();
             const videoUrl = document.getElementById('progress-video').value.trim();
-
             if (!levelName || !percent || !videoUrl) { alert(t.invalidVideoUrl); return; }
-
             const newList = [...(currentUserData.progresses || []), { levelName, percent, videoUrl }];
             await db.collection('users').doc(currentUid).update({ progresses: newList });
             renderAccountView();
@@ -1903,31 +1846,16 @@
             renderAccountView();
         }
 
-        /* ============================================================
-           CAMBIO DE CONTRASEÑA
-        ============================================================ */
         async function changePassword() {
             const t = translations[currentLang];
             const currentPass = document.getElementById('current-password').value;
             const newPass = document.getElementById('new-password').value;
             const newPass2 = document.getElementById('new-password2').value;
-
-            if (!currentPass || !newPass || !newPass2) {
-                showAlert('password-alert', t.genericError, 'error');
-                return;
-            }
-            if (newPass !== newPass2) {
-                showAlert('password-alert', t.newPasswordsNoMatch, 'error');
-                return;
-            }
-            if (newPass.length < 6) {
-                showAlert('password-alert', t.newPasswordTooShort, 'error');
-                return;
-            }
-
+            if (!currentPass || !newPass || !newPass2) { showAlert('password-alert', t.genericError, 'error'); return; }
+            if (newPass !== newPass2) { showAlert('password-alert', t.newPasswordsNoMatch, 'error'); return; }
+            if (newPass.length < 6) { showAlert('password-alert', t.newPasswordTooShort, 'error'); return; }
             const btn = document.getElementById('change-pass-btn');
             btn.disabled = true;
-
             try {
                 const user = auth.currentUser;
                 const email = usernameToEmail(currentUserData.username);
@@ -1940,69 +1868,43 @@
                 document.getElementById('new-password2').value = '';
             } catch (err) {
                 console.error(err);
-                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    showAlert('password-alert', t.wrongCurrentPassword, 'error');
-                } else if (err.code === 'auth/too-many-requests') {
-                    showAlert('password-alert', t.tooManyRequests, 'error');
-                } else {
-                    showAlert('password-alert', err.message || t.genericError, 'error');
-                }
-            } finally {
-                btn.disabled = false;
-            }
+                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') showAlert('password-alert', t.wrongCurrentPassword, 'error');
+                else if (err.code === 'auth/too-many-requests') showAlert('password-alert', t.tooManyRequests, 'error');
+                else showAlert('password-alert', err.message || t.genericError, 'error');
+            } finally { btn.disabled = false; }
         }
 
-        /* ============================================================
-           ELIMINAR CUENTA
-        ============================================================ */
         async function deleteAccount() {
             const t = translations[currentLang];
             const password = document.getElementById('delete-password').value;
-
-            if (!password) {
-                showAlert('delete-alert', t.wrongPassword, 'error');
-                return;
-            }
+            if (!password) { showAlert('delete-alert', t.wrongPassword, 'error'); return; }
             if (!confirm(t.deleteAccountConfirm)) return;
-
             const btn = document.getElementById('delete-acc-btn');
             btn.disabled = true;
-
             try {
                 const user = auth.currentUser;
                 const email = usernameToEmail(currentUserData.username);
                 const cred = firebase.auth.EmailAuthProvider.credential(email, password);
                 await user.reauthenticateWithCredential(cred);
-
                 const pendingSnap = await db.collection('pendingRecords').where('uid', '==', currentUid).get();
                 const batch = db.batch();
                 pendingSnap.forEach(doc => batch.delete(doc.ref));
                 batch.delete(db.collection('users').doc(currentUid));
                 await batch.commit();
-
                 await user.delete();
-
                 alert(t.accountDeleted);
             } catch (err) {
                 console.error(err);
-                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                    showAlert('delete-alert', t.wrongPassword, 'error');
-                } else if (err.code === 'auth/requires-recent-login') {
-                    showAlert('delete-alert', t.requiresRecentLogin, 'error');
-                } else {
-                    showAlert('delete-alert', err.message || t.genericError, 'error');
-                }
+                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') showAlert('delete-alert', t.wrongPassword, 'error');
+                else if (err.code === 'auth/requires-recent-login') showAlert('delete-alert', t.requiresRecentLogin, 'error');
+                else showAlert('delete-alert', err.message || t.genericError, 'error');
                 btn.disabled = false;
             }
         }
 
-        /* ============================================================
-           ADMIN PANEL
-        ============================================================ */
         function renderAdminPanel() {
             const t = translations[currentLang];
             const container = document.getElementById('admin-container');
-
             const records = Object.values(allPendingRecords).sort((a, b) => {
                 const da = a.submittedAt ? a.submittedAt.toMillis() : 0;
                 const dbb = b.submittedAt ? b.submittedAt.toMillis() : 0;
@@ -2040,24 +1942,68 @@
                 });
             }
 
+            const newIds = getNewLevelIds();
             let levelsListHTML = '';
             if (levelsData.length === 0) {
                 levelsListHTML = `<div class="empty-state">${t.noLevelsYet}</div>`;
             } else {
-                levelsData.forEach(lvl => {
+                levelsData.forEach((lvl, idx) => {
+                    const isFirst = idx === 0;
+                    const isLast = idx === levelsData.length - 1;
+                    const newBadge = newIds.has(lvl.id) ? '<span class="new-badge">NEW</span>' : '';
                     levelsListHTML += `
                         <div class="admin-record">
                             <div class="admin-record-info">
-                                <div class="admin-record-user" style="color: var(--accent-color);">#${lvl.rank} ${lvl.name}</div>
+                                <div class="admin-record-user" style="color: var(--accent-color);">#${lvl.rank} ${lvl.name} ${newBadge}</div>
                                 <div class="admin-record-level" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
                                     ${t.by}: ${lvl.creator} · ${t.verifier}: ${lvl.verifier} · <span style="color: var(--gold-color);">${lvl.points} ${t.pts}</span>
                                 </div>
                             </div>
                             <div class="admin-actions">
+                                <button class="btn-icon" onclick="moveLevel('${lvl.id}', -1)" ${isFirst ? 'disabled' : ''} title="${t.moveUp}">
+                                    <i class="fa-solid fa-arrow-up"></i>
+                                </button>
+                                <button class="btn-icon" onclick="moveLevel('${lvl.id}', 1)" ${isLast ? 'disabled' : ''} title="${t.moveDown}">
+                                    <i class="fa-solid fa-arrow-down"></i>
+                                </button>
+                                <button class="btn-icon" onclick="setLevelRank('${lvl.id}')" title="${t.setRank}">
+                                    <i class="fa-solid fa-hashtag"></i>
+                                </button>
                                 <button class="btn-danger" onclick="deleteLevel('${lvl.id}')">
                                     <i class="fa-solid fa-trash"></i> ${t.remove}
                                 </button>
                             </div>
+                        </div>
+                    `;
+                });
+            }
+
+            const badgeIds = Object.keys(BADGES);
+            const usersArr = Object.values(allUsers).sort((a, b) => a.username.localeCompare(b.username));
+            let usersBadgesHTML = '';
+            if (usersArr.length === 0) {
+                usersBadgesHTML = `<div class="empty-state">${t.noUsersYet}</div>`;
+            } else {
+                usersArr.forEach(u => {
+                    const userBadges = u.badges || [];
+                    const togglesHTML = badgeIds.map(bid => {
+                        const b = BADGES[bid];
+                        const active = userBadges.includes(bid);
+                        const tip = `${b.label[currentLang] || b.label.en} — ${b.desc[currentLang] || b.desc.en}`;
+                        return `<button class="badge-toggle ${active ? 'active' : ''}"
+                                        style="color:${b.color}; border-color:${b.color};"
+                                        title="${tip.replace(/"/g, '&quot;')}"
+                                        onclick="toggleUserBadge('${u.uid}', '${bid}')">
+                            <i class="fa-solid ${b.icon}"></i>
+                        </button>`;
+                    }).join('');
+                    usersBadgesHTML += `
+                        <div class="admin-user-row">
+                            <div class="admin-user-name">
+                                <i class="fa-solid fa-user"></i> ${u.username}
+                                ${u.isAdmin ? '<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:0.85rem;" title="Admin"></i>' : ''}
+                            </div>
+                            <div class="badge-toggles">${togglesHTML}</div>
                         </div>
                     `;
                 });
@@ -2074,7 +2020,7 @@
 
                 <div class="account-section">
                     <h3><i class="fa-solid fa-plus-circle" style="color: var(--accent-color);"></i> ${t.addNewLevel}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.rankingNote}</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.levelRankHint}</p>
                     <div id="add-level-alert" class="alert"></div>
                     <form onsubmit="handleAddLevel(event)">
                         <div class="form-row">
@@ -2107,6 +2053,10 @@
                                 <input type="url" id="new-level-video" placeholder="https://youtube.com/...">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>${t.levelRank}</label>
+                            <input type="number" id="new-level-rank" min="1" step="1" placeholder="#">
+                        </div>
                         <button type="submit" class="btn-primary" id="add-level-btn">
                             <i class="fa-solid fa-plus"></i> ${t.addLevel}
                         </button>
@@ -2115,7 +2065,14 @@
 
                 <div class="account-section">
                     <h3><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> ${t.existingLevels} (${levelsData.length})</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.rankingNote}</p>
                     <div>${levelsListHTML}</div>
+                </div>
+
+                <div class="account-section">
+                    <h3><i class="fa-solid fa-award" style="color: var(--gold-color);"></i> ${t.manageBadges}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.manageBadgesSubtitle}</p>
+                    <div>${usersBadgesHTML}</div>
                 </div>
 
                 <div class="account-section">
@@ -2123,6 +2080,63 @@
                     <div>${recordsHTML}</div>
                 </div>
             `;
+        }
+
+        /* 🔥 Mover nivel arriba/abajo (intercambia con el vecino) */
+        async function moveLevel(levelId, direction) {
+            const t = translations[currentLang];
+            const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
+            const idx = sorted.findIndex(l => l.id === levelId);
+            if (idx < 0) return;
+            const newIdx = idx + direction;
+            if (newIdx < 0 || newIdx >= sorted.length) return;
+            [sorted[idx], sorted[newIdx]] = [sorted[newIdx], sorted[idx]];
+            try {
+                await applyLevelOrder(sorted.map(l => l.id));
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
+        }
+
+        /* 🔥 Setear rank concreto (con auto-shift) */
+        async function setLevelRank(levelId) {
+            const t = translations[currentLang];
+            const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
+            const idx = sorted.findIndex(l => l.id === levelId);
+            if (idx < 0) return;
+            const input = prompt(`${t.setRank} (1 - ${sorted.length}):`, sorted[idx].rank);
+            if (input === null) return;
+            const newRank = parseInt(input, 10);
+            if (isNaN(newRank) || newRank < 1 || newRank > sorted.length) {
+                alert(t.invalidRank);
+                return;
+            }
+            if (newRank === sorted[idx].rank) return;
+            const [removed] = sorted.splice(idx, 1);
+            sorted.splice(newRank - 1, 0, removed);
+            try {
+                await applyLevelOrder(sorted.map(l => l.id));
+                alert(t.rankSet);
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
+        }
+
+        async function toggleUserBadge(uid, badgeId) {
+            const user = allUsers[uid];
+            if (!user) return;
+            const t = translations[currentLang];
+            const current = user.badges || [];
+            let updated;
+            if (current.includes(badgeId)) {
+                updated = current.filter(b => b !== badgeId);
+            } else {
+                updated = [...current, badgeId];
+            }
+            try { await db.collection('users').doc(uid).update({ badges: updated }); }
+            catch (err) { console.error(err); alert(t.genericError); }
         }
 
         async function handleAddLevel(e) {
@@ -2134,6 +2148,7 @@
             const points = parseInt(document.getElementById('new-level-points').value, 10);
             const thumbnail = document.getElementById('new-level-thumbnail').value.trim();
             const videoUrl = document.getElementById('new-level-video').value.trim();
+            const rankInput = document.getElementById('new-level-rank').value.trim();
 
             if (!name || !creator || !verifier || !points) {
                 showAlert('add-level-alert', t.fillRequired, 'error');
@@ -2157,19 +2172,40 @@
                     return;
                 }
 
-                const maxRank = levelsData.reduce((max, l) => Math.max(max, l.rank || 0), 0);
-                const rank = maxRank + 1;
+                const batch = db.batch();
+                const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
 
-                await db.collection('levels').doc(id).set({
-                    rank: rank,
-                    name: name,
-                    creator: creator,
-                    verifier: verifier,
-                    points: points,
+                // Determinar índice de inserción
+                let insertIdx = sorted.length; // por defecto: al final
+                if (rankInput !== '') {
+                    const parsed = parseInt(rankInput, 10);
+                    if (isNaN(parsed) || parsed < 1) {
+                        showAlert('add-level-alert', t.invalidRank, 'error');
+                        btn.disabled = false;
+                        return;
+                    }
+                    insertIdx = Math.min(Math.max(0, parsed - 1), sorted.length);
+                }
+
+                // Desplazar los que están a partir del índice +1, y reasignar los anteriores
+                sorted.forEach((lvl, idx) => {
+                    if (idx >= insertIdx) {
+                        batch.update(db.collection('levels').doc(lvl.id), { rank: idx + 2 });
+                    } else if (lvl.rank !== idx + 1) {
+                        batch.update(db.collection('levels').doc(lvl.id), { rank: idx + 1 });
+                    }
+                });
+
+                // Crear el nuevo con el rank correcto
+                batch.set(db.collection('levels').doc(id), {
+                    rank: insertIdx + 1,
+                    name, creator, verifier, points,
                     thumbnail: thumbnail || '',
                     videoUrl: videoUrl || '',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+
+                await batch.commit();
 
                 document.getElementById('new-level-name').value = '';
                 document.getElementById('new-level-creator').value = '';
@@ -2177,6 +2213,7 @@
                 document.getElementById('new-level-points').value = '';
                 document.getElementById('new-level-thumbnail').value = '';
                 document.getElementById('new-level-video').value = '';
+                document.getElementById('new-level-rank').value = '';
 
                 showAlert('add-level-alert', t.levelAdded, 'success');
             } catch (err) {
@@ -2192,9 +2229,24 @@
             const lvl = levelsData.find(l => l.id === levelId);
             if (!lvl) return;
             if (!confirm(`${t.confirmDeleteLevel}\n\n"${lvl.name}"`)) return;
-
             try {
-                await db.collection('levels').doc(levelId).delete();
+                const remaining = levelsData
+                    .filter(l => l.id !== levelId)
+                    .sort((a, b) => (a.rank || 0) - (b.rank || 0))
+                    .map(l => l.id);
+
+                const batch = db.batch();
+                batch.delete(db.collection('levels').doc(levelId));
+
+                remaining.forEach((id, idx) => {
+                    const newRank = idx + 1;
+                    const otherLvl = levelsData.find(l => l.id === id);
+                    if (otherLvl && otherLvl.rank !== newRank) {
+                        batch.update(db.collection('levels').doc(id), { rank: newRank });
+                    }
+                });
+
+                await batch.commit();
                 alert(t.levelDeleted);
             } catch (err) {
                 console.error(err);
@@ -2207,7 +2259,6 @@
             if (!confirm(t.approveConfirm)) return;
             const record = allPendingRecords[recordId];
             if (!record) return;
-
             try {
                 const userRef = db.collection('users').doc(record.uid);
                 const userDoc = await userRef.get();
@@ -2221,27 +2272,16 @@
                 }
                 await db.collection('pendingRecords').doc(recordId).delete();
                 alert(t.recordApproved);
-            } catch (err) {
-                console.error(err);
-                alert(t.genericError);
-            }
+            } catch (err) { console.error(err); alert(t.genericError); }
         }
 
         async function rejectRecord(recordId) {
             const t = translations[currentLang];
             if (!confirm(t.rejectConfirm)) return;
-            try {
-                await db.collection('pendingRecords').doc(recordId).delete();
-                alert(t.recordRejected);
-            } catch (err) {
-                console.error(err);
-                alert(t.genericError);
-            }
+            try { await db.collection('pendingRecords').doc(recordId).delete(); alert(t.recordRejected); }
+            catch (err) { console.error(err); alert(t.genericError); }
         }
 
-        /* ============================================================
-           NAVEGACIÓN
-        ============================================================ */
         function switchTab(tabId) {
             if ((tabId === 'account') && !currentUid) tabId = 'login';
             if ((tabId === 'admin') && (!currentUid || !currentUserData || !currentUserData.isAdmin)) tabId = 'demons';
@@ -2263,46 +2303,29 @@
                 document.getElementById('admin-btn').classList.add('active');
                 renderAdminPanel();
             }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* ============================================================
-           🔥 LISTENERS EN TIEMPO REAL
-        ============================================================ */
         function startRealtimeListeners() {
             db.collection('levels').onSnapshot(snapshot => {
                 levelsData = [];
-                snapshot.forEach(doc => {
-                    levelsData.push({ id: doc.id, ...doc.data() });
-                });
+                snapshot.forEach(doc => levelsData.push({ id: doc.id, ...doc.data() }));
                 levelsData.sort((a, b) => (a.rank || 0) - (b.rank || 0));
-
                 if (!levelsData.find(l => l.id === selectedLevelId)) {
                     selectedLevelId = levelsData.length > 0 ? levelsData[0].id : null;
                 }
-
                 renderSidebarLevels();
                 renderLevelDetail(selectedLevelId);
                 renderUserArea();
-                if (document.getElementById('account-view').classList.contains('active')) {
-                    renderAccountView();
-                }
-                if (document.getElementById('admin-view').classList.contains('active')) {
-                    renderAdminPanel();
-                }
+                renderLeftBanners();
+                if (document.getElementById('account-view').classList.contains('active')) renderAccountView();
+                if (document.getElementById('admin-view').classList.contains('active')) renderAdminPanel();
             }, err => console.error("Levels listener:", err));
 
             db.collection('users').onSnapshot(snapshot => {
                 allUsers = {};
-                snapshot.forEach(doc => {
-                    allUsers[doc.id] = { uid: doc.id, ...doc.data() };
-                });
-
-                if (currentUid && allUsers[currentUid]) {
-                    currentUserData = allUsers[currentUid];
-                }
-
+                snapshot.forEach(doc => allUsers[doc.id] = { uid: doc.id, ...doc.data() });
+                if (currentUid && allUsers[currentUid]) currentUserData = allUsers[currentUid];
                 renderUserArea();
                 renderLevelDetail(selectedLevelId);
                 updateAuthUI();
@@ -2310,50 +2333,31 @@
                     const stillExists = getUserByUsername(currentProfileUser);
                     if (stillExists) openUserProfile(currentProfileUser);
                 }
+                if (document.getElementById('admin-view').classList.contains('active')) renderAdminPanel();
             }, err => console.error("Users listener:", err));
 
             db.collection('pendingRecords').onSnapshot(snapshot => {
                 allPendingRecords = {};
-                snapshot.forEach(doc => {
-                    allPendingRecords[doc.id] = { id: doc.id, ...doc.data() };
-                });
-
+                snapshot.forEach(doc => allPendingRecords[doc.id] = { id: doc.id, ...doc.data() });
                 const count = snapshot.size;
                 const badge = document.getElementById('pending-count');
                 if (badge) {
-                    if (count > 0) {
-                        badge.style.display = 'inline-block';
-                        badge.innerText = count;
-                    } else {
-                        badge.style.display = 'none';
-                    }
+                    if (count > 0) { badge.style.display = 'inline-block'; badge.innerText = count; }
+                    else { badge.style.display = 'none'; }
                 }
-
-                if (document.getElementById('admin-view').classList.contains('active')) {
-                    renderAdminPanel();
-                }
-                if (document.getElementById('account-view').classList.contains('active')) {
-                    renderAccountView();
-                }
+                if (document.getElementById('admin-view').classList.contains('active')) renderAdminPanel();
+                if (document.getElementById('account-view').classList.contains('active')) renderAccountView();
             }, err => console.error("Pending listener:", err));
         }
 
-        /* ============================================================
-           AUTH LISTENER
-        ============================================================ */
         auth.onAuthStateChanged(async user => {
             document.getElementById('loading').classList.add('hidden');
-
             if (user) {
                 currentUid = user.uid;
                 try {
                     const doc = await db.collection('users').doc(user.uid).get();
-                    if (doc.exists) {
-                        currentUserData = { uid: user.uid, ...doc.data() };
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
+                    if (doc.exists) currentUserData = { uid: user.uid, ...doc.data() };
+                } catch (e) { console.error(e); }
             } else {
                 currentUid = null;
                 currentUserData = null;
@@ -2361,11 +2365,13 @@
             updateAuthUI();
         });
 
-        /* ============================================================
-           INICIALIZACIÓN
-        ============================================================ */
         document.addEventListener('DOMContentLoaded', function() {
-            changeLanguage('en');
+            let savedLang = 'en';
+            try {
+                const stored = localStorage.getItem(LANG_KEY);
+                if (stored && translations[stored]) savedLang = stored;
+            } catch (e) {}
+            changeLanguage(savedLang);
             startRealtimeListeners();
         });
     </script>
