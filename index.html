@@ -22,6 +22,7 @@
             --gold-color: #ffd700;
             --success-color: #22c55e;
             --error-color: #ef4444;
+            --warning-color: #f59e0b;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -91,6 +92,36 @@
             background-color: rgba(34, 197, 94, 0.1);
             border-color: var(--success-color);
         }
+        .nav-btn.admin {
+            border-color: rgba(255, 215, 0, 0.5);
+            color: var(--gold-color);
+        }
+        .nav-btn.admin:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold-color);
+        }
+        .nav-btn.admin.active {
+            background-color: var(--gold-color);
+            color: #000;
+            border-color: var(--gold-color);
+        }
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .discord-btn:hover { filter: brightness(1.15); }
         .lang-select {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -299,6 +330,38 @@
             transition: all 0.2s ease;
         }
         .btn-danger:hover { background-color: rgba(239, 68, 68, 0.1); }
+        .btn-danger-solid {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-danger-solid:hover { filter: brightness(1.1); }
+        .btn-approve {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-approve:hover { filter: brightness(1.1); }
         .table-card {
             background-color: var(--panel-bg);
             border-radius: 10px;
@@ -419,8 +482,24 @@
             gap: 12px;
             flex-wrap: wrap;
         }
+        .record-item.pending {
+            border-color: rgba(245, 158, 11, 0.4);
+            background-color: rgba(245, 158, 11, 0.05);
+        }
         .record-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
         .record-thumb { width: 70px; height: 42px; border-radius: 6px; object-fit: cover; }
+        .badge-pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
         footer {
             text-align: center;
             padding: 25px 0;
@@ -493,12 +572,22 @@
             color: #86efac;
             display: block;
         }
+        .alert.warning {
+            background-color: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fcd34d;
+            display: block;
+        }
         .account-section {
             background-color: rgba(13, 13, 18, 0.5);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             padding: 25px;
             margin-bottom: 25px;
+        }
+        .account-section.danger {
+            border-color: rgba(239, 68, 68, 0.3);
+            background-color: rgba(239, 68, 68, 0.03);
         }
         .account-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
         .avatar-upload-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
@@ -521,6 +610,23 @@
             color: var(--accent-color);
         }
         .loading-overlay.hidden { display: none; }
+        .admin-record {
+            background-color: rgba(13, 13, 18, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .admin-record-info { flex: 1; min-width: 250px; }
+        .admin-record-user { font-weight: 700; color: var(--accent-color); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .admin-record-level { font-weight: 600; margin-top: 4px; }
+        .admin-record-date { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+        .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         @media (max-width: 950px) {
             .list-layout { grid-template-columns: 1fr; }
             .level-detail-box { position: relative; top: 0; }
@@ -551,11 +657,12 @@
                 <button class="nav-btn" onclick="switchTab('users')" id="nav-users-btn">
                     <i class="fa-solid fa-trophy"></i> <span id="nav-users">User Area</span>
                 </button>
-                <button class="nav-btn" id="profile-tab-btn" onclick="openUserProfile(currentProfileUser)" style="display: none;">
-                    <i class="fa-solid fa-user"></i> <span id="nav-profile">Profile</span>
-                </button>
                 <button class="nav-btn" id="account-btn" onclick="switchTab('account')" style="display: none;">
                     <i class="fa-solid fa-gear"></i> <span id="nav-account">My Account</span>
+                </button>
+                <button class="nav-btn admin" id="admin-btn" onclick="switchTab('admin')" style="display: none;">
+                    <i class="fa-solid fa-shield-halved"></i> <span id="nav-admin">Admin</span>
+                    <span id="pending-count" style="background: var(--error-color); color: white; border-radius: 10px; padding: 1px 7px; font-size: 0.7rem; margin-left: 4px; display: none;">0</span>
                 </button>
                 <button class="nav-btn success" id="login-btn" onclick="switchTab('login')">
                     <i class="fa-solid fa-right-to-bracket"></i> <span id="nav-login">Login</span>
@@ -564,6 +671,9 @@
                     <i class="fa-solid fa-right-from-bracket"></i> <span id="nav-logout">Logout</span>
                 </button>
             </nav>
+            <a href="https://discord.gg/w5bv5HUKFt" target="_blank" rel="noopener noreferrer" class="discord-btn">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
             <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
                 <option value="en" selected>English</option>
                 <option value="es">Español</option>
@@ -670,20 +780,22 @@
             <div class="profile-card" id="account-container"></div>
         </section>
 
+        <section id="admin-view" class="view-section">
+            <div class="profile-card" id="admin-container"></div>
+        </section>
+
         <footer>
             &copy; 2026 Unu List. <span id="footer-rights">All rights reserved.</span>
         </footer>
     </div>
 
-    <!-- Firebase SDK (compat) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <script>
         /* ============================================================
-           🔥 CONFIGURACIÓN DE FIREBASE
-           👉 Reemplaza estos valores con los de tu proyecto
+           🔥 CONFIGURACIÓN DE FIREBASE (TU PROYECTO: unu-list)
         ============================================================ */
         const firebaseConfig = {
             apiKey: "AIzaSyBYGbZRgP1_wYwWeUSPWq9_LQpaXMzbPJI",
@@ -705,8 +817,8 @@
         const translations = {
             en: {
                 subtitle: "The official list of the hardest Geometry Dash levels",
-                navLevels: "Levels", navUsers: "User Area", navProfile: "Profile",
-                navAccount: "My Account", navLogin: "Login", navLogout: "Logout",
+                navLevels: "Levels", navUsers: "User Area",
+                navAccount: "My Account", navAdmin: "Admin", navLogin: "Login", navLogout: "Logout",
                 sidebarHeader: "Demons Leaderboard",
                 thPlayer: "Player", thCompleted: "Completed Unus", thTotalPoints: "Total Points",
                 btnBack: "Back to User Area", footerRights: "All rights reserved.",
@@ -725,15 +837,16 @@
                 editProfile: "Edit Profile", uploadImage: "Upload Image",
                 removeAvatar: "Remove", bio: "Bio", youtubeChannel: "YouTube Channel",
                 saveChanges: "Save Changes", profileUpdated: "Profile updated!",
-                myCompletions: "My Completions", addCompletion: "Add Completion",
+                myCompletions: "My Completions", addCompletion: "Add Completion (Pending Approval)",
                 selectLevel: "Select a Level", videoUrl: "Verification Video URL",
-                add: "Add", remove: "Remove", myProgresses: "My Progresses",
+                add: "Submit for Approval", remove: "Remove", myProgresses: "My Progresses",
                 levelName: "Level Name", percent: "Percentage",
-                addProgress: "Add Progress", noCompletions: "No completions yet.",
+                addProgress: "Add Progress", noCompletions: "No approved completions yet.",
                 noProgresses: "No progresses yet.",
                 confirmRemoveCompletion: "Remove this completion?",
                 confirmRemoveProgress: "Remove this progress?",
                 levelAlreadyCompleted: "You already completed this level.",
+                levelAlreadyPending: "You already have a pending submission for this level.",
                 invalidVideoUrl: "Please provide a valid video URL.",
                 accountCreated: "Account created!",
                 invalidCredentials: "Invalid username or password.",
@@ -741,14 +854,61 @@
                 passwordsNoMatch: "Passwords do not match.",
                 loggedOut: "Logged out.",
                 completedBy: "Completed by", noOneCompleted: "No one has completed this yet.",
-                loading: "Loading...", registering: "Registering...", loggingIn: "Logging in...",
+                registering: "Registering...", loggingIn: "Logging in...",
                 genericError: "An error occurred. Please try again.",
-                connecting: "Connecting to Unu List..."
+                pendingApproval: "Pending approval",
+                submitted: "Submitted",
+                submittedSuccess: "Submitted! Waiting for admin approval.",
+                adminPanel: "Admin Panel",
+                adminSubtitle: "Manage levels and review submissions",
+                pendingRecords: "Pending Records",
+                noPendingRecords: "No pending records to review.",
+                approve: "Approve", reject: "Reject",
+                approveConfirm: "Approve this record?",
+                rejectConfirm: "Reject this record?",
+                recordApproved: "Record approved!",
+                recordRejected: "Record rejected.",
+                security: "Security",
+                changePassword: "Change Password",
+                currentPassword: "Current Password",
+                newPassword: "New Password",
+                confirmNewPassword: "Confirm New Password",
+                updatePassword: "Update Password",
+                passwordUpdated: "Password updated successfully!",
+                wrongCurrentPassword: "Current password is incorrect.",
+                newPasswordsNoMatch: "New passwords do not match.",
+                newPasswordTooShort: "New password must be at least 6 characters.",
+                dangerZone: "Danger Zone",
+                deleteAccount: "Delete Account",
+                deleteAccountDesc: "This will permanently delete your account, your completions, and all your data. This action cannot be undone.",
+                confirmDeleteAccount: "Type your password to confirm account deletion:",
+                deleteAccountConfirm: "Are you absolutely sure? This cannot be undone.",
+                accountDeleted: "Your account has been deleted.",
+                wrongPassword: "Incorrect password.",
+                tooManyRequests: "Too many attempts. Please try again later.",
+                requiresRecentLogin: "Please log out and log in again to continue.",
+                addNewLevel: "Add New Level",
+                manageLevels: "Manage Levels",
+                levelNameField: "Level Name",
+                levelCreator: "Creator",
+                levelVerifier: "Verifier",
+                levelPoints: "Points",
+                thumbnailUrl: "Thumbnail URL (optional)",
+                levelVideoUrl: "Verification Video URL (optional)",
+                addLevel: "Add Level",
+                levelAdded: "Level added successfully!",
+                levelDeleted: "Level deleted.",
+                levelAlreadyExists: "A level with that name already exists.",
+                confirmDeleteLevel: "Delete this level? This cannot be undone and will remove all associated completions points.",
+                noLevelsYet: "No levels yet. Admins can add levels from the Admin Panel.",
+                existingLevels: "Existing Levels",
+                fillRequired: "Please fill all required fields.",
+                rankingNote: "New levels are added at the end of the list (highest rank number)."
             },
             es: {
                 subtitle: "La lista oficial de los niveles más difíciles de Geometry Dash",
-                navLevels: "Niveles", navUsers: "User Area", navProfile: "Perfil",
-                navAccount: "Mi Cuenta", navLogin: "Iniciar Sesión", navLogout: "Salir",
+                navLevels: "Niveles", navUsers: "User Area",
+                navAccount: "Mi Cuenta", navAdmin: "Admin", navLogin: "Iniciar Sesión", navLogout: "Salir",
                 sidebarHeader: "Tabla de Niveles",
                 thPlayer: "Jugador", thCompleted: "Unus Completados", thTotalPoints: "Puntos Totales",
                 btnBack: "Volver a User Area", footerRights: "Todos los derechos reservados.",
@@ -767,15 +927,16 @@
                 editProfile: "Editar Perfil", uploadImage: "Subir Imagen",
                 removeAvatar: "Eliminar", bio: "Biografía", youtubeChannel: "Canal de YouTube",
                 saveChanges: "Guardar", profileUpdated: "¡Perfil actualizado!",
-                myCompletions: "Mis Completions", addCompletion: "Añadir Completion",
+                myCompletions: "Mis Completions", addCompletion: "Añadir Completion (Aprobación Pendiente)",
                 selectLevel: "Selecciona un Nivel", videoUrl: "URL del Video",
-                add: "Añadir", remove: "Eliminar", myProgresses: "Mis Progresos",
+                add: "Enviar para Aprobación", remove: "Eliminar", myProgresses: "Mis Progresos",
                 levelName: "Nombre del Nivel", percent: "Porcentaje",
-                addProgress: "Añadir Progreso", noCompletions: "Sin completions aún.",
+                addProgress: "Añadir Progreso", noCompletions: "Sin completions aprobadas aún.",
                 noProgresses: "Sin progresos aún.",
                 confirmRemoveCompletion: "¿Eliminar completion?",
                 confirmRemoveProgress: "¿Eliminar progreso?",
                 levelAlreadyCompleted: "Ya completaste este nivel.",
+                levelAlreadyPending: "Ya tienes un envío pendiente para este nivel.",
                 invalidVideoUrl: "URL inválida.",
                 accountCreated: "¡Cuenta creada!",
                 invalidCredentials: "Usuario o contraseña incorrectos.",
@@ -783,14 +944,61 @@
                 passwordsNoMatch: "Las contraseñas no coinciden.",
                 loggedOut: "Has cerrado sesión.",
                 completedBy: "Completado por", noOneCompleted: "Nadie lo ha completado aún.",
-                loading: "Cargando...", registering: "Registrando...", loggingIn: "Iniciando sesión...",
+                registering: "Registrando...", loggingIn: "Iniciando sesión...",
                 genericError: "Ocurrió un error. Inténtalo de nuevo.",
-                connecting: "Conectando a Unu List..."
+                pendingApproval: "Aprobación pendiente",
+                submitted: "Enviado",
+                submittedSuccess: "¡Enviado! Esperando aprobación del admin.",
+                adminPanel: "Panel de Admin",
+                adminSubtitle: "Gestionar niveles y revisar envíos",
+                pendingRecords: "Registros Pendientes",
+                noPendingRecords: "No hay registros pendientes.",
+                approve: "Aprobar", reject: "Rechazar",
+                approveConfirm: "¿Aprobar este registro?",
+                rejectConfirm: "¿Rechazar este registro?",
+                recordApproved: "¡Registro aprobado!",
+                recordRejected: "Registro rechazado.",
+                security: "Seguridad",
+                changePassword: "Cambiar Contraseña",
+                currentPassword: "Contraseña Actual",
+                newPassword: "Nueva Contraseña",
+                confirmNewPassword: "Confirmar Nueva Contraseña",
+                updatePassword: "Actualizar Contraseña",
+                passwordUpdated: "¡Contraseña actualizada!",
+                wrongCurrentPassword: "La contraseña actual es incorrecta.",
+                newPasswordsNoMatch: "Las nuevas contraseñas no coinciden.",
+                newPasswordTooShort: "La nueva contraseña debe tener al menos 6 caracteres.",
+                dangerZone: "Zona de Peligro",
+                deleteAccount: "Eliminar Cuenta",
+                deleteAccountDesc: "Esto eliminará permanentemente tu cuenta, tus completions y todos tus datos. Esta acción no se puede deshacer.",
+                confirmDeleteAccount: "Escribe tu contraseña para confirmar la eliminación:",
+                deleteAccountConfirm: "¿Estás completamente seguro? No se puede deshacer.",
+                accountDeleted: "Tu cuenta ha sido eliminada.",
+                wrongPassword: "Contraseña incorrecta.",
+                tooManyRequests: "Demasiados intentos. Inténtalo más tarde.",
+                requiresRecentLogin: "Cierra sesión y vuelve a entrar para continuar.",
+                addNewLevel: "Añadir Nuevo Nivel",
+                manageLevels: "Gestionar Niveles",
+                levelNameField: "Nombre del Nivel",
+                levelCreator: "Creador",
+                levelVerifier: "Verificador",
+                levelPoints: "Puntos",
+                thumbnailUrl: "URL de Miniatura (opcional)",
+                levelVideoUrl: "URL del Video de Verificación (opcional)",
+                addLevel: "Añadir Nivel",
+                levelAdded: "¡Nivel añadido correctamente!",
+                levelDeleted: "Nivel eliminado.",
+                levelAlreadyExists: "Ya existe un nivel con ese nombre.",
+                confirmDeleteLevel: "¿Eliminar este nivel? No se puede deshacer y eliminará los puntos asociados.",
+                noLevelsYet: "Aún no hay niveles. Los admins pueden añadirlos desde el Panel de Admin.",
+                existingLevels: "Niveles Existentes",
+                fillRequired: "Por favor rellena todos los campos obligatorios.",
+                rankingNote: "Los niveles nuevos se añaden al final de la lista (número de rank más alto)."
             },
             ru: {
                 subtitle: "Официальный список самых сложных уровней Geometry Dash",
-                navLevels: "Уровни", navUsers: "Игроки", navProfile: "Профиль",
-                navAccount: "Мой Аккаунт", navLogin: "Войти", navLogout: "Выйти",
+                navLevels: "Уровни", navUsers: "Игроки",
+                navAccount: "Мой Аккаунт", navAdmin: "Админ", navLogin: "Войти", navLogout: "Выйти",
                 sidebarHeader: "Таблица Уровней",
                 thPlayer: "Игрок", thCompleted: "Пройдено Unus", thTotalPoints: "Всего Очков",
                 btnBack: "Назад", footerRights: "Все права защищены.",
@@ -809,15 +1017,16 @@
                 editProfile: "Редактировать", uploadImage: "Загрузить",
                 removeAvatar: "Удалить", bio: "О себе", youtubeChannel: "YouTube канал",
                 saveChanges: "Сохранить", profileUpdated: "Профиль обновлён!",
-                myCompletions: "Мои Прохождения", addCompletion: "Добавить",
+                myCompletions: "Мои Прохождения", addCompletion: "Добавить (на проверку)",
                 selectLevel: "Выберите уровень", videoUrl: "URL видео",
-                add: "Добавить", remove: "Удалить", myProgresses: "Мои Прогрессы",
+                add: "Отправить", remove: "Удалить", myProgresses: "Мои Прогрессы",
                 levelName: "Название", percent: "Процент",
-                addProgress: "Добавить", noCompletions: "Пока нет прохождений.",
+                addProgress: "Добавить", noCompletions: "Пока нет одобренных.",
                 noProgresses: "Пока нет прогрессов.",
                 confirmRemoveCompletion: "Удалить прохождение?",
                 confirmRemoveProgress: "Удалить прогресс?",
                 levelAlreadyCompleted: "Вы уже прошли уровень.",
+                levelAlreadyPending: "Уже есть заявка на этот уровень.",
                 invalidVideoUrl: "Неверный URL.",
                 accountCreated: "Аккаунт создан!",
                 invalidCredentials: "Неверные данные.",
@@ -825,9 +1034,56 @@
                 passwordsNoMatch: "Пароли не совпадают.",
                 loggedOut: "Вы вышли.",
                 completedBy: "Пройден", noOneCompleted: "Пока никто не прошёл.",
-                loading: "Загрузка...", registering: "Регистрация...", loggingIn: "Вход...",
+                registering: "Регистрация...", loggingIn: "Вход...",
                 genericError: "Ошибка. Попробуйте снова.",
-                connecting: "Подключение..."
+                pendingApproval: "На проверке",
+                submitted: "Отправлено",
+                submittedSuccess: "Отправлено! Ожидайте проверки.",
+                adminPanel: "Админ-панель",
+                adminSubtitle: "Управление уровнями и заявками",
+                pendingRecords: "Заявки на проверку",
+                noPendingRecords: "Нет заявок.",
+                approve: "Одобрить", reject: "Отклонить",
+                approveConfirm: "Одобрить заявку?",
+                rejectConfirm: "Отклонить заявку?",
+                recordApproved: "Одобрено!",
+                recordRejected: "Отклонено.",
+                security: "Безопасность",
+                changePassword: "Сменить пароль",
+                currentPassword: "Текущий пароль",
+                newPassword: "Новый пароль",
+                confirmNewPassword: "Подтвердите пароль",
+                updatePassword: "Обновить пароль",
+                passwordUpdated: "Пароль обновлён!",
+                wrongCurrentPassword: "Неверный пароль.",
+                newPasswordsNoMatch: "Пароли не совпадают.",
+                newPasswordTooShort: "Минимум 6 символов.",
+                dangerZone: "Опасная зона",
+                deleteAccount: "Удалить аккаунт",
+                deleteAccountDesc: "Это навсегда удалит аккаунт и все данные. Отменить нельзя.",
+                confirmDeleteAccount: "Введите пароль для подтверждения:",
+                deleteAccountConfirm: "Вы уверены? Это нельзя отменить.",
+                accountDeleted: "Аккаунт удалён.",
+                wrongPassword: "Неверный пароль.",
+                tooManyRequests: "Слишком много попыток.",
+                requiresRecentLogin: "Войдите заново.",
+                addNewLevel: "Добавить Уровень",
+                manageLevels: "Управление Уровнями",
+                levelNameField: "Название уровня",
+                levelCreator: "Создатель",
+                levelVerifier: "Верификатор",
+                levelPoints: "Очки",
+                thumbnailUrl: "URL миниатюры (необязательно)",
+                levelVideoUrl: "URL видео (необязательно)",
+                addLevel: "Добавить",
+                levelAdded: "Уровень добавлен!",
+                levelDeleted: "Уровень удалён.",
+                levelAlreadyExists: "Уровень с таким названием уже есть.",
+                confirmDeleteLevel: "Удалить уровень? Отменить нельзя, очки исчезнут.",
+                noLevelsYet: "Уровней пока нет. Админы могут добавить их в панели.",
+                existingLevels: "Существующие уровни",
+                fillRequired: "Заполните обязательные поля.",
+                rankingNote: "Новые уровни добавляются в конец списка."
             }
         };
 
@@ -836,42 +1092,25 @@
         ============================================================ */
         let currentLang = 'en';
         let currentProfileUser = null;
-        let selectedLevelId = 'grief-unu';
+        let selectedLevelId = null;
         let allUsers = {};
+        let allPendingRecords = {};
         let currentUserData = null;
         let currentUid = null;
-
-        /* ============================================================
-           NIVELES
-        ============================================================ */
-        const levelsData = [
-            {
-                id: "grief-unu",
-                rank: 1,
-                name: "grief unu (original)",
-                creator: "Verbital",
-                verifier: "ManuDaiikii",
-                thumbnail: "grief.jpg",
-                videoUrl: "https://youtube.com",
-                points: 100
-            },
-            {
-                id: "test-level",
-                rank: 2,
-                name: "Test Level (Top 2)",
-                creator: "Test Creator",
-                verifier: "Test Verifier",
-                thumbnail: "test.jpg",
-                videoUrl: "https://youtube.com",
-                points: 90
-            }
-        ];
+        let pendingAvatarData = null;
+        let levelsData = [];
 
         /* ============================================================
            UTILIDADES
         ============================================================ */
         function usernameToEmail(username) {
             return username.toLowerCase().replace(/[^a-z0-9]/g, '') + '@unulist.app';
+        }
+
+        function slugify(str) {
+            return str.toLowerCase().trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
         }
 
         function showAlert(elId, message, type = 'error') {
@@ -884,11 +1123,17 @@
 
         function setLoading(elId, text) {
             const btn = document.getElementById(elId);
-            if (btn) { btn.disabled = true; btn.querySelector('span').innerText = text; }
+            if (btn) { btn.disabled = true; const s = btn.querySelector('span'); if (s) s.innerText = text; }
         }
         function resetLoading(elId, text) {
             const btn = document.getElementById(elId);
-            if (btn) { btn.disabled = false; btn.querySelector('span').innerText = text; }
+            if (btn) { btn.disabled = false; const s = btn.querySelector('span'); if (s) s.innerText = text; }
+        }
+
+        function formatDate(ts) {
+            if (!ts) return '';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleString();
         }
 
         /* ============================================================
@@ -902,8 +1147,8 @@
             document.getElementById('header-subtitle').innerText = t.subtitle;
             document.getElementById('nav-levels').innerText = t.navLevels;
             document.getElementById('nav-users').innerText = t.navUsers;
-            document.getElementById('nav-profile').innerText = t.navProfile;
             document.getElementById('nav-account').innerText = t.navAccount;
+            document.getElementById('nav-admin').innerText = t.navAdmin;
             document.getElementById('nav-login').innerText = t.navLogin;
             document.getElementById('nav-logout').innerText = t.navLogout;
             document.getElementById('sidebar-header-title').innerText = t.sidebarHeader;
@@ -936,7 +1181,6 @@
             renderUserArea();
             updateAuthUI();
             if (currentProfileUser) openUserProfile(currentProfileUser);
-            if (document.getElementById('account-view').classList.contains('active')) renderAccountView();
         }
 
         /* ============================================================
@@ -944,8 +1188,14 @@
         ============================================================ */
         function renderSidebarLevels() {
             const container = document.getElementById('sidebar-levels-list');
-            container.innerHTML = '';
             const t = translations[currentLang];
+            container.innerHTML = '';
+
+            if (levelsData.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="padding: 20px;">${t.noLevelsYet}</div>`;
+                return;
+            }
+
             levelsData.forEach(level => {
                 const item = document.createElement('div');
                 item.className = `level-item ${level.id === selectedLevelId ? 'selected' : ''}`;
@@ -972,9 +1222,16 @@
            DETALLE DEL NIVEL
         ============================================================ */
         function renderLevelDetail(levelId) {
-            const level = levelsData.find(l => l.id === levelId) || levelsData[0];
             const t = translations[currentLang];
             const panel = document.getElementById('level-detail-panel');
+
+            if (levelsData.length === 0) {
+                panel.innerHTML = `<div class="empty-state" style="padding: 40px;">${t.noLevelsYet}</div>`;
+                return;
+            }
+
+            const level = levelsData.find(l => l.id === levelId) || levelsData[0];
+            if (!level) return;
 
             let completers = [];
             for (const uid in allUsers) {
@@ -990,7 +1247,7 @@
 
             panel.innerHTML = `
                 <div class="detail-banner-container">
-                    <img src="${level.thumbnail}"
+                    <img src="${level.thumbnail || ''}"
                          onerror="this.src='https://via.placeholder.com/600x280/14141c/ff3366?text=${encodeURIComponent(level.name)}'"
                          alt="${level.name}" class="detail-banner">
                 </div>
@@ -1016,9 +1273,10 @@
                     <div class="label"><i class="fa-solid fa-users"></i> ${t.completedBy}</div>
                     <div style="margin-top: 8px;">${completersHTML}</div>
                 </div>
+                ${level.videoUrl ? `
                 <a href="${level.videoUrl}" target="_blank" rel="noopener noreferrer" class="btn-action">
                     <i class="fa-brands fa-youtube fa-lg"></i> ${t.viewVideo}
-                </a>
+                </a>` : ''}
             `;
         }
 
@@ -1118,7 +1376,7 @@
                     completedHTML += `
                         <div class="record-item">
                             <div class="record-info">
-                                <img src="${lvl.thumbnail}" onerror="this.src='https://via.placeholder.com/70x42/14141c/ff3366?text=Level'" class="record-thumb">
+                                <img src="${lvl.thumbnail || ''}" onerror="this.src='https://via.placeholder.com/70x42/14141c/ff3366?text=Level'" class="record-thumb">
                                 <div>
                                     <strong style="display: block;">#${lvl.rank} ${lvl.name}</strong>
                                     <span style="font-size: 0.85rem; color: var(--accent-color); font-weight: 600;">+${lvl.points} ${t.pts}</span>
@@ -1157,7 +1415,7 @@
                 <div class="profile-header">
                     ${avatarHTML}
                     <div>
-                        <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username}</h2>
+                        <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username} ${user.isAdmin ? '<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:1rem;" title="Admin"></i>' : ''}</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">${user.bio || t.verifiedPlayer}</p>
                         ${user.youtube ? `<a href="${user.youtube}" target="_blank" style="color: var(--accent-color); font-size: 0.85rem; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-youtube"></i> YouTube</a>` : ''}
                     </div>
@@ -1187,7 +1445,6 @@
                 ` : ''}
             `;
 
-            document.getElementById('profile-tab-btn').style.display = 'flex';
             switchTab('profile');
         }
 
@@ -1227,6 +1484,7 @@
                     youtube: youtube || "",
                     completedLevels: [],
                     progresses: [],
+                    isAdmin: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
@@ -1276,19 +1534,19 @@
             const t = translations[currentLang];
             await auth.signOut();
             currentProfileUser = null;
-            document.getElementById('profile-tab-btn').style.display = 'none';
             switchTab('demons');
             alert(t.loggedOut);
         }
 
         function updateAuthUI() {
             const logged = !!currentUid;
+            const isAdmin = logged && currentUserData && currentUserData.isAdmin === true;
             document.getElementById('login-btn').style.display = logged ? 'none' : 'flex';
             document.getElementById('logout-btn').style.display = logged ? 'flex' : 'none';
             document.getElementById('account-btn').style.display = logged ? 'flex' : 'none';
+            document.getElementById('admin-btn').style.display = isAdmin ? 'flex' : 'none';
 
             if (!logged) {
-                document.getElementById('profile-tab-btn').style.display = 'none';
                 currentProfileUser = null;
             }
         }
@@ -1296,8 +1554,6 @@
         /* ============================================================
            ACCOUNT VIEW
         ============================================================ */
-        let pendingAvatarData = null;
-
         function renderAccountView() {
             if (!currentUserData) { switchTab('login'); return; }
             const user = currentUserData;
@@ -1305,11 +1561,13 @@
             const container = document.getElementById('account-container');
 
             const avatarHTML = user.avatar
-                ? `<img src="${user.avatar}">`
+                ? `<img src="${user.avatar}" id="acc-avatar-img">`
                 : `<i class="fa-solid fa-user"></i>`;
 
             const completed = user.completedLevels || [];
             const progresses = user.progresses || [];
+
+            const myPending = Object.values(allPendingRecords).filter(r => r.uid === currentUid);
 
             let compHTML = '';
             if (completed.length === 0) {
@@ -1321,7 +1579,7 @@
                     compHTML += `
                         <div class="record-item">
                             <div class="record-info">
-                                <img src="${lvl.thumbnail}" onerror="this.src='https://via.placeholder.com/70x42/14141c/ff3366?text=Level'" class="record-thumb">
+                                <img src="${lvl.thumbnail || ''}" onerror="this.src='https://via.placeholder.com/70x42/14141c/ff3366?text=Level'" class="record-thumb">
                                 <div>
                                     <strong style="display: block;">#${lvl.rank} ${lvl.name}</strong>
                                     <span style="font-size: 0.85rem; color: var(--accent-color); font-weight: 600;">+${lvl.points} ${t.pts}</span>
@@ -1339,6 +1597,31 @@
                     `;
                 });
             }
+
+            let pendingHTML = '';
+            myPending.forEach(r => {
+                const lvl = levelsData.find(l => l.id === r.levelId);
+                if (!lvl) return;
+                pendingHTML += `
+                    <div class="record-item pending">
+                        <div class="record-info">
+                            <img src="${lvl.thumbnail || ''}" onerror="this.src='https://via.placeholder.com/70x42/14141c/ff3366?text=Level'" class="record-thumb">
+                            <div>
+                                <strong style="display: block;">#${lvl.rank} ${lvl.name}</strong>
+                                <span class="badge-pending"><i class="fa-solid fa-clock"></i> ${t.pendingApproval}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <a href="${r.videoUrl}" target="_blank" class="btn-action" style="width: auto; padding: 8px 14px; font-size: 0.85rem;">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                            <button class="btn-danger" onclick="cancelPending('${r.id}')">
+                                <i class="fa-solid fa-xmark"></i> ${t.remove}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
 
             let progHTML = '';
             if (progresses.length === 0) {
@@ -1367,14 +1650,17 @@
                 });
             }
 
-            const availableLevels = levelsData.filter(l => !completed.some(c => c.levelId === l.id));
+            const pendingIds = myPending.map(r => r.levelId);
+            const availableLevels = levelsData.filter(l =>
+                !completed.some(c => c.levelId === l.id) && !pendingIds.includes(l.id)
+            );
             const optionsHTML = availableLevels.map(l => `<option value="${l.id}">#${l.rank} ${l.name} (+${l.points} ${t.pts})</option>`).join('');
 
             container.innerHTML = `
                 <div class="profile-header">
-                    <div class="avatar-large" id="avatar-preview-box">${avatarHTML}</div>
+                    <div class="avatar-large" id="avatar-preview-main">${avatarHTML}</div>
                     <div style="flex: 1;">
-                        <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username}</h2>
+                        <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username} ${user.isAdmin ? '<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:1rem;" title="Admin"></i>' : ''}</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">${user.bio || t.verifiedPlayer}</p>
                     </div>
                 </div>
@@ -1409,6 +1695,7 @@
                 <div class="account-section">
                     <h3><i class="fa-solid fa-circle-check" style="color: var(--accent-color);"></i> ${t.myCompletions}</h3>
 
+                    ${pendingHTML}
                     <div style="margin-bottom: 20px;">${compHTML}</div>
 
                     ${availableLevels.length > 0 ? `
@@ -1424,9 +1711,9 @@
                                 <input type="url" id="completion-video" placeholder="https://youtube.com/...">
                             </div>
                         </div>
-                        <button class="btn-primary" onclick="addCompletion()"><i class="fa-solid fa-plus"></i> ${t.add}</button>
+                        <button class="btn-primary" onclick="addCompletion()"><i class="fa-solid fa-paper-plane"></i> ${t.add}</button>
                     </div>
-                    ` : ''}
+                    ` : `<div class="empty-state" style="margin-top: 15px;">${t.levelAlreadyCompleted}</div>`}
                 </div>
 
                 <div class="account-section">
@@ -1452,6 +1739,38 @@
                         </div>
                         <button class="btn-primary" onclick="addProgress()"><i class="fa-solid fa-plus"></i> ${t.add}</button>
                     </div>
+                </div>
+
+                <div class="account-section">
+                    <h3><i class="fa-solid fa-lock" style="color: var(--accent-color);"></i> ${t.security}</h3>
+                    <h4 style="margin-bottom: 12px; font-size: 0.95rem;">${t.changePassword}</h4>
+                    <div id="password-alert" class="alert"></div>
+                    <div class="form-group">
+                        <label>${t.currentPassword}</label>
+                        <input type="password" id="current-password" autocomplete="current-password">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>${t.newPassword}</label>
+                            <input type="password" id="new-password" autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label>${t.confirmNewPassword}</label>
+                            <input type="password" id="new-password2" autocomplete="new-password">
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="change-pass-btn" onclick="changePassword()"><i class="fa-solid fa-key"></i> ${t.updatePassword}</button>
+                </div>
+
+                <div class="account-section danger">
+                    <h3 style="color: var(--error-color);"><i class="fa-solid fa-triangle-exclamation"></i> ${t.dangerZone}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">${t.deleteAccountDesc}</p>
+                    <div id="delete-alert" class="alert"></div>
+                    <div class="form-group">
+                        <label>${t.confirmDeleteAccount}</label>
+                        <input type="password" id="delete-password" autocomplete="current-password">
+                    </div>
+                    <button class="btn-danger-solid" id="delete-acc-btn" onclick="deleteAccount()"><i class="fa-solid fa-trash"></i> ${t.deleteAccount}</button>
                 </div>
             `;
         }
@@ -1502,6 +1821,7 @@
             if (!currentUid) return;
             pendingAvatarData = null;
             await db.collection('users').doc(currentUid).update({ avatar: null });
+            renderAccountView();
         }
 
         async function addCompletion() {
@@ -1515,10 +1835,38 @@
                 alert(t.levelAlreadyCompleted);
                 return;
             }
+            const alreadyPending = Object.values(allPendingRecords).some(r => r.uid === currentUid && r.levelId === levelId);
+            if (alreadyPending) {
+                alert(t.levelAlreadyPending);
+                return;
+            }
             if (!videoUrl) { alert(t.invalidVideoUrl); return; }
 
-            const newList = [...(currentUserData.completedLevels || []), { levelId, videoUrl }];
-            await db.collection('users').doc(currentUid).update({ completedLevels: newList });
+            try {
+                await db.collection('pendingRecords').add({
+                    uid: currentUid,
+                    username: currentUserData.username,
+                    levelId: levelId,
+                    videoUrl: videoUrl,
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert(t.submittedSuccess);
+                renderAccountView();
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
+        }
+
+        async function cancelPending(recordId) {
+            const t = translations[currentLang];
+            if (!confirm(t.confirmRemoveCompletion)) return;
+            try {
+                await db.collection('pendingRecords').doc(recordId).delete();
+                renderAccountView();
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         async function removeCompletion(idx) {
@@ -1528,6 +1876,7 @@
             const newList = [...(currentUserData.completedLevels || [])];
             newList.splice(idx, 1);
             await db.collection('users').doc(currentUid).update({ completedLevels: newList });
+            renderAccountView();
         }
 
         async function addProgress() {
@@ -1541,6 +1890,7 @@
 
             const newList = [...(currentUserData.progresses || []), { levelName, percent, videoUrl }];
             await db.collection('users').doc(currentUid).update({ progresses: newList });
+            renderAccountView();
         }
 
         async function removeProgress(idx) {
@@ -1550,6 +1900,343 @@
             const newList = [...(currentUserData.progresses || [])];
             newList.splice(idx, 1);
             await db.collection('users').doc(currentUid).update({ progresses: newList });
+            renderAccountView();
+        }
+
+        /* ============================================================
+           CAMBIO DE CONTRASEÑA
+        ============================================================ */
+        async function changePassword() {
+            const t = translations[currentLang];
+            const currentPass = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const newPass2 = document.getElementById('new-password2').value;
+
+            if (!currentPass || !newPass || !newPass2) {
+                showAlert('password-alert', t.genericError, 'error');
+                return;
+            }
+            if (newPass !== newPass2) {
+                showAlert('password-alert', t.newPasswordsNoMatch, 'error');
+                return;
+            }
+            if (newPass.length < 6) {
+                showAlert('password-alert', t.newPasswordTooShort, 'error');
+                return;
+            }
+
+            const btn = document.getElementById('change-pass-btn');
+            btn.disabled = true;
+
+            try {
+                const user = auth.currentUser;
+                const email = usernameToEmail(currentUserData.username);
+                const cred = firebase.auth.EmailAuthProvider.credential(email, currentPass);
+                await user.reauthenticateWithCredential(cred);
+                await user.updatePassword(newPass);
+                showAlert('password-alert', t.passwordUpdated, 'success');
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('new-password2').value = '';
+            } catch (err) {
+                console.error(err);
+                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    showAlert('password-alert', t.wrongCurrentPassword, 'error');
+                } else if (err.code === 'auth/too-many-requests') {
+                    showAlert('password-alert', t.tooManyRequests, 'error');
+                } else {
+                    showAlert('password-alert', err.message || t.genericError, 'error');
+                }
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        /* ============================================================
+           ELIMINAR CUENTA
+        ============================================================ */
+        async function deleteAccount() {
+            const t = translations[currentLang];
+            const password = document.getElementById('delete-password').value;
+
+            if (!password) {
+                showAlert('delete-alert', t.wrongPassword, 'error');
+                return;
+            }
+            if (!confirm(t.deleteAccountConfirm)) return;
+
+            const btn = document.getElementById('delete-acc-btn');
+            btn.disabled = true;
+
+            try {
+                const user = auth.currentUser;
+                const email = usernameToEmail(currentUserData.username);
+                const cred = firebase.auth.EmailAuthProvider.credential(email, password);
+                await user.reauthenticateWithCredential(cred);
+
+                const pendingSnap = await db.collection('pendingRecords').where('uid', '==', currentUid).get();
+                const batch = db.batch();
+                pendingSnap.forEach(doc => batch.delete(doc.ref));
+                batch.delete(db.collection('users').doc(currentUid));
+                await batch.commit();
+
+                await user.delete();
+
+                alert(t.accountDeleted);
+            } catch (err) {
+                console.error(err);
+                if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    showAlert('delete-alert', t.wrongPassword, 'error');
+                } else if (err.code === 'auth/requires-recent-login') {
+                    showAlert('delete-alert', t.requiresRecentLogin, 'error');
+                } else {
+                    showAlert('delete-alert', err.message || t.genericError, 'error');
+                }
+                btn.disabled = false;
+            }
+        }
+
+        /* ============================================================
+           ADMIN PANEL
+        ============================================================ */
+        function renderAdminPanel() {
+            const t = translations[currentLang];
+            const container = document.getElementById('admin-container');
+
+            const records = Object.values(allPendingRecords).sort((a, b) => {
+                const da = a.submittedAt ? a.submittedAt.toMillis() : 0;
+                const dbb = b.submittedAt ? b.submittedAt.toMillis() : 0;
+                return da - dbb;
+            });
+
+            let recordsHTML = '';
+            if (records.length === 0) {
+                recordsHTML = `<div class="empty-state">${t.noPendingRecords}</div>`;
+            } else {
+                records.forEach(r => {
+                    const lvl = levelsData.find(l => l.id === r.levelId);
+                    const levelName = lvl ? `#${lvl.rank} ${lvl.name}` : r.levelId;
+                    const pts = lvl ? `+${lvl.points} ${t.pts}` : '';
+                    recordsHTML += `
+                        <div class="admin-record">
+                            <div class="admin-record-info">
+                                <div class="admin-record-user"><i class="fa-solid fa-user"></i> ${r.username}</div>
+                                <div class="admin-record-level">${levelName} <span style="color:var(--accent-color); font-size:0.85rem;">${pts}</span></div>
+                                <div class="admin-record-date"><i class="fa-regular fa-clock"></i> ${t.submitted}: ${formatDate(r.submittedAt)}</div>
+                            </div>
+                            <div class="admin-actions">
+                                <a href="${r.videoUrl}" target="_blank" class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;">
+                                    <i class="fa-brands fa-youtube"></i> ${t.viewVideo}
+                                </a>
+                                <button class="btn-approve" onclick="approveRecord('${r.id}')">
+                                    <i class="fa-solid fa-check"></i> ${t.approve}
+                                </button>
+                                <button class="btn-danger" onclick="rejectRecord('${r.id}')">
+                                    <i class="fa-solid fa-xmark"></i> ${t.reject}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            let levelsListHTML = '';
+            if (levelsData.length === 0) {
+                levelsListHTML = `<div class="empty-state">${t.noLevelsYet}</div>`;
+            } else {
+                levelsData.forEach(lvl => {
+                    levelsListHTML += `
+                        <div class="admin-record">
+                            <div class="admin-record-info">
+                                <div class="admin-record-user" style="color: var(--accent-color);">#${lvl.rank} ${lvl.name}</div>
+                                <div class="admin-record-level" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                                    ${t.by}: ${lvl.creator} · ${t.verifier}: ${lvl.verifier} · <span style="color: var(--gold-color);">${lvl.points} ${t.pts}</span>
+                                </div>
+                            </div>
+                            <div class="admin-actions">
+                                <button class="btn-danger" onclick="deleteLevel('${lvl.id}')">
+                                    <i class="fa-solid fa-trash"></i> ${t.remove}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            container.innerHTML = `
+                <div class="profile-header">
+                    <div class="profile-avatar" style="background: linear-gradient(135deg, var(--gold-color), #b8860b);"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <h2 style="font-size: 1.6rem; font-weight: 800;">${t.adminPanel}</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">${t.adminSubtitle}</p>
+                    </div>
+                </div>
+
+                <div class="account-section">
+                    <h3><i class="fa-solid fa-plus-circle" style="color: var(--accent-color);"></i> ${t.addNewLevel}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.rankingNote}</p>
+                    <div id="add-level-alert" class="alert"></div>
+                    <form onsubmit="handleAddLevel(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>${t.levelNameField} *</label>
+                                <input type="text" id="new-level-name" required maxlength="60">
+                            </div>
+                            <div class="form-group">
+                                <label>${t.levelPoints} *</label>
+                                <input type="number" id="new-level-points" required min="1" step="1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>${t.levelCreator} *</label>
+                                <input type="text" id="new-level-creator" required maxlength="40">
+                            </div>
+                            <div class="form-group">
+                                <label>${t.levelVerifier} *</label>
+                                <input type="text" id="new-level-verifier" required maxlength="40">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>${t.thumbnailUrl}</label>
+                                <input type="url" id="new-level-thumbnail" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label>${t.levelVideoUrl}</label>
+                                <input type="url" id="new-level-video" placeholder="https://youtube.com/...">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary" id="add-level-btn">
+                            <i class="fa-solid fa-plus"></i> ${t.addLevel}
+                        </button>
+                    </form>
+                </div>
+
+                <div class="account-section">
+                    <h3><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> ${t.existingLevels} (${levelsData.length})</h3>
+                    <div>${levelsListHTML}</div>
+                </div>
+
+                <div class="account-section">
+                    <h3><i class="fa-solid fa-clock" style="color: var(--warning-color);"></i> ${t.pendingRecords} (${records.length})</h3>
+                    <div>${recordsHTML}</div>
+                </div>
+            `;
+        }
+
+        async function handleAddLevel(e) {
+            e.preventDefault();
+            const t = translations[currentLang];
+            const name = document.getElementById('new-level-name').value.trim();
+            const creator = document.getElementById('new-level-creator').value.trim();
+            const verifier = document.getElementById('new-level-verifier').value.trim();
+            const points = parseInt(document.getElementById('new-level-points').value, 10);
+            const thumbnail = document.getElementById('new-level-thumbnail').value.trim();
+            const videoUrl = document.getElementById('new-level-video').value.trim();
+
+            if (!name || !creator || !verifier || !points) {
+                showAlert('add-level-alert', t.fillRequired, 'error');
+                return;
+            }
+
+            const id = slugify(name);
+            if (!id) {
+                showAlert('add-level-alert', t.fillRequired, 'error');
+                return;
+            }
+
+            const btn = document.getElementById('add-level-btn');
+            btn.disabled = true;
+
+            try {
+                const existing = await db.collection('levels').doc(id).get();
+                if (existing.exists) {
+                    showAlert('add-level-alert', t.levelAlreadyExists, 'error');
+                    btn.disabled = false;
+                    return;
+                }
+
+                const maxRank = levelsData.reduce((max, l) => Math.max(max, l.rank || 0), 0);
+                const rank = maxRank + 1;
+
+                await db.collection('levels').doc(id).set({
+                    rank: rank,
+                    name: name,
+                    creator: creator,
+                    verifier: verifier,
+                    points: points,
+                    thumbnail: thumbnail || '',
+                    videoUrl: videoUrl || '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                document.getElementById('new-level-name').value = '';
+                document.getElementById('new-level-creator').value = '';
+                document.getElementById('new-level-verifier').value = '';
+                document.getElementById('new-level-points').value = '';
+                document.getElementById('new-level-thumbnail').value = '';
+                document.getElementById('new-level-video').value = '';
+
+                showAlert('add-level-alert', t.levelAdded, 'success');
+            } catch (err) {
+                console.error(err);
+                showAlert('add-level-alert', err.message || t.genericError, 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function deleteLevel(levelId) {
+            const t = translations[currentLang];
+            const lvl = levelsData.find(l => l.id === levelId);
+            if (!lvl) return;
+            if (!confirm(`${t.confirmDeleteLevel}\n\n"${lvl.name}"`)) return;
+
+            try {
+                await db.collection('levels').doc(levelId).delete();
+                alert(t.levelDeleted);
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
+        }
+
+        async function approveRecord(recordId) {
+            const t = translations[currentLang];
+            if (!confirm(t.approveConfirm)) return;
+            const record = allPendingRecords[recordId];
+            if (!record) return;
+
+            try {
+                const userRef = db.collection('users').doc(record.uid);
+                const userDoc = await userRef.get();
+                if (userDoc.exists) {
+                    const existing = userDoc.data().completedLevels || [];
+                    if (!existing.some(c => c.levelId === record.levelId)) {
+                        await userRef.update({
+                            completedLevels: [...existing, { levelId: record.levelId, videoUrl: record.videoUrl }]
+                        });
+                    }
+                }
+                await db.collection('pendingRecords').doc(recordId).delete();
+                alert(t.recordApproved);
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
+        }
+
+        async function rejectRecord(recordId) {
+            const t = translations[currentLang];
+            if (!confirm(t.rejectConfirm)) return;
+            try {
+                await db.collection('pendingRecords').doc(recordId).delete();
+                alert(t.recordRejected);
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            }
         }
 
         /* ============================================================
@@ -1557,6 +2244,7 @@
         ============================================================ */
         function switchTab(tabId) {
             if ((tabId === 'account') && !currentUid) tabId = 'login';
+            if ((tabId === 'admin') && (!currentUid || !currentUserData || !currentUserData.isAdmin)) tabId = 'demons';
 
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -1571,14 +2259,40 @@
                 document.getElementById('account-btn').classList.add('active');
                 renderAccountView();
             }
+            if (tabId === 'admin') {
+                document.getElementById('admin-btn').classList.add('active');
+                renderAdminPanel();
+            }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         /* ============================================================
-           🔥 LISTENER EN TIEMPO REAL
+           🔥 LISTENERS EN TIEMPO REAL
         ============================================================ */
-        function startRealtimeListener() {
+        function startRealtimeListeners() {
+            db.collection('levels').onSnapshot(snapshot => {
+                levelsData = [];
+                snapshot.forEach(doc => {
+                    levelsData.push({ id: doc.id, ...doc.data() });
+                });
+                levelsData.sort((a, b) => (a.rank || 0) - (b.rank || 0));
+
+                if (!levelsData.find(l => l.id === selectedLevelId)) {
+                    selectedLevelId = levelsData.length > 0 ? levelsData[0].id : null;
+                }
+
+                renderSidebarLevels();
+                renderLevelDetail(selectedLevelId);
+                renderUserArea();
+                if (document.getElementById('account-view').classList.contains('active')) {
+                    renderAccountView();
+                }
+                if (document.getElementById('admin-view').classList.contains('active')) {
+                    renderAdminPanel();
+                }
+            }, err => console.error("Levels listener:", err));
+
             db.collection('users').onSnapshot(snapshot => {
                 allUsers = {};
                 snapshot.forEach(doc => {
@@ -1591,20 +2305,41 @@
 
                 renderUserArea();
                 renderLevelDetail(selectedLevelId);
+                updateAuthUI();
                 if (currentProfileUser) {
                     const stillExists = getUserByUsername(currentProfileUser);
                     if (stillExists) openUserProfile(currentProfileUser);
                 }
+            }, err => console.error("Users listener:", err));
+
+            db.collection('pendingRecords').onSnapshot(snapshot => {
+                allPendingRecords = {};
+                snapshot.forEach(doc => {
+                    allPendingRecords[doc.id] = { id: doc.id, ...doc.data() };
+                });
+
+                const count = snapshot.size;
+                const badge = document.getElementById('pending-count');
+                if (badge) {
+                    if (count > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.innerText = count;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+
+                if (document.getElementById('admin-view').classList.contains('active')) {
+                    renderAdminPanel();
+                }
                 if (document.getElementById('account-view').classList.contains('active')) {
                     renderAccountView();
                 }
-            }, err => {
-                console.error("Firestore listener error:", err);
-            });
+            }, err => console.error("Pending listener:", err));
         }
 
         /* ============================================================
-           🔥 LISTENER DE AUTH
+           AUTH LISTENER
         ============================================================ */
         auth.onAuthStateChanged(async user => {
             document.getElementById('loading').classList.add('hidden');
@@ -1631,7 +2366,7 @@
         ============================================================ */
         document.addEventListener('DOMContentLoaded', function() {
             changeLanguage('en');
-            startRealtimeListener();
+            startRealtimeListeners();
         });
     </script>
 </body>
