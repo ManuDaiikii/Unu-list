@@ -37,7 +37,7 @@
         header {
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--border-color);
-            padding: 20px 30px;
+            padding: 16px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,20 +50,20 @@
         .header-title { display: flex; align-items: center; gap: 12px; }
         header h1 {
             color: var(--accent-color);
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             letter-spacing: 1px;
             text-shadow: 0 0 12px var(--accent-glow);
         }
-        header p { color: var(--text-muted); font-size: 0.9rem; }
-        .header-controls { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        header p { color: var(--text-muted); font-size: 0.85rem; }
+        .header-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         nav { display: flex; gap: 8px; flex-wrap: wrap; }
         .nav-btn {
             background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 8px 16px;
-            font-size: 0.9rem;
+            padding: 8px 14px;
+            font-size: 0.88rem;
             font-weight: 600;
             font-family: inherit;
             border-radius: 6px;
@@ -89,21 +89,95 @@
         .nav-btn.admin { border-color: rgba(255, 215, 0, 0.5); color: var(--gold-color); }
         .nav-btn.admin:hover { background-color: rgba(255, 215, 0, 0.1); border-color: var(--gold-color); }
         .nav-btn.admin.active { background-color: var(--gold-color); color: #000; border-color: var(--gold-color); }
-        .discord-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            background-color: #5865F2; color: white; border: none;
-            padding: 8px 14px; font-size: 0.9rem; font-weight: 600; font-family: inherit;
-            border-radius: 6px; cursor: pointer; text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        .discord-btn:hover { filter: brightness(1.15); }
-        .lang-select {
-            background-color: var(--bg-color); color: var(--text-color);
+
+        .settings-wrapper { position: relative; }
+        .settings-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            padding: 8px 12px; border-radius: 6px;
-            font-family: inherit; font-size: 0.9rem; font-weight: 600;
-            cursor: pointer; outline: none;
+            border-radius: 10px;
+            padding: 8px;
+            min-width: 240px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+            display: none;
+            z-index: 200;
+            animation: settingsFade 0.15s ease;
         }
+        .settings-menu.open { display: block; }
+        @keyframes settingsFade {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            font-family: inherit;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+        .settings-item:hover {
+            background-color: var(--card-hover);
+            color: var(--accent-color);
+        }
+        .settings-item i { width: 18px; text-align: center; color: var(--accent-color); }
+        .settings-item.discord-item i { color: #5865F2; }
+        .settings-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 6px 4px;
+        }
+        .settings-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+        }
+        .settings-label i { width: 18px; text-align: center; }
+        .settings-lang-row {
+            display: flex;
+            gap: 6px;
+            padding: 0 8px 8px;
+        }
+        .lang-chip {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .lang-chip:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        .lang-chip.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
         .main-container {
             max-width: 1400px; margin: 30px auto; padding: 0 20px;
             width: 100%; flex: 1;
@@ -180,7 +254,6 @@
         .level-item-name { font-weight: 600; font-size: 0.95rem; }
         .level-item-points { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
 
-        /* 🔥 Badge NEW */
         .new-badge {
             display: inline-block;
             background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -538,6 +611,7 @@
             .header-controls { justify-content: center; }
             .form-row { grid-template-columns: 1fr; }
             .auth-box { padding: 25px; }
+            .settings-menu { right: auto; left: 0; }
         }
     </style>
 </head>
@@ -563,9 +637,6 @@
                 <button class="nav-btn" onclick="switchTab('users')" id="nav-users-btn">
                     <i class="fa-solid fa-trophy"></i> <span id="nav-users">User Area</span>
                 </button>
-                <button class="nav-btn" id="account-btn" onclick="switchTab('account')" style="display: none;">
-                    <i class="fa-solid fa-gear"></i> <span id="nav-account">My Account</span>
-                </button>
                 <button class="nav-btn admin" id="admin-btn" onclick="switchTab('admin')" style="display: none;">
                     <i class="fa-solid fa-shield-halved"></i> <span id="nav-admin">Admin</span>
                     <span id="pending-count" style="background: var(--error-color); color: white; border-radius: 10px; padding: 1px 7px; font-size: 0.7rem; margin-left: 4px; display: none;">0</span>
@@ -577,14 +648,29 @@
                     <i class="fa-solid fa-right-from-bracket"></i> <span id="nav-logout">Logout</span>
                 </button>
             </nav>
-            <a href="https://discord.gg/TU_INVITE_AQUI" target="_blank" rel="noopener noreferrer" class="discord-btn">
-                <i class="fa-brands fa-discord"></i> Discord
-            </a>
-            <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="ru">Русский</option>
-            </select>
+            <div class="settings-wrapper">
+                <button class="nav-btn settings-btn" onclick="toggleSettingsMenu(event)">
+                    <i class="fa-solid fa-gear"></i> <span id="nav-settings">Settings</span>
+                </button>
+                <div class="settings-menu" id="settings-menu">
+                    <button class="settings-item" id="settings-account-item" onclick="switchTab('account'); closeSettingsMenu();" style="display: none;">
+                        <i class="fa-solid fa-user-circle"></i> <span id="settings-account">My Account</span>
+                    </button>
+                    <div class="settings-divider" id="settings-divider-account" style="display: none;"></div>
+                    <div class="settings-label">
+                        <i class="fa-solid fa-globe"></i> <span id="settings-language">Language</span>
+                    </div>
+                    <div class="settings-lang-row">
+                        <button class="lang-chip" data-lang="en" onclick="changeLanguage('en'); closeSettingsMenu();">🇬🇧 EN</button>
+                        <button class="lang-chip" data-lang="es" onclick="changeLanguage('es'); closeSettingsMenu();">🇪🇸 ES</button>
+                        <button class="lang-chip" data-lang="ru" onclick="changeLanguage('ru'); closeSettingsMenu();">🇷🇺 RU</button>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <a class="settings-item discord-item" href="https://discord.gg/TU_INVITE_AQUI" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i> <span id="settings-discord">Discord</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -741,6 +827,36 @@
                 icon: 'fa-medal', color: '#9494a0',
                 label: { en: 'Top 10-2 Completion', es: 'Completion de un Top 10-2', ru: 'Прохождение Топ 10-2' },
                 desc: { en: 'Completed a level ranked #2 to #10', es: 'Completó un nivel entre el #2 y el #10', ru: 'Прошёл уровень с рангом #2-#10' }
+            },
+            og_player: {
+                icon: 'fa-star', color: '#a855f7',
+                label: { en: 'OG Player', es: 'Jugador OG', ru: 'ОГ Игрок' },
+                desc: { en: 'Joined Unu List in its early days', es: 'Se unió a Unu List en sus inicios', ru: 'Присоединился к Unu List в начале' }
+            },
+            legend: {
+                icon: 'fa-dragon', color: '#ef4444',
+                label: { en: 'Legend', es: 'Leyenda', ru: 'Легенда' },
+                desc: { en: 'A legendary player of the community', es: 'Un jugador legendario de la comunidad', ru: 'Легендарный игрок сообщества' }
+            },
+            demon_slayer: {
+                icon: 'fa-skull', color: '#6366f1',
+                label: { en: 'Demon Slayer', es: 'Cazador de Demonios', ru: 'Убийца Демонов' },
+                desc: { en: 'Skilled at beating the hardest levels', es: 'Hábil derrotando los niveles más difíciles', ru: 'Мастер сложных уровней' }
+            },
+            content_creator: {
+                icon: 'fa-video', color: '#ff0000',
+                label: { en: 'Content Creator', es: 'Creador de Contenido', ru: 'Контент-мейкер' },
+                desc: { en: 'Creates content about Unu List', es: 'Crea contenido sobre Unu List', ru: 'Создаёт контент про Unu List' }
+            },
+            world_first: {
+                icon: 'fa-earth-americas', color: '#06b6d4',
+                label: { en: 'World First', es: 'World First', ru: 'Первое в мире' },
+                desc: { en: 'Achieved a world-first record', es: 'Logró un récord mundial', ru: 'Достиг мирового рекорда' }
+            },
+            rising_star: {
+                icon: 'fa-rocket', color: '#f97316',
+                label: { en: 'Rising Star', es: 'Estrella Emergente', ru: 'Восходящая Звезда' },
+                desc: { en: 'A rising talent in the community', es: 'Un talento emergente en la comunidad', ru: 'Восходящий талант сообщества' }
             }
         };
 
@@ -766,6 +882,7 @@
                 subtitle: "The official list of the hardest UNU levels of Geometry Dash",
                 navLevels: "Levels", navUsers: "User Area",
                 navAccount: "My Account", navAdmin: "Admin", navLogin: "Login", navLogout: "Logout",
+                navSettings: "Settings", settingsLanguage: "Language", settingsDiscord: "Discord",
                 sidebarHeader: "Demons Leaderboard",
                 thPlayer: "Player", thCompleted: "Completed Unus", thTotalPoints: "Total Points",
                 btnBack: "Back to User Area", footerRights: "All rights reserved.",
@@ -858,6 +975,7 @@
                 subtitle: "La lista oficial de los niveles UNU más difíciles de Geometry Dash",
                 navLevels: "Niveles", navUsers: "User Area",
                 navAccount: "Mi Cuenta", navAdmin: "Admin", navLogin: "Iniciar Sesión", navLogout: "Salir",
+                navSettings: "Ajustes", settingsLanguage: "Idioma", settingsDiscord: "Discord",
                 sidebarHeader: "Tabla de Niveles",
                 thPlayer: "Jugador", thCompleted: "Unus Completados", thTotalPoints: "Puntos Totales",
                 btnBack: "Volver a User Area", footerRights: "Todos los derechos reservados.",
@@ -950,6 +1068,7 @@
                 subtitle: "Официальный список самых сложных UNU уровней Geometry Dash",
                 navLevels: "Уровни", navUsers: "Игроки",
                 navAccount: "Мой Аккаунт", navAdmin: "Админ", navLogin: "Войти", navLogout: "Выйти",
+                navSettings: "Настройки", settingsLanguage: "Язык", settingsDiscord: "Discord",
                 sidebarHeader: "Таблица Уровней",
                 thPlayer: "Игрок", thCompleted: "Пройдено Unus", thTotalPoints: "Всего Очков",
                 btnBack: "Назад", footerRights: "Все права защищены.",
@@ -1061,7 +1180,6 @@
             return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         }
 
-        /* 🔥 Renumera todos los niveles secuencialmente (1, 2, 3...) según el orden de IDs dado */
         async function applyLevelOrder(orderedIds) {
             const batch = db.batch();
             let changed = false;
@@ -1076,7 +1194,6 @@
             if (changed) await batch.commit();
         }
 
-        /* 🔥 Devuelve un Set con los IDs de los 3 niveles más recientes (solo niveles con fecha real) */
         function getNewLevelIds() {
             if (levelsData.length === 0) return new Set();
             const withDate = [];
@@ -1117,19 +1234,34 @@
             return d.toLocaleString();
         }
 
+        function toggleSettingsMenu(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('settings-menu');
+            if (menu) menu.classList.toggle('open');
+        }
+        function closeSettingsMenu() {
+            const menu = document.getElementById('settings-menu');
+            if (menu) menu.classList.remove('open');
+        }
+
         function changeLanguage(lang) {
             currentLang = lang;
             try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
-            document.getElementById('langSelect').value = lang;
+            document.querySelectorAll('.lang-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.lang === lang);
+            });
             const t = translations[lang];
 
             document.getElementById('header-subtitle').innerText = t.subtitle;
             document.getElementById('nav-levels').innerText = t.navLevels;
             document.getElementById('nav-users').innerText = t.navUsers;
-            document.getElementById('nav-account').innerText = t.navAccount;
             document.getElementById('nav-admin').innerText = t.navAdmin;
             document.getElementById('nav-login').innerText = t.navLogin;
             document.getElementById('nav-logout').innerText = t.navLogout;
+            document.getElementById('nav-settings').innerText = t.navSettings;
+            document.getElementById('settings-account').innerText = t.navAccount;
+            document.getElementById('settings-language').innerText = t.settingsLanguage;
+            document.getElementById('settings-discord').innerText = t.settingsDiscord;
             document.getElementById('sidebar-header-title').innerText = t.sidebarHeader;
             document.getElementById('th-player').innerText = t.thPlayer;
             document.getElementById('th-completed').innerText = t.thCompleted;
@@ -1509,6 +1641,7 @@
             const t = translations[currentLang];
             await auth.signOut();
             currentProfileUser = null;
+            closeSettingsMenu();
             switchTab('demons');
             alert(t.loggedOut);
         }
@@ -1518,8 +1651,13 @@
             const isAdmin = logged && currentUserData && currentUserData.isAdmin === true;
             document.getElementById('login-btn').style.display = logged ? 'none' : 'flex';
             document.getElementById('logout-btn').style.display = logged ? 'flex' : 'none';
-            document.getElementById('account-btn').style.display = logged ? 'flex' : 'none';
             document.getElementById('admin-btn').style.display = isAdmin ? 'flex' : 'none';
+
+            const accItem = document.getElementById('settings-account-item');
+            const accDiv = document.getElementById('settings-divider-account');
+            if (accItem) accItem.style.display = logged ? 'flex' : 'none';
+            if (accDiv) accDiv.style.display = logged ? 'block' : 'none';
+
             if (!logged) currentProfileUser = null;
         }
 
@@ -2082,7 +2220,6 @@
             `;
         }
 
-        /* 🔥 Mover nivel arriba/abajo (intercambia con el vecino) */
         async function moveLevel(levelId, direction) {
             const t = translations[currentLang];
             const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
@@ -2099,7 +2236,6 @@
             }
         }
 
-        /* 🔥 Setear rank concreto (con auto-shift) */
         async function setLevelRank(levelId) {
             const t = translations[currentLang];
             const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
@@ -2175,8 +2311,7 @@
                 const batch = db.batch();
                 const sorted = [...levelsData].sort((a, b) => (a.rank || 0) - (b.rank || 0));
 
-                // Determinar índice de inserción
-                let insertIdx = sorted.length; // por defecto: al final
+                let insertIdx = sorted.length;
                 if (rankInput !== '') {
                     const parsed = parseInt(rankInput, 10);
                     if (isNaN(parsed) || parsed < 1) {
@@ -2187,7 +2322,6 @@
                     insertIdx = Math.min(Math.max(0, parsed - 1), sorted.length);
                 }
 
-                // Desplazar los que están a partir del índice +1, y reasignar los anteriores
                 sorted.forEach((lvl, idx) => {
                     if (idx >= insertIdx) {
                         batch.update(db.collection('levels').doc(lvl.id), { rank: idx + 2 });
@@ -2196,7 +2330,6 @@
                     }
                 });
 
-                // Crear el nuevo con el rank correcto
                 batch.set(db.collection('levels').doc(id), {
                     rank: insertIdx + 1,
                     name, creator, verifier, points,
@@ -2296,7 +2429,6 @@
             if (tabId === 'users') document.getElementById('nav-users-btn').classList.add('active');
             if (tabId === 'login') document.getElementById('login-btn').classList.add('active');
             if (tabId === 'account') {
-                document.getElementById('account-btn').classList.add('active');
                 renderAccountView();
             }
             if (tabId === 'admin') {
@@ -2373,6 +2505,14 @@
             } catch (e) {}
             changeLanguage(savedLang);
             startRealtimeListeners();
+        });
+
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('settings-menu');
+            const wrapper = document.querySelector('.settings-wrapper');
+            if (menu && menu.classList.contains('open') && wrapper && !wrapper.contains(e.target)) {
+                closeSettingsMenu();
+            }
         });
     </script>
 </body>
