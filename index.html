@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unu List - Official Demon List</title>
-    
+    <title>Unu list</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -43,7 +41,7 @@
             position: relative;
         }
 
-        /* Language Selector in Top Right */
+        /* Language Selector Dropdown */
         .lang-selector-container {
             position: absolute;
             top: 20px;
@@ -54,7 +52,7 @@
         .lang-select {
             background-color: var(--card-bg);
             color: var(--text-color);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--accent-color);
             padding: 8px 14px;
             border-radius: 8px;
             font-family: inherit;
@@ -76,16 +74,14 @@
             color: var(--text-color);
         }
 
-        /* Container setup */
         .container {
-            max-width: 1000px;
+            max-width: 950px;
             margin: 0 auto;
             padding: 20px;
             width: 100%;
             flex: 1;
         }
 
-        /* Header styling */
         header {
             text-align: center;
             padding: 40px 0 20px 0;
@@ -109,7 +105,6 @@
             font-size: 1.05rem;
         }
 
-        /* Navigation Menu */
         nav {
             display: flex;
             justify-content: center;
@@ -163,7 +158,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Tables & List layout */
         .list-card {
             background-color: var(--card-bg);
             border-radius: 14px;
@@ -399,6 +393,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 25px;
         }
 
         .record-item {
@@ -591,6 +586,7 @@
                 rankPosition: "Rank Position",
                 completedUnus: "Completed Unus",
                 completedLevelsTitle: "Completed Levels",
+                progressTitle: "Progresses",
                 viewVideo: "Watch Video",
                 pts: "pts"
             },
@@ -612,6 +608,7 @@
                 rankPosition: "Puesto Ranking",
                 completedUnus: "Unus Completados",
                 completedLevelsTitle: "Niveles Completados",
+                progressTitle: "Progresos",
                 viewVideo: "Ver Video",
                 pts: "pts"
             },
@@ -633,6 +630,7 @@
                 rankPosition: "Ранг",
                 completedUnus: "Пройдено Unus",
                 completedLevelsTitle: "Пройденные уровни",
+                progressTitle: "Прогресс",
                 viewVideo: "Смотреть видео",
                 pts: "очков"
             }
@@ -648,7 +646,7 @@
                 name: "grief unu (original)",
                 creator: "Verbital",
                 verifier: "ManuDaiikii",
-                thumbnail: "https://i.ytimg.com/vi/5-MkWyV9o_Q/hqdefault.jpg",
+                thumbnail: "grief.jpg",
                 videoUrl: "https://youtube.com",
                 points: 100
             }
@@ -662,9 +660,17 @@
                     {
                         levelId: "grief-unu",
                         levelName: "grief unu (original)",
-                        thumbnail: "https://i.ytimg.com/vi/5-MkWyV9o_Q/hqdefault.jpg",
+                        thumbnail: "grief.jpg",
                         videoUrl: "https://youtube.com",
                         points: 100
+                    }
+                ],
+                progresses: [
+                    {
+                        levelName: "Grief UnU (Buffed)",
+                        percent: "39%",
+                        thumbnail: "grief.jpg",
+                        videoUrl: "https://youtube.com"
                     }
                 ]
             }
@@ -674,7 +680,6 @@
             currentLang = lang;
             const t = translations[lang];
 
-            // Translate static elements
             document.getElementById('header-subtitle').innerText = t.subtitle;
             document.getElementById('nav-levels').innerText = t.navLevels;
             document.getElementById('nav-users').innerText = t.navUsers;
@@ -687,7 +692,6 @@
             document.getElementById('btn-back-text').innerText = t.btnBack;
             document.getElementById('footer-rights').innerText = t.footerRights;
 
-            // Re-render dynamic components
             renderDemonsList();
             renderUserArea();
             if (currentProfileUser) {
@@ -708,7 +712,7 @@
                     <td>
                         <div class="level-info">
                             <img src="${level.thumbnail}" 
-                                 onerror="this.src='https://placehold.co/130x75/252533/ff3366?text=Grief+Unu'" 
+                                 onerror="this.src='https://via.placeholder.com/130x75/252533/ff3366?text=Grief+Unu'" 
                                  alt="${level.name}" 
                                  class="level-thumb">
                             <div class="level-details">
@@ -789,7 +793,7 @@
                     <div class="record-item">
                         <div class="record-info">
                             <img src="${lvl.thumbnail}" 
-                                 onerror="this.src='https://placehold.co/70x42/252533/ff3366?text=Nivel'" 
+                                 onerror="this.src='https://via.placeholder.com/70x42/252533/ff3366?text=Nivel'" 
                                  alt="${lvl.levelName}" 
                                  class="record-thumb">
                             <div>
@@ -803,6 +807,29 @@
                     </div>
                 `;
             });
+
+            let progressHTML = '';
+            if (user.progresses && user.progresses.length > 0) {
+                user.progresses.forEach(prog => {
+                    progressHTML += `
+                        <div class="record-item">
+                            <div class="record-info">
+                                <img src="${prog.thumbnail}" 
+                                     onerror="this.src='https://via.placeholder.com/70x42/252533/ff3366?text=Progress'" 
+                                     alt="${prog.levelName}" 
+                                     class="record-thumb">
+                                <div>
+                                    <strong style="font-size: 1.05rem; display: block; color: var(--text-color);">${prog.levelName}</strong>
+                                    <span style="font-size: 0.85rem; color: var(--gold-color); font-weight: 700;">${prog.percent}</span>
+                                </div>
+                            </div>
+                            <a href="${prog.videoUrl}" target="_blank" rel="noopener noreferrer" class="btn-yt">
+                                <i class="fa-brands fa-youtube"></i> ${t.viewVideo}
+                            </a>
+                        </div>
+                    `;
+                });
+            }
 
             profileContainer.innerHTML = `
                 <div class="profile-header">
@@ -836,6 +863,15 @@
                         ${completedLevelsHTML}
                     </div>
                 </div>
+
+                ${progressHTML ? `
+                <div class="profile-records" style="margin-top: 25px;">
+                    <h3><i class="fa-solid fa-chart-line" style="color: var(--gold-color);"></i> ${t.progressTitle}</h3>
+                    <div class="records-list">
+                        ${progressHTML}
+                    </div>
+                </div>
+                ` : ''}
             `;
 
             document.getElementById('profile-tab-btn').style.display = 'flex';
