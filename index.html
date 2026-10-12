@@ -23,9 +23,7 @@
             --success-color: #22c55e;
             --error-color: #ef4444;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
@@ -35,7 +33,6 @@
             display: flex;
             flex-direction: column;
         }
-
         header {
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--border-color);
@@ -49,9 +46,7 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-
         .header-title { display: flex; align-items: center; gap: 12px; }
-
         header h1 {
             color: var(--accent-color);
             font-size: 1.8rem;
@@ -59,13 +54,9 @@
             letter-spacing: 1px;
             text-shadow: 0 0 12px var(--accent-glow);
         }
-
         header p { color: var(--text-muted); font-size: 0.9rem; }
-
         .header-controls { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-
         nav { display: flex; gap: 8px; flex-wrap: wrap; }
-
         .nav-btn {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -81,20 +72,17 @@
             align-items: center;
             gap: 6px;
         }
-
         .nav-btn:hover {
             color: var(--text-color);
             border-color: var(--accent-color);
             background-color: rgba(255, 51, 102, 0.05);
         }
-
         .nav-btn.active {
             color: #ffffff;
             background-color: var(--accent-color);
             border-color: var(--accent-color);
             box-shadow: 0 0 12px var(--accent-glow);
         }
-
         .nav-btn.success {
             border-color: rgba(34, 197, 94, 0.4);
             color: var(--success-color);
@@ -102,9 +90,7 @@
         .nav-btn.success:hover {
             background-color: rgba(34, 197, 94, 0.1);
             border-color: var(--success-color);
-            color: var(--success-color);
         }
-
         .lang-select {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -117,7 +103,6 @@
             cursor: pointer;
             outline: none;
         }
-
         .main-container {
             max-width: 1400px;
             margin: 30px auto;
@@ -125,26 +110,21 @@
             width: 100%;
             flex: 1;
         }
-
         .view-section {
             display: none;
             animation: fadeIn 0.25s ease-in-out;
         }
-
         .view-section.active { display: block; }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .list-layout {
             display: grid;
             grid-template-columns: 380px 1fr;
             gap: 25px;
             align-items: start;
         }
-
         .levels-sidebar {
             background-color: var(--panel-bg);
             border-radius: 10px;
@@ -152,7 +132,6 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-
         .sidebar-header {
             padding: 15px 20px;
             background-color: #101017;
@@ -163,7 +142,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .level-item {
             display: flex;
             align-items: center;
@@ -173,38 +151,22 @@
             cursor: pointer;
             transition: background-color 0.15s ease;
         }
-
         .level-item:last-child { border-bottom: none; }
         .level-item:hover { background-color: var(--card-hover); }
-
         .level-item.selected {
             background-color: rgba(255, 51, 102, 0.12);
             border-left: 4px solid var(--accent-color);
         }
-
         .level-item-left { display: flex; align-items: center; gap: 12px; }
-
         .level-item-rank {
             font-weight: 800;
             font-size: 1rem;
             color: var(--accent-color);
             width: 35px;
         }
-
         .level-item-rank.top-1 { color: var(--gold-color); }
-
-        .level-item-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--text-color);
-        }
-
-        .level-item-points {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
+        .level-item-name { font-weight: 600; font-size: 0.95rem; }
+        .level-item-points { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
         .level-detail-box {
             background-color: var(--panel-bg);
             border-radius: 10px;
@@ -214,7 +176,6 @@
             position: sticky;
             top: 100px;
         }
-
         .detail-banner-container {
             width: 100%;
             height: 280px;
@@ -224,9 +185,7 @@
             margin-bottom: 25px;
             background-color: #0b0b0f;
         }
-
         .detail-banner { width: 100%; height: 100%; object-fit: cover; }
-
         .detail-title-row {
             display: flex;
             justify-content: space-between;
@@ -235,9 +194,7 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
         }
-
         .detail-title-row h2 { font-size: 2rem; font-weight: 800; }
-
         .detail-rank-tag {
             background-color: rgba(255, 51, 102, 0.15);
             color: var(--accent-color);
@@ -245,23 +202,19 @@
             padding: 6px 14px;
             border-radius: 6px;
             font-weight: 800;
-            font-size: 1rem;
         }
-
         .detail-info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .info-card {
             background-color: rgba(13, 13, 18, 0.6);
             border: 1px solid var(--border-color);
             padding: 15px 20px;
             border-radius: 8px;
         }
-
         .info-card .label {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -269,16 +222,13 @@
             letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
-
         .info-card .value {
             font-size: 1.1rem;
             font-weight: 700;
-            color: var(--text-color);
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .btn-action {
             display: inline-flex;
             align-items: center;
@@ -297,9 +247,7 @@
             font-family: inherit;
             transition: opacity 0.2s ease;
         }
-
         .btn-action:hover { opacity: 0.9; }
-
         .btn-primary {
             background-color: var(--accent-color);
             color: white;
@@ -316,9 +264,8 @@
             gap: 8px;
             transition: all 0.2s ease;
         }
-
         .btn-primary:hover { filter: brightness(1.1); }
-
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-secondary {
             background-color: transparent;
             color: var(--text-color);
@@ -335,9 +282,7 @@
             gap: 8px;
             transition: all 0.2s ease;
         }
-
         .btn-secondary:hover { border-color: var(--accent-color); color: var(--accent-color); }
-
         .btn-danger {
             background-color: transparent;
             color: var(--error-color);
@@ -353,9 +298,7 @@
             gap: 6px;
             transition: all 0.2s ease;
         }
-
         .btn-danger:hover { background-color: rgba(239, 68, 68, 0.1); }
-
         .table-card {
             background-color: var(--panel-bg);
             border-radius: 10px;
@@ -363,10 +306,8 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th, td { padding: 16px 20px; vertical-align: middle; }
-
         th {
             background-color: #101017;
             color: var(--accent-color);
@@ -376,11 +317,9 @@
             font-weight: 700;
             border-bottom: 1px solid var(--border-color);
         }
-
         tr:not(:last-child) td { border-bottom: 1px solid var(--border-color); }
         tbody tr { transition: background-color 0.15s ease; }
         tbody tr:hover { background-color: var(--card-hover); }
-
         .user-link {
             color: var(--text-color);
             text-decoration: none;
@@ -390,9 +329,7 @@
             align-items: center;
             gap: 8px;
         }
-
         .user-link:hover { color: var(--accent-color); }
-
         .user-avatar-mini {
             width: 32px;
             height: 32px;
@@ -407,7 +344,6 @@
             font-size: 0.8rem;
             font-weight: 700;
         }
-
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -424,9 +360,7 @@
             font-family: inherit;
             font-size: 0.95rem;
         }
-
         .btn-back:hover { background-color: var(--accent-color); color: white; }
-
         .profile-card {
             background-color: var(--panel-bg);
             border-radius: 10px;
@@ -435,7 +369,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border-top: 4px solid var(--accent-color);
         }
-
         .profile-header {
             display: flex;
             align-items: center;
@@ -444,7 +377,6 @@
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .profile-avatar {
             width: 65px;
             height: 65px;
@@ -459,9 +391,7 @@
             flex-shrink: 0;
             border: 2px solid var(--border-color);
         }
-
         .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
         .avatar-large {
             width: 110px;
             height: 110px;
@@ -476,9 +406,7 @@
             flex-shrink: 0;
             border: 3px solid var(--border-color);
         }
-
         .avatar-large img { width: 100%; height: 100%; object-fit: cover; }
-
         .record-item {
             background-color: rgba(13, 13, 18, 0.6);
             padding: 14px 18px;
@@ -491,16 +419,8 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-
         .record-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
-
-        .record-thumb {
-            width: 70px;
-            height: 42px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
+        .record-thumb { width: 70px; height: 42px; border-radius: 6px; object-fit: cover; }
         footer {
             text-align: center;
             padding: 25px 0;
@@ -509,8 +429,6 @@
             border-top: 1px solid var(--border-color);
             margin-top: 50px;
         }
-
-        /* Auth / Form Styles */
         .auth-box {
             max-width: 480px;
             margin: 30px auto;
@@ -521,23 +439,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border-top: 4px solid var(--accent-color);
         }
-
-        .auth-box h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .auth-box .auth-subtitle {
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
+        .auth-box h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; text-align: center; }
+        .auth-box .auth-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 30px; font-size: 0.9rem; }
         .form-group { margin-bottom: 18px; }
-
         .form-group label {
             display: block;
             font-size: 0.85rem;
@@ -547,7 +451,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -562,37 +465,14 @@
             outline: none;
             transition: border-color 0.2s ease;
         }
-
         .form-group input:focus,
         .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--accent-color);
-        }
-
+        .form-group select:focus { border-color: var(--accent-color); }
         .form-group textarea { resize: vertical; min-height: 80px; }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .auth-switch a {
-            color: var(--accent-color);
-            cursor: pointer;
-            font-weight: 700;
-            text-decoration: none;
-        }
-
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .auth-switch { text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 0.9rem; }
+        .auth-switch a { color: var(--accent-color); cursor: pointer; font-weight: 700; text-decoration: none; }
         .auth-switch a:hover { text-decoration: underline; }
-
         .alert {
             padding: 12px 16px;
             border-radius: 8px;
@@ -601,21 +481,18 @@
             font-weight: 600;
             display: none;
         }
-
         .alert.error {
             background-color: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.4);
             color: #fca5a5;
             display: block;
         }
-
         .alert.success {
             background-color: rgba(34, 197, 94, 0.15);
             border: 1px solid rgba(34, 197, 94, 0.4);
             color: #86efac;
             display: block;
         }
-
         .account-section {
             background-color: rgba(13, 13, 18, 0.5);
             border: 1px solid var(--border-color);
@@ -623,53 +500,27 @@
             padding: 25px;
             margin-bottom: 25px;
         }
-
-        .account-section h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar-upload-row {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .avatar-upload-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
+        .account-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+        .avatar-upload-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .avatar-upload-controls { display: flex; flex-direction: column; gap: 10px; }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
         .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
+            position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;
         }
-
-        .empty-state {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-style: italic;
-            padding: 15px 0;
-            text-align: center;
+        .empty-state { color: var(--text-muted); font-size: 0.9rem; font-style: italic; padding: 15px 0; text-align: center; }
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13,13,18,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
         }
-
+        .loading-overlay.hidden { display: none; }
         @media (max-width: 950px) {
             .list-layout { grid-template-columns: 1fr; }
             .level-detail-box { position: relative; top: 0; }
@@ -681,6 +532,8 @@
     </style>
 </head>
 <body>
+
+    <div id="loading" class="loading-overlay">Cargando Unu List...</div>
 
     <header>
         <div class="header-title">
@@ -720,8 +573,6 @@
     </header>
 
     <div class="main-container">
-
-        <!-- VIEW 1: LEVELS -->
         <section id="demons-view" class="view-section active">
             <div class="list-layout">
                 <div class="levels-sidebar">
@@ -732,7 +583,6 @@
             </div>
         </section>
 
-        <!-- VIEW 2: USER AREA -->
         <section id="users-view" class="view-section">
             <div class="table-card">
                 <table>
@@ -749,7 +599,6 @@
             </div>
         </section>
 
-        <!-- VIEW 3: PLAYER PROFILE -->
         <section id="profile-view" class="view-section">
             <button class="btn-back" onclick="switchTab('users')">
                 <i class="fa-solid fa-arrow-left"></i> <span id="btn-back-text">Back to User Area</span>
@@ -757,7 +606,6 @@
             <div class="profile-card" id="profile-container"></div>
         </section>
 
-        <!-- VIEW 4: LOGIN -->
         <section id="login-view" class="view-section">
             <div class="auth-box">
                 <h2 id="login-title">Login</h2>
@@ -772,7 +620,7 @@
                         <label id="lbl-login-pass">Password</label>
                         <input type="password" id="login-password" required autocomplete="current-password">
                     </div>
-                    <button type="submit" class="btn-primary" style="width: 100%;">
+                    <button type="submit" class="btn-primary" style="width: 100%;" id="login-submit-btn">
                         <i class="fa-solid fa-right-to-bracket"></i> <span id="btn-login">Login</span>
                     </button>
                 </form>
@@ -783,7 +631,6 @@
             </div>
         </section>
 
-        <!-- VIEW 5: REGISTER -->
         <section id="register-view" class="view-section">
             <div class="auth-box">
                 <h2 id="register-title">Create Account</h2>
@@ -797,18 +644,18 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label id="lbl-reg-pass">Password</label>
-                            <input type="password" id="register-password" required minlength="4" autocomplete="new-password">
+                            <input type="password" id="register-password" required minlength="6" autocomplete="new-password">
                         </div>
                         <div class="form-group">
                             <label id="lbl-reg-pass2">Confirm Password</label>
-                            <input type="password" id="register-password2" required minlength="4" autocomplete="new-password">
+                            <input type="password" id="register-password2" required minlength="6" autocomplete="new-password">
                         </div>
                     </div>
                     <div class="form-group">
                         <label id="lbl-reg-yt">YouTube Channel (optional)</label>
                         <input type="url" id="register-youtube" placeholder="https://youtube.com/@...">
                     </div>
-                    <button type="submit" class="btn-primary" style="width: 100%;">
+                    <button type="submit" class="btn-primary" style="width: 100%;" id="register-submit-btn">
                         <i class="fa-solid fa-user-plus"></i> <span id="btn-register">Create Account</span>
                     </button>
                 </form>
@@ -819,7 +666,6 @@
             </div>
         </section>
 
-        <!-- VIEW 6: ACCOUNT / EDIT PROFILE -->
         <section id="account-view" class="view-section">
             <div class="profile-card" id="account-container"></div>
         </section>
@@ -829,7 +675,30 @@
         </footer>
     </div>
 
+    <!-- Firebase SDK (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <script>
+        /* ============================================================
+           🔥 CONFIGURACIÓN DE FIREBASE
+           👉 Reemplaza estos valores con los de tu proyecto
+        ============================================================ */
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYGbZRgP1_wYwWeUSPWq9_LQpaXMzbPJI",
+            authDomain: "unu-list.firebaseapp.com",
+            projectId: "unu-list",
+            storageBucket: "unu-list.firebasestorage.app",
+            messagingSenderId: "729245334482",
+            appId: "1:729245334482:web:bea801711425afb7ad260b",
+            measurementId: "G-XK2ZD0K9QK"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
         /* ============================================================
            TRADUCCIONES
         ============================================================ */
@@ -846,7 +715,6 @@
                 rankPosition: "Rank Position", completedUnus: "Completed Unus",
                 completedLevelsTitle: "Completed Levels", progressTitle: "Progresses",
                 viewVideo: "Watch Video", pts: "pts",
-                // Auth
                 loginTitle: "Login", loginSubtitle: "Welcome back to Unu List",
                 registerTitle: "Create Account", registerSubtitle: "Join the Unu List community",
                 username: "Username", password: "Password", confirmPassword: "Confirm Password",
@@ -854,29 +722,28 @@
                 btnLogin: "Login", btnRegister: "Create Account",
                 noAccount: "Don't have an account?", haveAccount: "Already have an account?",
                 registerLink: "Register", loginLink: "Login",
-                // Account
-                editProfile: "Edit Profile", changeAvatar: "Change Avatar", uploadImage: "Upload Image",
+                editProfile: "Edit Profile", uploadImage: "Upload Image",
                 removeAvatar: "Remove", bio: "Bio", youtubeChannel: "YouTube Channel",
-                saveChanges: "Save Changes", profileUpdated: "Profile updated successfully!",
+                saveChanges: "Save Changes", profileUpdated: "Profile updated!",
                 myCompletions: "My Completions", addCompletion: "Add Completion",
                 selectLevel: "Select a Level", videoUrl: "Verification Video URL",
                 add: "Add", remove: "Remove", myProgresses: "My Progresses",
                 levelName: "Level Name", percent: "Percentage",
-                addProgress: "Add Progress", noCompletions: "You haven't added any completions yet.",
-                noProgresses: "You haven't added any progresses yet.",
+                addProgress: "Add Progress", noCompletions: "No completions yet.",
+                noProgresses: "No progresses yet.",
                 confirmRemoveCompletion: "Remove this completion?",
                 confirmRemoveProgress: "Remove this progress?",
                 levelAlreadyCompleted: "You already completed this level.",
                 invalidVideoUrl: "Please provide a valid video URL.",
-                accountCreated: "Account created! You are now logged in.",
+                accountCreated: "Account created!",
                 invalidCredentials: "Invalid username or password.",
                 userExists: "That username is already taken.",
                 passwordsNoMatch: "Passwords do not match.",
-                loggedOut: "You have been logged out.",
-                welcome: "Welcome",
-                // Level detail
+                loggedOut: "Logged out.",
                 completedBy: "Completed by", noOneCompleted: "No one has completed this yet.",
-                verifiedBy: "Verified by"
+                loading: "Loading...", registering: "Registering...", loggingIn: "Logging in...",
+                genericError: "An error occurred. Please try again.",
+                connecting: "Connecting to Unu List..."
             },
             es: {
                 subtitle: "La lista oficial de los niveles más difíciles de Geometry Dash",
@@ -890,34 +757,35 @@
                 rankPosition: "Puesto Ranking", completedUnus: "Unus Completados",
                 completedLevelsTitle: "Niveles Completados", progressTitle: "Progresos",
                 viewVideo: "Ver Video", pts: "pts",
-                loginTitle: "Iniciar Sesión", loginSubtitle: "Bienvenido de vuelta a Unu List",
-                registerTitle: "Crear Cuenta", registerSubtitle: "Únete a la comunidad de Unu List",
+                loginTitle: "Iniciar Sesión", loginSubtitle: "Bienvenido de vuelta",
+                registerTitle: "Crear Cuenta", registerSubtitle: "Únete a la comunidad",
                 username: "Usuario", password: "Contraseña", confirmPassword: "Confirmar Contraseña",
                 youtubeOptional: "Canal de YouTube (opcional)",
                 btnLogin: "Iniciar Sesión", btnRegister: "Crear Cuenta",
-                noAccount: "¿No tienes una cuenta?", haveAccount: "¿Ya tienes una cuenta?",
+                noAccount: "¿No tienes cuenta?", haveAccount: "¿Ya tienes cuenta?",
                 registerLink: "Regístrate", loginLink: "Inicia Sesión",
-                editProfile: "Editar Perfil", changeAvatar: "Cambiar Avatar", uploadImage: "Subir Imagen",
+                editProfile: "Editar Perfil", uploadImage: "Subir Imagen",
                 removeAvatar: "Eliminar", bio: "Biografía", youtubeChannel: "Canal de YouTube",
-                saveChanges: "Guardar Cambios", profileUpdated: "¡Perfil actualizado correctamente!",
+                saveChanges: "Guardar", profileUpdated: "¡Perfil actualizado!",
                 myCompletions: "Mis Completions", addCompletion: "Añadir Completion",
-                selectLevel: "Selecciona un Nivel", videoUrl: "URL del Video de Verificación",
+                selectLevel: "Selecciona un Nivel", videoUrl: "URL del Video",
                 add: "Añadir", remove: "Eliminar", myProgresses: "Mis Progresos",
                 levelName: "Nombre del Nivel", percent: "Porcentaje",
-                addProgress: "Añadir Progreso", noCompletions: "Aún no has añadido completions.",
-                noProgresses: "Aún no has añadido progresos.",
-                confirmRemoveCompletion: "¿Eliminar esta completion?",
-                confirmRemoveProgress: "¿Eliminar este progreso?",
+                addProgress: "Añadir Progreso", noCompletions: "Sin completions aún.",
+                noProgresses: "Sin progresos aún.",
+                confirmRemoveCompletion: "¿Eliminar completion?",
+                confirmRemoveProgress: "¿Eliminar progreso?",
                 levelAlreadyCompleted: "Ya completaste este nivel.",
-                invalidVideoUrl: "Por favor proporciona una URL válida.",
-                accountCreated: "¡Cuenta creada! Ya estás conectado.",
+                invalidVideoUrl: "URL inválida.",
+                accountCreated: "¡Cuenta creada!",
                 invalidCredentials: "Usuario o contraseña incorrectos.",
-                userExists: "Ese nombre de usuario ya está en uso.",
+                userExists: "Ese usuario ya está en uso.",
                 passwordsNoMatch: "Las contraseñas no coinciden.",
                 loggedOut: "Has cerrado sesión.",
-                welcome: "Bienvenido",
                 completedBy: "Completado por", noOneCompleted: "Nadie lo ha completado aún.",
-                verifiedBy: "Verificado por"
+                loading: "Cargando...", registering: "Registrando...", loggingIn: "Iniciando sesión...",
+                genericError: "Ocurrió un error. Inténtalo de nuevo.",
+                connecting: "Conectando a Unu List..."
             },
             ru: {
                 subtitle: "Официальный список самых сложных уровней Geometry Dash",
@@ -925,40 +793,41 @@
                 navAccount: "Мой Аккаунт", navLogin: "Войти", navLogout: "Выйти",
                 sidebarHeader: "Таблица Уровней",
                 thPlayer: "Игрок", thCompleted: "Пройдено Unus", thTotalPoints: "Всего Очков",
-                btnBack: "Назад в список игроков", footerRights: "Все права защищены.",
+                btnBack: "Назад", footerRights: "Все права защищены.",
                 by: "Создатель", verifier: "Верификатор", points: "Очки",
-                verifiedPlayer: "Верифицированный игрок Unu List",
+                verifiedPlayer: "Верифицированный игрок",
                 rankPosition: "Ранг", completedUnus: "Пройдено Unus",
                 completedLevelsTitle: "Пройденные уровни", progressTitle: "Прогресс",
-                viewVideo: "Смотреть видео", pts: "очков",
-                loginTitle: "Войти", loginSubtitle: "Добро пожаловать в Unu List",
-                registerTitle: "Создать Аккаунт", registerSubtitle: "Присоединиться к сообществу",
-                username: "Имя пользователя", password: "Пароль", confirmPassword: "Подтвердите Пароль",
+                viewVideo: "Смотреть", pts: "очков",
+                loginTitle: "Войти", loginSubtitle: "С возвращением",
+                registerTitle: "Создать Аккаунт", registerSubtitle: "Присоединиться",
+                username: "Имя", password: "Пароль", confirmPassword: "Подтвердите Пароль",
                 youtubeOptional: "YouTube канал (необязательно)",
-                btnLogin: "Войти", btnRegister: "Создать Аккаунт",
+                btnLogin: "Войти", btnRegister: "Создать",
                 noAccount: "Нет аккаунта?", haveAccount: "Уже есть аккаунт?",
                 registerLink: "Регистрация", loginLink: "Войти",
-                editProfile: "Редактировать Профиль", changeAvatar: "Сменить Аватар", uploadImage: "Загрузить",
+                editProfile: "Редактировать", uploadImage: "Загрузить",
                 removeAvatar: "Удалить", bio: "О себе", youtubeChannel: "YouTube канал",
                 saveChanges: "Сохранить", profileUpdated: "Профиль обновлён!",
-                myCompletions: "Мои Прохождения", addCompletion: "Добавить Прохождение",
-                selectLevel: "Выберите уровень", videoUrl: "URL видео верификации",
+                myCompletions: "Мои Прохождения", addCompletion: "Добавить",
+                selectLevel: "Выберите уровень", videoUrl: "URL видео",
                 add: "Добавить", remove: "Удалить", myProgresses: "Мои Прогрессы",
-                levelName: "Название уровня", percent: "Процент",
-                addProgress: "Добавить Прогресс", noCompletions: "У вас пока нет прохождений.",
-                noProgresses: "У вас пока нет прогрессов.",
-                confirmRemoveCompletion: "Удалить это прохождение?",
-                confirmRemoveProgress: "Удалить этот прогресс?",
-                levelAlreadyCompleted: "Вы уже прошли этот уровень.",
-                invalidVideoUrl: "Укажите корректный URL.",
-                accountCreated: "Аккаунт создан! Вы вошли.",
-                invalidCredentials: "Неверное имя пользователя или пароль.",
-                userExists: "Это имя уже занято.",
+                levelName: "Название", percent: "Процент",
+                addProgress: "Добавить", noCompletions: "Пока нет прохождений.",
+                noProgresses: "Пока нет прогрессов.",
+                confirmRemoveCompletion: "Удалить прохождение?",
+                confirmRemoveProgress: "Удалить прогресс?",
+                levelAlreadyCompleted: "Вы уже прошли уровень.",
+                invalidVideoUrl: "Неверный URL.",
+                accountCreated: "Аккаунт создан!",
+                invalidCredentials: "Неверные данные.",
+                userExists: "Имя занято.",
                 passwordsNoMatch: "Пароли не совпадают.",
-                loggedOut: "Вы вышли из аккаунта.",
-                welcome: "Добро пожаловать",
+                loggedOut: "Вы вышли.",
                 completedBy: "Пройден", noOneCompleted: "Пока никто не прошёл.",
-                verifiedBy: "Верифицировал"
+                loading: "Загрузка...", registering: "Регистрация...", loggingIn: "Вход...",
+                genericError: "Ошибка. Попробуйте снова.",
+                connecting: "Подключение..."
             }
         };
 
@@ -968,9 +837,12 @@
         let currentLang = 'en';
         let currentProfileUser = null;
         let selectedLevelId = 'grief-unu';
+        let allUsers = {};
+        let currentUserData = null;
+        let currentUid = null;
 
         /* ============================================================
-           BASE DE DATOS DE NIVELES
+           NIVELES
         ============================================================ */
         const levelsData = [
             {
@@ -996,82 +868,31 @@
         ];
 
         /* ============================================================
-           PERSISTENCIA (localStorage)
+           UTILIDADES
         ============================================================ */
-        const DB_KEY = 'unulist_db_v1';
-
-        function hashPassword(pw) {
-            // Hash simple (solo demo, NO usar en producción real)
-            let hash = 0;
-            const salt = 'unulist_salt_2026';
-            const str = salt + pw;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            return 'h' + Math.abs(hash).toString(36);
+        function usernameToEmail(username) {
+            return username.toLowerCase().replace(/[^a-z0-9]/g, '') + '@unulist.app';
         }
 
-        function defaultDB() {
-            return {
-                users: {
-                    "ManuDaiikii": {
-                        username: "ManuDaiikii",
-                        password: hashPassword("1234"),
-                        avatar: null,
-                        bio: "Verified player on Unu List",
-                        youtube: "https://youtube.com",
-                        completedLevels: [
-                            { levelId: "grief-unu", videoUrl: "https://youtube.com" }
-                        ],
-                        progresses: [
-                            { levelName: "Grief UnU (Buffed)", percent: "39%", videoUrl: "https://youtube.com" }
-                        ]
-                    }
-                },
-                session: null
-            };
+        function showAlert(elId, message, type = 'error') {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            el.className = 'alert ' + type;
+            el.innerText = message;
+            setTimeout(() => { el.className = 'alert'; el.innerText = ''; }, 5000);
         }
 
-        function loadDB() {
-            try {
-                const raw = localStorage.getItem(DB_KEY);
-                if (!raw) {
-                    const db = defaultDB();
-                    localStorage.setItem(DB_KEY, JSON.stringify(db));
-                    return db;
-                }
-                const parsed = JSON.parse(raw);
-                if (!parsed.users) parsed.users = {};
-                return parsed;
-            } catch (e) {
-                console.error("DB load error", e);
-                return defaultDB();
-            }
+        function setLoading(elId, text) {
+            const btn = document.getElementById(elId);
+            if (btn) { btn.disabled = true; btn.querySelector('span').innerText = text; }
         }
-
-        function saveDB(db) {
-            try {
-                localStorage.setItem(DB_KEY, JSON.stringify(db));
-            } catch (e) {
-                console.error("DB save error (posible cuota excedida por avatar):", e);
-                alert("Error al guardar. Si subiste un avatar muy grande, prueba con una imagen más pequeña.");
-            }
-        }
-
-        let DB = loadDB();
-
-        function getCurrentUser() {
-            if (!DB.session) return null;
-            return DB.users[DB.session] || null;
-        }
-
-        function isLoggedIn() {
-            return !!getCurrentUser();
+        function resetLoading(elId, text) {
+            const btn = document.getElementById(elId);
+            if (btn) { btn.disabled = false; btn.querySelector('span').innerText = text; }
         }
 
         /* ============================================================
-           TRADUCCIÓN DE INTERFAZ
+           TRADUCCIÓN
         ============================================================ */
         function changeLanguage(lang) {
             currentLang = lang;
@@ -1092,7 +913,6 @@
             document.getElementById('btn-back-text').innerText = t.btnBack;
             document.getElementById('footer-rights').innerText = t.footerRights;
 
-            // Login view
             document.getElementById('login-title').innerText = t.loginTitle;
             document.getElementById('login-subtitle').innerText = t.loginSubtitle;
             document.getElementById('lbl-login-user').innerText = t.username;
@@ -1101,7 +921,6 @@
             document.getElementById('login-no-account').innerText = t.noAccount;
             document.getElementById('link-to-register').innerText = t.registerLink;
 
-            // Register view
             document.getElementById('register-title').innerText = t.registerTitle;
             document.getElementById('register-subtitle').innerText = t.registerSubtitle;
             document.getElementById('lbl-reg-user').innerText = t.username;
@@ -1116,22 +935,17 @@
             renderLevelDetail(selectedLevelId);
             renderUserArea();
             updateAuthUI();
-            if (currentProfileUser) {
-                openUserProfile(currentProfileUser);
-            }
-            if (document.getElementById('account-view').classList.contains('active')) {
-                renderAccountView();
-            }
+            if (currentProfileUser) openUserProfile(currentProfileUser);
+            if (document.getElementById('account-view').classList.contains('active')) renderAccountView();
         }
 
         /* ============================================================
-           RENDER: SIDEBAR LEVELS
+           SIDEBAR
         ============================================================ */
         function renderSidebarLevels() {
             const container = document.getElementById('sidebar-levels-list');
             container.innerHTML = '';
             const t = translations[currentLang];
-
             levelsData.forEach(level => {
                 const item = document.createElement('div');
                 item.className = `level-item ${level.id === selectedLevelId ? 'selected' : ''}`;
@@ -1154,15 +968,17 @@
             renderLevelDetail(levelId);
         }
 
+        /* ============================================================
+           DETALLE DEL NIVEL
+        ============================================================ */
         function renderLevelDetail(levelId) {
             const level = levelsData.find(l => l.id === levelId) || levelsData[0];
             const t = translations[currentLang];
             const panel = document.getElementById('level-detail-panel');
 
-            // Cuenta cuántos usuarios han completado este nivel
             let completers = [];
-            for (const uname in DB.users) {
-                const u = DB.users[uname];
+            for (const uid in allUsers) {
+                const u = allUsers[uid];
                 if (u.completedLevels && u.completedLevels.some(c => c.levelId === level.id)) {
                     completers.push(u.username);
                 }
@@ -1211,16 +1027,17 @@
         ============================================================ */
         function calculateLeaderboard() {
             const userList = [];
-            for (const key in DB.users) {
-                const user = DB.users[key];
-                const totalPoints = user.completedLevels.reduce((acc, curr) => {
+            for (const uid in allUsers) {
+                const user = allUsers[uid];
+                const completed = user.completedLevels || [];
+                const totalPoints = completed.reduce((acc, curr) => {
                     const lvl = levelsData.find(l => l.id === curr.levelId);
                     return acc + (lvl ? lvl.points : 0);
                 }, 0);
                 userList.push({
                     name: user.username,
                     avatar: user.avatar,
-                    completedCount: user.completedLevels.length,
+                    completedCount: completed.length,
                     totalPoints: totalPoints
                 });
             }
@@ -1263,16 +1080,24 @@
         /* ============================================================
            PERFIL PÚBLICO
         ============================================================ */
+        function getUserByUsername(username) {
+            for (const uid in allUsers) {
+                if (allUsers[uid].username === username) return allUsers[uid];
+            }
+            return null;
+        }
+
         function openUserProfile(username) {
             currentProfileUser = username;
-            const user = DB.users[username];
+            const user = getUserByUsername(username);
             if (!user) return;
 
             const t = translations[currentLang];
             const leaderboard = calculateLeaderboard();
             const rankIndex = leaderboard.findIndex(u => u.name === username);
             const userRank = rankIndex !== -1 ? rankIndex + 1 : '-';
-            const totalPoints = user.completedLevels.reduce((acc, curr) => {
+            const completed = user.completedLevels || [];
+            const totalPoints = completed.reduce((acc, curr) => {
                 const lvl = levelsData.find(l => l.id === curr.levelId);
                 return acc + (lvl ? lvl.points : 0);
             }, 0);
@@ -1284,10 +1109,10 @@
                 : `<div class="profile-avatar"><i class="fa-solid fa-user"></i></div>`;
 
             let completedHTML = '';
-            if (user.completedLevels.length === 0) {
+            if (completed.length === 0) {
                 completedHTML = `<div class="empty-state">${t.noCompletions}</div>`;
             } else {
-                user.completedLevels.forEach(c => {
+                completed.forEach(c => {
                     const lvl = levelsData.find(l => l.id === c.levelId);
                     if (!lvl) return;
                     completedHTML += `
@@ -1308,8 +1133,9 @@
             }
 
             let progressHTML = '';
-            if (user.progresses && user.progresses.length > 0) {
-                user.progresses.forEach(p => {
+            const progresses = user.progresses || [];
+            if (progresses.length > 0) {
+                progresses.forEach(p => {
                     progressHTML += `
                         <div class="record-item">
                             <div class="record-info">
@@ -1348,7 +1174,7 @@
                     </div>
                     <div class="info-card" style="text-align: center;">
                         <div class="label">${t.completedUnus}</div>
-                        <div class="value" style="justify-content: center; color: var(--gold-color); font-size: 1.4rem;">${user.completedLevels.length}</div>
+                        <div class="value" style="justify-content: center; color: var(--gold-color); font-size: 1.4rem;">${completed.length}</div>
                     </div>
                 </div>
 
@@ -1366,85 +1192,97 @@
         }
 
         /* ============================================================
-           AUTH: LOGIN / REGISTER / LOGOUT
+           AUTH
         ============================================================ */
-        function showAlert(elId, message, type = 'error') {
-            const el = document.getElementById(elId);
-            el.className = 'alert ' + type;
-            el.innerText = message;
-            setTimeout(() => { el.className = 'alert'; el.innerText = ''; }, 5000);
-        }
-
-        function handleLogin(e) {
+        async function handleRegister(e) {
             e.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
-            const password = document.getElementById('login-password').value;
-            const user = DB.users[username];
-
-            if (!user || user.password !== hashPassword(password)) {
-                showAlert('login-alert', translations[currentLang].invalidCredentials, 'error');
-                return;
-            }
-
-            DB.session = username;
-            saveDB(DB);
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            updateAuthUI();
-            switchTab('demons');
-        }
-
-        function handleRegister(e) {
-            e.preventDefault();
+            const t = translations[currentLang];
             const username = document.getElementById('register-username').value.trim();
             const password = document.getElementById('register-password').value;
             const password2 = document.getElementById('register-password2').value;
             const youtube = document.getElementById('register-youtube').value.trim();
-            const t = translations[currentLang];
 
-            if (DB.users[username]) {
-                showAlert('register-alert', t.userExists, 'error');
-                return;
-            }
             if (password !== password2) {
                 showAlert('register-alert', t.passwordsNoMatch, 'error');
                 return;
             }
 
-            DB.users[username] = {
-                username,
-                password: hashPassword(password),
-                avatar: null,
-                bio: "",
-                youtube: youtube || "",
-                completedLevels: [],
-                progresses: []
-            };
-            DB.session = username;
-            saveDB(DB);
+            setLoading('register-submit-btn', t.registering);
 
-            document.getElementById('register-username').value = '';
-            document.getElementById('register-password').value = '';
-            document.getElementById('register-password2').value = '';
-            document.getElementById('register-youtube').value = '';
+            try {
+                const snap = await db.collection('users').where('username', '==', username).get();
+                if (!snap.empty) {
+                    showAlert('register-alert', t.userExists, 'error');
+                    resetLoading('register-submit-btn', t.btnRegister);
+                    return;
+                }
 
-            updateAuthUI();
-            switchTab('account');
+                const email = usernameToEmail(username);
+                const cred = await auth.createUserWithEmailAndPassword(email, password);
+
+                await db.collection('users').doc(cred.user.uid).set({
+                    username: username,
+                    avatar: null,
+                    bio: "",
+                    youtube: youtube || "",
+                    completedLevels: [],
+                    progresses: [],
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                document.getElementById('register-username').value = '';
+                document.getElementById('register-password').value = '';
+                document.getElementById('register-password2').value = '';
+                document.getElementById('register-youtube').value = '';
+
+                switchTab('account');
+            } catch (err) {
+                console.error(err);
+                if (err.code === 'auth/email-already-in-use') {
+                    showAlert('register-alert', t.userExists, 'error');
+                } else if (err.code === 'auth/weak-password') {
+                    showAlert('register-alert', 'Password too weak (min 6 characters).', 'error');
+                } else {
+                    showAlert('register-alert', err.message || t.genericError, 'error');
+                }
+            } finally {
+                resetLoading('register-submit-btn', t.btnRegister);
+            }
         }
 
-        function logoutUser() {
-            DB.session = null;
-            saveDB(DB);
-            currentProfileUser = null;
-            updateAuthUI();
-            switchTab('demons');
-            // Mostrar mensaje breve
+        async function handleLogin(e) {
+            e.preventDefault();
             const t = translations[currentLang];
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            setLoading('login-submit-btn', t.loggingIn);
+
+            try {
+                const email = usernameToEmail(username);
+                await auth.signInWithEmailAndPassword(email, password);
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
+                switchTab('demons');
+            } catch (err) {
+                console.error(err);
+                showAlert('login-alert', t.invalidCredentials, 'error');
+            } finally {
+                resetLoading('login-submit-btn', t.btnLogin);
+            }
+        }
+
+        async function logoutUser() {
+            const t = translations[currentLang];
+            await auth.signOut();
+            currentProfileUser = null;
+            document.getElementById('profile-tab-btn').style.display = 'none';
+            switchTab('demons');
             alert(t.loggedOut);
         }
 
         function updateAuthUI() {
-            const logged = isLoggedIn();
+            const logged = !!currentUid;
             document.getElementById('login-btn').style.display = logged ? 'none' : 'flex';
             document.getElementById('logout-btn').style.display = logged ? 'flex' : 'none';
             document.getElementById('account-btn').style.display = logged ? 'flex' : 'none';
@@ -1456,26 +1294,28 @@
         }
 
         /* ============================================================
-           ACCOUNT VIEW (Editar perfil, completions, progresos)
+           ACCOUNT VIEW
         ============================================================ */
         let pendingAvatarData = null;
 
         function renderAccountView() {
-            const user = getCurrentUser();
-            if (!user) { switchTab('login'); return; }
+            if (!currentUserData) { switchTab('login'); return; }
+            const user = currentUserData;
             const t = translations[currentLang];
             const container = document.getElementById('account-container');
 
             const avatarHTML = user.avatar
-                ? `<img src="${user.avatar}" id="account-avatar-preview">`
-                : `<i class="fa-solid fa-user" id="account-avatar-icon"></i>`;
+                ? `<img src="${user.avatar}">`
+                : `<i class="fa-solid fa-user"></i>`;
 
-            // Completions actuales
+            const completed = user.completedLevels || [];
+            const progresses = user.progresses || [];
+
             let compHTML = '';
-            if (user.completedLevels.length === 0) {
+            if (completed.length === 0) {
                 compHTML = `<div class="empty-state">${t.noCompletions}</div>`;
             } else {
-                user.completedLevels.forEach((c, idx) => {
+                completed.forEach((c, idx) => {
                     const lvl = levelsData.find(l => l.id === c.levelId);
                     if (!lvl) return;
                     compHTML += `
@@ -1500,12 +1340,11 @@
                 });
             }
 
-            // Progresos actuales
             let progHTML = '';
-            if (user.progresses.length === 0) {
+            if (progresses.length === 0) {
                 progHTML = `<div class="empty-state">${t.noProgresses}</div>`;
             } else {
-                user.progresses.forEach((p, idx) => {
+                progresses.forEach((p, idx) => {
                     progHTML += `
                         <div class="record-item">
                             <div class="record-info">
@@ -1528,25 +1367,23 @@
                 });
             }
 
-            // Opciones del select (niveles no completados aún)
-            const availableLevels = levelsData.filter(l => !user.completedLevels.some(c => c.levelId === l.id));
+            const availableLevels = levelsData.filter(l => !completed.some(c => c.levelId === l.id));
             const optionsHTML = availableLevels.map(l => `<option value="${l.id}">#${l.rank} ${l.name} (+${l.points} ${t.pts})</option>`).join('');
 
             container.innerHTML = `
                 <div class="profile-header">
-                    <div class="avatar-large" id="account-avatar-box">${avatarHTML}</div>
+                    <div class="avatar-large" id="avatar-preview-box">${avatarHTML}</div>
                     <div style="flex: 1;">
                         <h2 style="font-size: 1.6rem; font-weight: 800;">${user.username}</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">${user.bio || t.verifiedPlayer}</p>
                     </div>
                 </div>
 
-                <!-- Editar Perfil -->
                 <div class="account-section">
                     <h3><i class="fa-solid fa-user-pen" style="color: var(--accent-color);"></i> ${t.editProfile}</h3>
 
                     <div class="avatar-upload-row" style="margin-bottom: 20px;">
-                        <div class="avatar-large" id="avatar-preview-box">${avatarHTML}</div>
+                        <div class="avatar-large" id="avatar-preview-box-2">${avatarHTML}</div>
                         <div class="avatar-upload-controls">
                             <div class="file-input-wrapper">
                                 <button class="btn-secondary" type="button"><i class="fa-solid fa-upload"></i> ${t.uploadImage}</button>
@@ -1566,10 +1403,9 @@
                         <input type="url" id="account-youtube" value="${user.youtube || ''}" placeholder="https://youtube.com/@...">
                     </div>
 
-                    <button class="btn-primary" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> ${t.saveChanges}</button>
+                    <button class="btn-primary" id="save-profile-btn" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> ${t.saveChanges}</button>
                 </div>
 
-                <!-- Completions -->
                 <div class="account-section">
                     <h3><i class="fa-solid fa-circle-check" style="color: var(--accent-color);"></i> ${t.myCompletions}</h3>
 
@@ -1593,7 +1429,6 @@
                     ` : ''}
                 </div>
 
-                <!-- Progresos -->
                 <div class="account-section">
                     <h3><i class="fa-solid fa-chart-line" style="color: var(--gold-color);"></i> ${t.myProgresses}</h3>
 
@@ -1624,120 +1459,104 @@
         function handleAvatarFile(event) {
             const file = event.target.files[0];
             if (!file) return;
-            if (file.size > 500 * 1024) {
-                alert("La imagen es muy grande (máx 500KB). Prueba con una más pequeña.");
+            if (file.size > 150 * 1024) {
+                alert("Máx 150KB. Prueba con una imagen más pequeña.");
                 event.target.value = '';
                 return;
             }
             const reader = new FileReader();
             reader.onload = function(e) {
                 pendingAvatarData = e.target.result;
-                // Actualizar previews visuales
-                const previewBox = document.getElementById('avatar-preview-box');
-                if (previewBox) previewBox.innerHTML = `<img src="${pendingAvatarData}">`;
+                const preview = document.getElementById('avatar-preview-box-2');
+                if (preview) preview.innerHTML = `<img src="${pendingAvatarData}">`;
             };
             reader.readAsDataURL(file);
         }
 
-        function saveProfile() {
-            const user = getCurrentUser();
-            if (!user) return;
+        async function saveProfile() {
+            if (!currentUid || !currentUserData) return;
             const t = translations[currentLang];
+            const btn = document.getElementById('save-profile-btn');
+            btn.disabled = true;
 
-            if (pendingAvatarData) {
-                user.avatar = pendingAvatarData;
-                pendingAvatarData = null;
+            try {
+                const update = {
+                    bio: document.getElementById('account-bio').value.trim(),
+                    youtube: document.getElementById('account-youtube').value.trim()
+                };
+                if (pendingAvatarData) {
+                    update.avatar = pendingAvatarData;
+                    pendingAvatarData = null;
+                }
+                await db.collection('users').doc(currentUid).update(update);
+                alert(t.profileUpdated);
+            } catch (err) {
+                console.error(err);
+                alert(t.genericError);
+            } finally {
+                btn.disabled = false;
             }
-            user.bio = document.getElementById('account-bio').value.trim();
-            user.youtube = document.getElementById('account-youtube').value.trim();
-
-            saveDB(DB);
-            renderAccountView();
-            renderUserArea();
-            alert(t.profileUpdated);
         }
 
-        function removeAvatar() {
-            const user = getCurrentUser();
-            if (!user) return;
-            user.avatar = null;
+        async function removeAvatar() {
+            if (!currentUid) return;
             pendingAvatarData = null;
-            saveDB(DB);
-            renderAccountView();
-            renderUserArea();
+            await db.collection('users').doc(currentUid).update({ avatar: null });
         }
 
-        function addCompletion() {
-            const user = getCurrentUser();
-            if (!user) return;
+        async function addCompletion() {
+            if (!currentUid || !currentUserData) return;
             const t = translations[currentLang];
             const levelId = document.getElementById('completion-level').value;
             const videoUrl = document.getElementById('completion-video').value.trim();
 
             if (!levelId) return;
-            if (user.completedLevels.some(c => c.levelId === levelId)) {
+            if ((currentUserData.completedLevels || []).some(c => c.levelId === levelId)) {
                 alert(t.levelAlreadyCompleted);
                 return;
             }
-            if (!videoUrl) {
-                alert(t.invalidVideoUrl);
-                return;
-            }
+            if (!videoUrl) { alert(t.invalidVideoUrl); return; }
 
-            user.completedLevels.push({ levelId, videoUrl });
-            saveDB(DB);
-            renderAccountView();
-            renderUserArea();
-            renderLevelDetail(selectedLevelId);
+            const newList = [...(currentUserData.completedLevels || []), { levelId, videoUrl }];
+            await db.collection('users').doc(currentUid).update({ completedLevels: newList });
         }
 
-        function removeCompletion(idx) {
-            const user = getCurrentUser();
-            if (!user) return;
+        async function removeCompletion(idx) {
+            if (!currentUid || !currentUserData) return;
             const t = translations[currentLang];
             if (!confirm(t.confirmRemoveCompletion)) return;
-            user.completedLevels.splice(idx, 1);
-            saveDB(DB);
-            renderAccountView();
-            renderUserArea();
-            renderLevelDetail(selectedLevelId);
+            const newList = [...(currentUserData.completedLevels || [])];
+            newList.splice(idx, 1);
+            await db.collection('users').doc(currentUid).update({ completedLevels: newList });
         }
 
-        function addProgress() {
-            const user = getCurrentUser();
-            if (!user) return;
+        async function addProgress() {
+            if (!currentUid || !currentUserData) return;
             const t = translations[currentLang];
             const levelName = document.getElementById('progress-name').value.trim();
             const percent = document.getElementById('progress-percent').value.trim();
             const videoUrl = document.getElementById('progress-video').value.trim();
 
-            if (!levelName || !percent || !videoUrl) {
-                alert(t.invalidVideoUrl);
-                return;
-            }
-            user.progresses.push({ levelName, percent, videoUrl });
-            saveDB(DB);
-            renderAccountView();
+            if (!levelName || !percent || !videoUrl) { alert(t.invalidVideoUrl); return; }
+
+            const newList = [...(currentUserData.progresses || []), { levelName, percent, videoUrl }];
+            await db.collection('users').doc(currentUid).update({ progresses: newList });
         }
 
-        function removeProgress(idx) {
-            const user = getCurrentUser();
-            if (!user) return;
+        async function removeProgress(idx) {
+            if (!currentUid || !currentUserData) return;
             const t = translations[currentLang];
             if (!confirm(t.confirmRemoveProgress)) return;
-            user.progresses.splice(idx, 1);
-            saveDB(DB);
-            renderAccountView();
+            const newList = [...(currentUserData.progresses || [])];
+            newList.splice(idx, 1);
+            await db.collection('users').doc(currentUid).update({ progresses: newList });
         }
 
         /* ============================================================
-           NAVEGACIÓN ENTRE VISTAS
+           NAVEGACIÓN
         ============================================================ */
         function switchTab(tabId) {
-            // Bloquear vistas que requieren login
-            if ((tabId === 'account') && !isLoggedIn()) {
-                tabId = 'login';
-            }
+            if ((tabId === 'account') && !currentUid) tabId = 'login';
 
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -1757,11 +1576,62 @@
         }
 
         /* ============================================================
+           🔥 LISTENER EN TIEMPO REAL
+        ============================================================ */
+        function startRealtimeListener() {
+            db.collection('users').onSnapshot(snapshot => {
+                allUsers = {};
+                snapshot.forEach(doc => {
+                    allUsers[doc.id] = { uid: doc.id, ...doc.data() };
+                });
+
+                if (currentUid && allUsers[currentUid]) {
+                    currentUserData = allUsers[currentUid];
+                }
+
+                renderUserArea();
+                renderLevelDetail(selectedLevelId);
+                if (currentProfileUser) {
+                    const stillExists = getUserByUsername(currentProfileUser);
+                    if (stillExists) openUserProfile(currentProfileUser);
+                }
+                if (document.getElementById('account-view').classList.contains('active')) {
+                    renderAccountView();
+                }
+            }, err => {
+                console.error("Firestore listener error:", err);
+            });
+        }
+
+        /* ============================================================
+           🔥 LISTENER DE AUTH
+        ============================================================ */
+        auth.onAuthStateChanged(async user => {
+            document.getElementById('loading').classList.add('hidden');
+
+            if (user) {
+                currentUid = user.uid;
+                try {
+                    const doc = await db.collection('users').doc(user.uid).get();
+                    if (doc.exists) {
+                        currentUserData = { uid: user.uid, ...doc.data() };
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                currentUid = null;
+                currentUserData = null;
+            }
+            updateAuthUI();
+        });
+
+        /* ============================================================
            INICIALIZACIÓN
         ============================================================ */
         document.addEventListener('DOMContentLoaded', function() {
             changeLanguage('en');
-            updateAuthUI();
+            startRealtimeListener();
         });
     </script>
 </body>
