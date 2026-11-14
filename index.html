@@ -445,7 +445,7 @@ legend:{icon:'fa-dragon',color:'#ef4444',label:{en:'Legend',es:'Leyenda',ru:'Л�
 demon_slayer:{icon:'fa-skull',color:'#6366f1',label:{en:'Demon Slayer',es:'Cazador de Demonios',ru:'Убийца Демонов'},desc:{en:'Skilled at beating the hardest levels',es:'Hábil derrotando los niveles más difíciles',ru:'Мастер сложных уровней'}},
 content_creator:{icon:'fa-video',color:'#ff0000',label:{en:'Content Creator',es:'Creador de Contenido',ru:'Контент-мейкер'},desc:{en:'Creates content about Unu List',es:'Crea contenido sobre Unu List',ru:'Создаёт контент про Unu List'}},
 world_first:{icon:'fa-earth-americas',color:'#06b6d4',label:{en:'World First',es:'World First',ru:'Первое в мире'},desc:{en:'Achieved a world-first record',es:'Logró un récord mundial',ru:'Достиг мирового рекорда'}},
-rising_star:{icon:'fa-rocket',color:'#f97316',label:{en:'Rising Star',es:'Estrella Emergente',ru:'Восходящая Звезда'},desc:{en:'A rising talent in the community',es:'Un talento emergente en la comunidad',ru:'Восходящий талант сообщества'}};
+rising_star:{icon:'fa-rocket',color:'#f97316',label:{en:'Rising Star',es:'Estrella Emergente',ru:'Восходящая Звезда'},desc:{en:'A rising talent in the community',es:'Un talento emergente en la comunidad',ru:'Восходящий талант сообщества'}}
 
 function renderUserBadges(user){const badges=user.badges||[];if(badges.length===0)return'';const lang=currentLang;return`<span class="badges-row">`+badges.map(bid=>{const b=BADGES[bid];if(!b)return'';const tip=`${b.label[lang]||b.label.en} — ${b.desc[lang]||b.desc.en}`;return`<span class="badge-chip" style="color:${b.color}; border-color:${b.color};"><i class="fa-solid ${b.icon}"></i><span class="tooltip">${tip}</span></span>`;}).join('')+`</span>`;}
 
