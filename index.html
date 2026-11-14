@@ -396,9 +396,43 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script>
-        // ⬇️ AQUÍ VA EL MENSAJE 2 (JavaScript)
+        // ⬇️⬇️⬇️ CONFIGURA TU WEBHOOK DE DISCORD AQUÍ ⬇️⬇️⬇️
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1571229170845876378/sidOKA38ErBlC8Ye7BiA2GWqV35uCOnQICgzdo--N90lB88VGesFSFjxyn2hyDuLiBm3";
+        // ⬆️⬆️⬆️ CONFIGURA TU WEBHOOK DE DISCORD AQUÍ ⬆️⬆️⬆️
+
 const firebaseConfig={apiKey:"AIzaSyBYGbZRgP1_wYwWeUSPWq9_LQpaXMzbPJI",authDomain:"unu-list.firebaseapp.com",projectId:"unu-list",storageBucket:"unu-list.firebasestorage.app",messagingSenderId:"729245334482",appId:"1:729245334482:web:bea801711425afb7ad260b",measurementId:"G-XK2ZD0K9QK"};
 firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();
+
+// --- FUNCIÓN PARA ENVIAR EL MENSAJE A DISCORD ---
+async function notifyDiscord(levelName, rank, levelAbove, levelBelow) {
+    if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "TU_URL_DE_WEBHOOK_AQUI") {
+        console.warn("Discord Webhook URL no configurada. Ve al código y pon tu URL.");
+        return;
+    }
+
+    let mensaje = `El nivel **${levelName}** fue posicionado en la posición **#${rank}**`;
+    
+    if (levelAbove && levelBelow) {
+        mensaje += `, por debajo de **${levelAbove}** y por encima de **${levelBelow}**.`;
+    } else if (!levelAbove && levelBelow) {
+        mensaje += `, siendo el nuevo **Top 1** (por encima de **${levelBelow}**).`;
+    } else if (levelAbove && !levelBelow) {
+        mensaje += `, por debajo de **${levelAbove}** (última posición).`;
+    } else {
+        mensaje += `.`;
+    }
+
+    try {
+        await fetch(DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: mensaje })
+        });
+        console.log("Notificación enviada a Discord");
+    } catch (error) {
+        console.error("Error al enviar a Discord:", error);
+    }
+}
 
 const BADGES={
 top1_creator:{icon:'fa-hammer',color:'#ffd700',label:{en:'Top 1 Creator',es:'Creador de un Top 1',ru:'Создатель Топ 1'},desc:{en:'Created a level that reached #1',es:'Creó un nivel que alcanzó el #1',ru:'Создал уровень, ставший #1'}},
@@ -411,7 +445,7 @@ legend:{icon:'fa-dragon',color:'#ef4444',label:{en:'Legend',es:'Leyenda',ru:'Л�
 demon_slayer:{icon:'fa-skull',color:'#6366f1',label:{en:'Demon Slayer',es:'Cazador de Demonios',ru:'Убийца Демонов'},desc:{en:'Skilled at beating the hardest levels',es:'Hábil derrotando los niveles más difíciles',ru:'Мастер сложных уровней'}},
 content_creator:{icon:'fa-video',color:'#ff0000',label:{en:'Content Creator',es:'Creador de Contenido',ru:'Контент-мейкер'},desc:{en:'Creates content about Unu List',es:'Crea contenido sobre Unu List',ru:'Создаёт контент про Unu List'}},
 world_first:{icon:'fa-earth-americas',color:'#06b6d4',label:{en:'World First',es:'World First',ru:'Первое в мире'},desc:{en:'Achieved a world-first record',es:'Logró un récord mundial',ru:'Достиг мирового рекорда'}},
-rising_star:{icon:'fa-rocket',color:'#f97316',label:{en:'Rising Star',es:'Estrella Emergente',ru:'Восходящая Звезда'},desc:{en:'A rising talent in the community',es:'Un talento emergente en la comunidad',ru:'Восходящий талант сообщества'}}};
+rising_star:{icon:'fa-rocket',color:'#f97316',label:{en:'Rising Star',es:'Estrella Emergente',ru:'Восходящая Звезда'},desc:{en:'A rising talent in the community',es:'Un talento emergente en la comunidad',ru:'Восходящий талант сообщества'}};
 
 function renderUserBadges(user){const badges=user.badges||[];if(badges.length===0)return'';const lang=currentLang;return`<span class="badges-row">`+badges.map(bid=>{const b=BADGES[bid];if(!b)return'';const tip=`${b.label[lang]||b.label.en} — ${b.desc[lang]||b.desc.en}`;return`<span class="badge-chip" style="color:${b.color}; border-color:${b.color};"><i class="fa-solid ${b.icon}"></i><span class="tooltip">${tip}</span></span>`;}).join('')+`</span>`;}
 
@@ -533,11 +567,102 @@ async function deleteAccount(){const t=translations[currentLang];const password=
 
 function renderAdminPanel(){const t=translations[currentLang];const container=document.getElementById('admin-container');const records=Object.values(allPendingRecords).sort((a,b)=>{const da=a.submittedAt?a.submittedAt.toMillis():0;const dbb=b.submittedAt?b.submittedAt.toMillis():0;return da-dbb;});let recordsHTML='';if(records.length===0)recordsHTML=`<div class="empty-state">${t.noPendingRecords}</div>`;else records.forEach(r=>{const lvl=levelsData.find(l=>l.id===r.levelId);const levelName=lvl?`#${lvl.rank} ${lvl.name}`:r.levelId;const pts=lvl?`+${lvl.points} ${t.pts}`:'';recordsHTML+=`<div class="admin-record"><div class="admin-record-info"><div class="admin-record-user"><i class="fa-solid fa-user"></i> ${r.username}</div><div class="admin-record-level">${levelName} <span style="color:var(--accent-color); font-size:0.85rem;">${pts}</span></div><div class="admin-record-date"><i class="fa-regular fa-clock"></i> ${t.submitted}: ${formatDate(r.submittedAt)}</div></div><div class="admin-actions"><a href="${r.videoUrl}" target="_blank" class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;"><i class="fa-brands fa-youtube"></i> ${t.viewVideo}</a><button class="btn-approve" onclick="approveRecord('${r.id}')"><i class="fa-solid fa-check"></i> ${t.approve}</button><button class="btn-danger" onclick="rejectRecord('${r.id}')"><i class="fa-solid fa-xmark"></i> ${t.reject}</button></div></div>`;});const newIds=getNewLevelIds();let levelsListHTML='';if(levelsData.length===0)levelsListHTML=`<div class="empty-state">${t.noLevelsYet}</div>`;else levelsData.forEach((lvl,idx)=>{const isFirst=idx===0;const isLast=idx===levelsData.length-1;const newBadge=newIds.has(lvl.id)?'<span class="new-badge">NEW</span>':'';levelsListHTML+=`<div class="admin-record"><div class="admin-record-info"><div class="admin-record-user" style="color: var(--accent-color);">#${lvl.rank} ${lvl.name} ${newBadge}</div><div class="admin-record-level" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">${t.by}: ${lvl.creator} · ${t.verifier}: ${lvl.verifier} · <span style="color: var(--gold-color);">${lvl.points} ${t.pts}</span></div></div><div class="admin-actions"><button class="btn-icon" onclick="moveLevel('${lvl.id}', -1)" ${isFirst?'disabled':''} title="${t.moveUp}"><i class="fa-solid fa-arrow-up"></i></button><button class="btn-icon" onclick="moveLevel('${lvl.id}', 1)" ${isLast?'disabled':''} title="${t.moveDown}"><i class="fa-solid fa-arrow-down"></i></button><button class="btn-icon" onclick="setLevelRank('${lvl.id}')" title="${t.setRank}"><i class="fa-solid fa-hashtag"></i></button><button class="btn-danger" onclick="deleteLevel('${lvl.id}')"><i class="fa-solid fa-trash"></i> ${t.remove}</button></div></div>`;});const badgeIds=Object.keys(BADGES);const usersArr=Object.values(allUsers).sort((a,b)=>a.username.localeCompare(b.username));let usersBadgesHTML='';if(usersArr.length===0)usersBadgesHTML=`<div class="empty-state">${t.noUsersYet}</div>`;else usersArr.forEach(u=>{const userBadges=u.badges||[];const togglesHTML=badgeIds.map(bid=>{const b=BADGES[bid];const active=userBadges.includes(bid);const tip=`${b.label[currentLang]||b.label.en} — ${b.desc[currentLang]||b.desc.en}`;return`<button class="badge-toggle ${active?'active':''}" style="color:${b.color}; border-color:${b.color};" title="${tip.replace(/"/g,'&quot;')}" onclick="toggleUserBadge('${u.uid}', '${bid}')"><i class="fa-solid ${b.icon}"></i></button>`;}).join('');usersBadgesHTML+=`<div class="admin-user-row"><div class="admin-user-name"><i class="fa-solid fa-user"></i> ${u.username} ${u.isAdmin?'<i class="fa-solid fa-shield-halved" style="color:var(--gold-color); font-size:0.85rem;" title="Admin"></i>':''}</div><div class="badge-toggles">${togglesHTML}</div></div>`;});container.innerHTML=`<div class="profile-header"><div class="profile-avatar" style="background: linear-gradient(135deg, var(--gold-color), #b8860b);"><i class="fa-solid fa-shield-halved"></i></div><div><h2 style="font-size: 1.6rem; font-weight: 800;">${t.adminPanel}</h2><p style="color: var(--text-muted); font-size: 0.9rem;">${t.adminSubtitle}</p></div></div><div class="account-section"><h3><i class="fa-solid fa-plus-circle" style="color: var(--accent-color);"></i> ${t.addNewLevel}</h3><p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.levelRankHint}</p><div id="add-level-alert" class="alert"></div><form onsubmit="handleAddLevel(event)"><div class="form-row"><div class="form-group"><label>${t.levelNameField} *</label><input type="text" id="new-level-name" required maxlength="60"></div><div class="form-group"><label>${t.levelPoints} *</label><input type="number" id="new-level-points" required min="1" step="1"></div></div><div class="form-row"><div class="form-group"><label>${t.levelCreator} *</label><input type="text" id="new-level-creator" required maxlength="40"></div><div class="form-group"><label>${t.levelVerifier} *</label><input type="text" id="new-level-verifier" required maxlength="40"></div></div><div class="form-row"><div class="form-group"><label>${t.levelId} (GD)</label><input type="text" id="new-level-gdid" placeholder="12345678"></div><div class="form-group"><label>${t.levelRank}</label><input type="number" id="new-level-rank" min="1" step="1" placeholder="#"></div></div><div class="form-row"><div class="form-group"><label>${t.difficulty}</label><select id="new-level-difficulty"><option value="">—</option>${DIFFICULTIES.map(d=>`<option value="${d.id}">${d.label}</option>`).join('')}</select></div><div class="form-group"><label>${t.team}</label><select id="new-level-team">${TEAM_TYPES.map(tp=>`<option value="${tp.id}">${tp.label}</option>`).join('')}</select></div></div><div class="form-row"><div class="form-group"><label>${t.song}</label><input type="text" id="new-level-song" placeholder="Song name"></div><div class="form-group"><label>${t.length}</label><input type="text" id="new-level-length" placeholder="2:34"></div></div><div class="form-row"><div class="form-group"><label>${t.thumbnailUrl}</label><input type="url" id="new-level-thumbnail" placeholder="https://..."></div><div class="form-group"><label>${t.levelVideoUrl}</label><input type="url" id="new-level-video" placeholder="https://youtube.com/..."></div></div><button type="submit" class="btn-primary" id="add-level-btn"><i class="fa-solid fa-plus"></i> ${t.addLevel}</button></form></div><div class="account-section"><h3><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> ${t.existingLevels} (${levelsData.length})</h3><p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.rankingNote}</p><div>${levelsListHTML}</div></div><div class="account-section"><h3><i class="fa-solid fa-award" style="color: var(--gold-color);"></i> ${t.manageBadges}</h3><p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">${t.manageBadgesSubtitle}</p><div>${usersBadgesHTML}</div></div><div class="account-section"><h3><i class="fa-solid fa-clock" style="color: var(--warning-color);"></i> ${t.pendingRecords} (${records.length})</h3><div>${recordsHTML}</div></div>`;}
 
-async function moveLevel(levelId,direction){const t=translations[currentLang];const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));const idx=sorted.findIndex(l=>l.id===levelId);if(idx<0)return;const newIdx=idx+direction;if(newIdx<0||newIdx>=sorted.length)return;[sorted[idx],sorted[newIdx]]=[sorted[newIdx],sorted[idx]];try{await applyLevelOrder(sorted.map(l=>l.id));playClick();}catch(err){console.error(err);playError();alert(t.genericError);}}
-async function setLevelRank(levelId){const t=translations[currentLang];const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));const idx=sorted.findIndex(l=>l.id===levelId);if(idx<0)return;const input=prompt(`${t.setRank} (1 - ${sorted.length}):`,sorted[idx].rank);if(input===null)return;const newRank=parseInt(input,10);if(isNaN(newRank)||newRank<1||newRank>sorted.length){playError();alert(t.invalidRank);return;}if(newRank===sorted[idx].rank)return;const[removed]=sorted.splice(idx,1);sorted.splice(newRank-1,0,removed);try{await applyLevelOrder(sorted.map(l=>l.id));playSuccess();alert(t.rankSet);}catch(err){console.error(err);playError();alert(t.genericError);}}
+async function moveLevel(levelId,direction){
+    const t=translations[currentLang];
+    const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));
+    const idx=sorted.findIndex(l=>l.id===levelId);
+    if(idx<0)return;
+    const newIdx=idx+direction;
+    if(newIdx<0||newIdx>=sorted.length)return;
+    [sorted[idx],sorted[newIdx]]=[sorted[newIdx],sorted[idx]];
+    
+    // --- NOTIFICACIÓN DISCORD ---
+    const movedLvl = sorted[newIdx];
+    const above = newIdx > 0 ? sorted[newIdx - 1].name : null;
+    const below = newIdx < sorted.length - 1 ? sorted[newIdx + 1].name : null;
+    notifyDiscord(movedLvl.name, newIdx + 1, above, below);
+    // ----------------------------
+
+    try{await applyLevelOrder(sorted.map(l=>l.id));playClick();}catch(err){console.error(err);playError();alert(t.genericError);}
+}
+async function setLevelRank(levelId){
+    const t=translations[currentLang];
+    const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));
+    const idx=sorted.findIndex(l=>l.id===levelId);
+    if(idx<0)return;
+    const input=prompt(`${t.setRank} (1 - ${sorted.length}):`,sorted[idx].rank);
+    if(input===null)return;
+    const newRank=parseInt(input,10);
+    if(isNaN(newRank)||newRank<1||newRank>sorted.length){playError();alert(t.invalidRank);return;}
+    if(newRank===sorted[idx].rank)return;
+    const[removed]=sorted.splice(idx,1);
+    sorted.splice(newRank-1,0,removed);
+
+    // --- NOTIFICACIÓN DISCORD ---
+    const movedLvl = sorted[newRank - 1];
+    const above = newRank > 1 ? sorted[newRank - 2].name : null;
+    const below = newRank < sorted.length ? sorted[newRank].name : null;
+    notifyDiscord(movedLvl.name, newRank, above, below);
+    // ----------------------------
+
+    try{await applyLevelOrder(sorted.map(l=>l.id));playSuccess();alert(t.rankSet);}catch(err){console.error(err);playError();alert(t.genericError);}
+}
 async function toggleUserBadge(uid,badgeId){const user=allUsers[uid];if(!user)return;const t=translations[currentLang];const current=user.badges||[];const updated=current.includes(badgeId)?current.filter(b=>b!==badgeId):[...current,badgeId];try{await db.collection('users').doc(uid).update({badges:updated});const b=BADGES[badgeId];const bName=b?(b.label[currentLang]||b.label.en):badgeId;const action=updated.includes(badgeId)?'otorgada a':'removida de';await logChange('badge_changed',`Insignia "${bName}" ${action} ${user.username}`,{uid,badgeId});playClick();}catch(err){console.error(err);playError();alert(t.genericError);}}
 
-async function handleAddLevel(e){e.preventDefault();const t=translations[currentLang];const name=document.getElementById('new-level-name').value.trim();const creator=document.getElementById('new-level-creator').value.trim();const verifier=document.getElementById('new-level-verifier').value.trim();const points=parseInt(document.getElementById('new-level-points').value,10);const thumbnail=document.getElementById('new-level-thumbnail').value.trim();const videoUrl=document.getElementById('new-level-video').value.trim();const rankInput=document.getElementById('new-level-rank').value.trim();const gdId=document.getElementById('new-level-gdid').value.trim();const difficulty=document.getElementById('new-level-difficulty').value;const teamType=document.getElementById('new-level-team').value;const song=document.getElementById('new-level-song').value.trim();const length=document.getElementById('new-level-length').value.trim();if(!name||!creator||!verifier||!points){playError();showAlert('add-level-alert',t.fillRequired,'error');return;}const id=slugify(name);if(!id){playError();showAlert('add-level-alert',t.fillRequired,'error');return;}const btn=document.getElementById('add-level-btn');btn.disabled=true;try{const existing=await db.collection('levels').doc(id).get();if(existing.exists){playError();showAlert('add-level-alert',t.levelAlreadyExists,'error');btn.disabled=false;return;}const batch=db.batch();const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));let insertIdx=sorted.length;if(rankInput!==''){const parsed=parseInt(rankInput,10);if(isNaN(parsed)||parsed<1){playError();showAlert('add-level-alert',t.invalidRank,'error');btn.disabled=false;return;}insertIdx=Math.min(Math.max(0,parsed-1),sorted.length);}sorted.forEach((lvl,idx)=>{if(idx>=insertIdx)batch.update(db.collection('levels').doc(lvl.id),{rank:idx+2});else if(lvl.rank!==idx+1)batch.update(db.collection('levels').doc(lvl.id),{rank:idx+1});});batch.set(db.collection('levels').doc(id),{rank:insertIdx+1,name,creator,verifier,points,thumbnail:thumbnail||'',videoUrl:videoUrl||'',gdId:gdId||'',difficulty:difficulty||'',teamType:teamType||'solo',song:song||'',length:length||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()});await batch.commit();document.getElementById('new-level-name').value='';document.getElementById('new-level-creator').value='';document.getElementById('new-level-verifier').value='';document.getElementById('new-level-points').value='';document.getElementById('new-level-thumbnail').value='';document.getElementById('new-level-video').value='';document.getElementById('new-level-rank').value='';document.getElementById('new-level-gdid').value='';document.getElementById('new-level-difficulty').value='';document.getElementById('new-level-song').value='';document.getElementById('new-level-length').value='';await logChange('level_added',`Nivel "${name}" añadido en #${insertIdx+1}`,{levelId:id,rank:insertIdx+1});playSuccess();spawnConfetti(30);showAlert('add-level-alert',t.levelAdded,'success');}catch(err){console.error(err);playError();showAlert('add-level-alert',err.message||t.genericError,'error');}finally{btn.disabled=false;}}
+async function handleAddLevel(e){
+    e.preventDefault();
+    const t=translations[currentLang];
+    const name=document.getElementById('new-level-name').value.trim();
+    const creator=document.getElementById('new-level-creator').value.trim();
+    const verifier=document.getElementById('new-level-verifier').value.trim();
+    const points=parseInt(document.getElementById('new-level-points').value,10);
+    const thumbnail=document.getElementById('new-level-thumbnail').value.trim();
+    const videoUrl=document.getElementById('new-level-video').value.trim();
+    const rankInput=document.getElementById('new-level-rank').value.trim();
+    const gdId=document.getElementById('new-level-gdid').value.trim();
+    const difficulty=document.getElementById('new-level-difficulty').value;
+    const teamType=document.getElementById('new-level-team').value;
+    const song=document.getElementById('new-level-song').value.trim();
+    const length=document.getElementById('new-level-length').value.trim();
+    if(!name||!creator||!verifier||!points){playError();showAlert('add-level-alert',t.fillRequired,'error');return;}
+    const id=slugify(name);
+    if(!id){playError();showAlert('add-level-alert',t.fillRequired,'error');return;}
+    const btn=document.getElementById('add-level-btn');
+    btn.disabled=true;
+    try{
+        const existing=await db.collection('levels').doc(id).get();
+        if(existing.exists){playError();showAlert('add-level-alert',t.levelAlreadyExists,'error');btn.disabled=false;return;}
+        const batch=db.batch();
+        const sorted=[...levelsData].sort((a,b)=>(a.rank||0)-(b.rank||0));
+        let insertIdx=sorted.length;
+        if(rankInput!==''){const parsed=parseInt(rankInput,10);if(isNaN(parsed)||parsed<1){playError();showAlert('add-level-alert',t.invalidRank,'error');btn.disabled=false;return;}insertIdx=Math.min(Math.max(0,parsed-1),sorted.length);}
+        sorted.forEach((lvl,idx)=>{if(idx>=insertIdx)batch.update(db.collection('levels').doc(lvl.id),{rank:idx+2});else if(lvl.rank!==idx+1)batch.update(db.collection('levels').doc(lvl.id),{rank:idx+1});});
+        batch.set(db.collection('levels').doc(id),{rank:insertIdx+1,name,creator,verifier,points,thumbnail:thumbnail||'',videoUrl:videoUrl||'',gdId:gdId||'',difficulty:difficulty||'',teamType:teamType||'solo',song:song||'',length:length||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        await batch.commit();
+
+        // --- NOTIFICACIÓN DISCORD ---
+        const aboveLvl = insertIdx > 0 ? sorted[insertIdx - 1].name : null;
+        const belowLvl = insertIdx < sorted.length ? sorted[insertIdx].name : null;
+        notifyDiscord(name, insertIdx + 1, aboveLvl, belowLvl);
+        // ----------------------------
+
+        document.getElementById('new-level-name').value='';
+        document.getElementById('new-level-creator').value='';
+        document.getElementById('new-level-verifier').value='';
+        document.getElementById('new-level-points').value='';
+        document.getElementById('new-level-thumbnail').value='';
+        document.getElementById('new-level-video').value='';
+        document.getElementById('new-level-rank').value='';
+        document.getElementById('new-level-gdid').value='';
+        document.getElementById('new-level-difficulty').value='';
+        document.getElementById('new-level-song').value='';
+        document.getElementById('new-level-length').value='';
+        await logChange('level_added',`Nivel "${name}" añadido en #${insertIdx+1}`,{levelId:id,rank:insertIdx+1});
+        playSuccess();
+        spawnConfetti(30);
+        showAlert('add-level-alert',t.levelAdded,'success');
+    }catch(err){console.error(err);playError();showAlert('add-level-alert',err.message||t.genericError,'error');}finally{btn.disabled=false;}
+}
 
 async function deleteLevel(levelId){const t=translations[currentLang];const lvl=levelsData.find(l=>l.id===levelId);if(!lvl)return;if(!confirm(`${t.confirmDeleteLevel}\n\n"${lvl.name}"`))return;try{const remaining=levelsData.filter(l=>l.id!==levelId).sort((a,b)=>(a.rank||0)-(b.rank||0)).map(l=>l.id);const batch=db.batch();batch.delete(db.collection('levels').doc(levelId));remaining.forEach((id,idx)=>{const newRank=idx+1;const otherLvl=levelsData.find(l=>l.id===id);if(otherLvl&&otherLvl.rank!==newRank)batch.update(db.collection('levels').doc(id),{rank:newRank});});await batch.commit();await logChange('level_deleted',`Nivel "${lvl.name}" (#${lvl.rank}) eliminado`,{levelId});playClick();alert(t.levelDeleted);}catch(err){console.error(err);playError();alert(t.genericError);}}
 
