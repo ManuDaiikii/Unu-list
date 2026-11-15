@@ -674,9 +674,59 @@ function switchTab(tabId){if((tabId==='account'||tabId==='submit')&&!currentUid)
 
 function startRealtimeListeners(){db.collection('levels').onSnapshot(snapshot=>{levelsData=[];snapshot.forEach(doc=>levelsData.push({id:doc.id,...doc.data()}));levelsData.sort((a,b)=>(a.rank||0)-(b.rank||0));if(!levelsData.find(l=>l.id===selectedLevelId))selectedLevelId=levelsData.length>0?levelsData[0].id:null;renderSidebarLevels();renderLevelDetail(selectedLevelId);renderUserArea();renderLeftBanners();if(document.getElementById('account-view').classList.contains('active'))renderAccountView();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>console.error("Levels listener:",err));db.collection('users').onSnapshot(snapshot=>{allUsers={};snapshot.forEach(doc=>allUsers[doc.id]={uid:doc.id,...doc.data()});if(currentUid&&allUsers[currentUid])currentUserData=allUsers[currentUid];renderUserArea();renderLevelDetail(selectedLevelId);updateAuthUI();if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>console.error("Users listener:",err));db.collection('pendingRecords').onSnapshot(snapshot=>{allPendingRecords={};snapshot.forEach(doc=>allPendingRecords[doc.id]={id:doc.id,...doc.data()});const count=snapshot.size;const badge=document.getElementById('pending-count');if(badge){if(count>0){badge.style.display='inline-block';badge.innerText=count;}else{badge.style.display='none';}}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();},err=>console.error("Pending listener:",err));db.collection('reactions').onSnapshot(snapshot=>{allReactions={};snapshot.forEach(doc=>allReactions[doc.id]=doc.data());if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}},err=>console.error("Reactions listener:",err));db.collection('changeLog').orderBy('createdAt','desc').limit(200).onSnapshot(snapshot=>{allChangeLogs=[];snapshot.forEach(doc=>allChangeLogs.push({id:doc.id,...doc.data()}));if(document.getElementById('history-view').classList.contains('active'))renderHistoryView();},err=>console.error("ChangeLog listener:",err));}
 
-auth.onAuthStateChanged(async user=>{document.getElementById('loading').classList.add('hidden');if(user){currentUid=user.uid;try{const doc=await db.collection('users').doc(user.uid).get();if(doc.exists){currentUserData={uid:user.uid,...doc.data()};applyUserTheme(currentUserData);}}catch(e){console.error(e);}}else{currentUid=null;currentUserData=null;applyUserTheme(null);}updateAuthUI();});
+auth.onAuthStateChanged(async user=>{
+    try {
+        if(user){
+            currentUid=user.uid;
+            const doc=await db.collection('users').doc(user.uid).get();
+            if(doc.exists){
+                currentUserData={uid:user.uid,...doc.data()};
+                applyUserTheme(currentUserData);
+            }
+        } else {
+            currentUid=null;
+            currentUserData=null;
+            applyUserTheme(null);
+        }
+        updateAuthUI();
+    } catch(e) {
+        console.error('Auth state error:', e);
+    } finally {
+        document.getElementById('loading').classList.add('hidden');
+    }
+});
 
-document.addEventListener('DOMContentLoaded',function(){let savedLang='en';try{const stored=localStorage.getItem(LANG_KEY);if(stored&&translations[stored])savedLang=stored;}catch(e){}changeLanguage(savedLang);try{soundsEnabled=localStorage.getItem(SOUNDS_KEY)==='1';const el=document.getElementById('toggle-sounds');if(el)el.classList.toggle('active',soundsEnabled);}catch(e){}try{partyModeEnabled=localStorage.getItem(PARTY_KEY)==='1';const el=document.getElementById('toggle-party');if(el)el.classList.toggle('active',partyModeEnabled);updatePartyMode();}catch(e){}startRealtimeListeners();});
+document.addEventListener('DOMContentLoaded',function(){
+    // Timeout de seguridad: si en 8s no se ocultó el loader, forzar
+    setTimeout(() => {
+        const loading = document.getElementById('loading');
+        if (loading && !loading.classList.contains('hidden')) {
+            loading.classList.add('hidden');
+        }
+    }, 8000);
+
+    let savedLang='en';
+    try{
+        const stored=localStorage.getItem(LANG_KEY);
+        if(stored&&translations[stored])savedLang=stored;
+    }catch(e){}
+    try { changeLanguage(savedLang); } catch(e) { console.error('changeLanguage:', e); }
+
+    try{
+        soundsEnabled=localStorage.getItem(SOUNDS_KEY)==='1';
+        const el=document.getElementById('toggle-sounds');
+        if(el)el.classList.toggle('active',soundsEnabled);
+    }catch(e){}
+
+    try{
+        partyModeEnabled=localStorage.getItem(PARTY_KEY)==='1';
+        const el=document.getElementById('toggle-party');
+        if(el)el.classList.toggle('active',partyModeEnabled);
+        updatePartyMode();
+    }catch(e){}
+
+    try { startRealtimeListeners(); } catch(e) { console.error('startRealtimeListeners:', e); }
+});
 
 document.addEventListener('click',function(e){const menu=document.getElementById('settings-menu');const wrapper=document.querySelector('.settings-wrapper');if(menu&&menu.classList.contains('open')&&wrapper&&!wrapper.contains(e.target)){closeSettingsMenu();}});
 const modalOverlay=document.getElementById('modal-overlay');if(modalOverlay){modalOverlay.addEventListener('click',function(e){if(e.target.id==='modal-overlay')closeModal();});}
