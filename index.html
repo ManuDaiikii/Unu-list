@@ -282,6 +282,45 @@
         .reject-reason{background:rgba(239,68,68,.08);border-left:3px solid var(--error-color);padding:8px 12px;border-radius:6px;font-size:.82rem;color:#fca5a5;margin-top:8px;font-weight:600}
         .rank-medal{font-size:1.1rem;margin-right:4px}
         @media(max-width:950px){.list-layout{grid-template-columns:1fr}.level-detail-box{position:relative;top:0}header{flex-direction:column;align-items:stretch}.header-controls{justify-content:center}.form-row{grid-template-columns:1fr}.auth-box{padding:25px}.settings-menu{right:auto;left:0}}
+
+        /* ===== Comentarios de la comunidad ===== */
+        .level-detail-box{position:relative;top:0}
+        .comments-box{margin-top:25px;background:var(--panel-bg);border:1px solid var(--border-color);border-radius:10px;padding:25px;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+        .comments-box:empty{display:none}
+        .comments-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-color)}
+        .comments-header h3{font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:10px}
+        .comments-header h3 i{color:var(--accent-color)}
+        .comments-count{background:rgba(255,51,102,.15);color:var(--accent-color);border:1px solid rgba(255,51,102,.3);padding:1px 9px;border-radius:10px;font-size:.78rem;font-weight:800}
+        .comments-level{font-size:.8rem;color:var(--text-muted);font-weight:600}
+        .comment-composer{display:flex;gap:12px;margin-bottom:22px;align-items:flex-start}
+        .comment-composer .composer-main,.comment-reply-box,.comment-edit{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+        .comment-composer textarea,.comment-reply-box textarea,.comment-edit textarea{width:100%;background:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);padding:10px 12px;border-radius:8px;font-family:inherit;font-size:.92rem;outline:none;resize:vertical;min-height:70px;transition:border-color .2s}
+        .comment-composer textarea:focus,.comment-reply-box textarea:focus,.comment-edit textarea:focus{border-color:var(--accent-color)}
+        .composer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+        .composer-hint{font-size:.72rem;color:var(--text-muted)}
+        .comment-login-prompt{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 18px;border:1px dashed var(--border-color);border-radius:8px;margin-bottom:20px;color:var(--text-muted);font-size:.9rem;font-weight:600}
+        .comment{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-color)}
+        .comment:last-child{border-bottom:none}
+        .comment.reply{padding:12px 0 0;border-bottom:none}
+        .comment .user-avatar-mini{width:38px;height:38px;flex-shrink:0;cursor:pointer}
+        .comment.reply .user-avatar-mini{width:30px;height:30px;font-size:.7rem}
+        .comment-body{flex:1;min-width:0}
+        .comment-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.88rem}
+        .comment-author{font-weight:700;cursor:pointer}
+        .comment-author:hover{color:var(--accent-color)}
+        .comment-time{color:var(--text-muted);font-size:.74rem}
+        .comment-text{margin-top:4px;white-space:pre-wrap;word-break:break-word;font-size:.93rem}
+        .comment-mention{color:var(--accent-color);font-weight:700;margin-right:4px}
+        .comment-actions{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+        .comment-action{background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+        .comment-action:hover{background:var(--card-hover);color:var(--accent-color)}
+        .comment-action.liked{color:var(--accent-color)}
+        .comment-action.danger:hover{color:var(--error-color)}
+        .comment-replies{margin-top:6px;padding-left:14px;border-left:2px solid var(--border-color)}
+        .comment-reply-box{margin-top:10px}
+        .comment-reply-label{font-size:.78rem;color:var(--text-muted);font-weight:600}
+        .comment-reply-label strong{color:var(--accent-color)}
+        .admin-tag{color:var(--gold-color);font-size:.75rem}
     </style>
 </head>
 <body class="theme-dark">
@@ -335,7 +374,7 @@
                     <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" id="level-search" placeholder="Search levels..." oninput="filterLevels(this.value)"></div>
                     <div id="sidebar-levels-list"></div>
                 </div>
-                <div class="detail-sticky-wrapper"><div class="level-detail-box" id="level-detail-panel"></div></div>
+                <div class="detail-sticky-wrapper"><div class="level-detail-box" id="level-detail-panel"></div><div class="comments-box" id="comments-box"></div></div>
             </div>
         </section>
         <section id="users-view" class="view-section">
@@ -392,16 +431,41 @@
         <footer>&copy; 2026 Unu List. <span id="footer-rights">All rights reserved.</span></footer>
     </div>
     <div class="modal-overlay hidden" id="modal-overlay"><div class="modal-box" id="modal-box"></div></div>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script>
+    (function(){
+        var SOURCES=[
+            function(n){return 'https://www.gstatic.com/firebasejs/10.12.0/firebase-'+n+'-compat.js';},
+            function(n){return 'https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-'+n+'-compat.min.js';},
+            function(n){return 'https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-'+n+'-compat.js';}
+        ];
+        var PARTS=['app','auth','firestore'];
+        function load(url){return new Promise(function(res,rej){var el=document.createElement('script');el.src=url;el.onload=res;el.onerror=function(){rej(new Error(url));};document.head.appendChild(el);});}
+        function loadAll(i){
+            if(i>=SOURCES.length)return Promise.reject(new Error('No se pudo cargar Firebase'));
+            var chain=Promise.resolve();
+            PARTS.forEach(function(p){chain=chain.then(function(){return load(SOURCES[i](p));});});
+            return chain.catch(function(){return loadAll(i+1);});
+        }
+        function startApp(){
+            var code=document.getElementById('main-js').textContent;
+            var el=document.createElement('script');el.textContent=code;document.body.appendChild(el);
+            if(document.readyState!=='loading')document.dispatchEvent(new Event('DOMContentLoaded'));
+        }
+        loadAll(0).then(startApp).catch(function(e){
+            console.error(e);
+            var l=document.getElementById('loading');
+            if(l){l.innerHTML='No se pudo cargar Firebase.<br><small style="font-weight:400">Revisa tu conexión o desactiva el bloqueador de anuncios / extensiones y recarga.</small>';l.style.textAlign='center';}
+        });
+    })();
+    </script>
+    <script type="text/plain" id="main-js">
         // ⬇️⬇️⬇️ CONFIGURA TU WEBHOOK DE DISCORD AQUÍ ⬇️⬇️⬇️
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1571229170845876378/sidOKA38ErBlC8Ye7BiA2GWqV35uCOnQICgzdo--N90lB88VGesFSFjxyn2hyDuLiBm3";
         // ⬆️⬆️⬆️ CONFIGURA TU WEBHOOK DE DISCORD AQUÍ ⬆️⬆️⬆️
 
 const firebaseConfig={apiKey:"AIzaSyBYGbZRgP1_wYwWeUSPWq9_LQpaXMzbPJI",authDomain:"unu-list.firebaseapp.com",projectId:"unu-list",storageBucket:"unu-list.firebasestorage.app",messagingSenderId:"729245334482",appId:"1:729245334482:web:bea801711425afb7ad260b",measurementId:"G-XK2ZD0K9QK"};
-firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();
+firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();try{db.settings({experimentalAutoDetectLongPolling:true,merge:true});}catch(e){console.warn('Firestore settings:',e);}
+let _fbErrShown=false;function fbError(name,err){console.error(name,err);if(_fbErrShown)return;_fbErrShown=true;try{showToast('Firebase ('+(err&&err.code?err.code:'error')+'): '+(err&&err.message?err.message.slice(0,140):''));}catch(e){}}
 
 // --- FUNCIÓN PARA ENVIAR EL MENSAJE A DISCORD ---
 async function notifyDiscord(levelName, rank, levelAbove, levelBelow) {
@@ -446,6 +510,7 @@ demon_slayer:{icon:'fa-skull',color:'#6366f1',label:{en:'Demon Slayer',es:'Cazad
 content_creator:{icon:'fa-video',color:'#ff0000',label:{en:'Content Creator',es:'Creador de Contenido',ru:'Контент-мейкер'},desc:{en:'Creates content about Unu List',es:'Crea contenido sobre Unu List',ru:'Создаёт контент про Unu List'}},
 world_first:{icon:'fa-earth-americas',color:'#06b6d4',label:{en:'World First',es:'World First',ru:'Первое в мире'},desc:{en:'Achieved a world-first record',es:'Logró un récord mundial',ru:'Достиг мирового рекорда'}},
 rising_star:{icon:'fa-rocket',color:'#f97316',label:{en:'Rising Star',es:'Estrella Emergente',ru:'Восходящая Звезда'},desc:{en:'A rising talent in the community',es:'Un talento emergente en la comunidad',ru:'Восходящий талант сообщества'}}
+};
 
 function renderUserBadges(user){const badges=user.badges||[];if(badges.length===0)return'';const lang=currentLang;return`<span class="badges-row">`+badges.map(bid=>{const b=BADGES[bid];if(!b)return'';const tip=`${b.label[lang]||b.label.en} — ${b.desc[lang]||b.desc.en}`;return`<span class="badge-chip" style="color:${b.color}; border-color:${b.color};"><i class="fa-solid ${b.icon}"></i><span class="tooltip">${tip}</span></span>`;}).join('')+`</span>`;}
 
@@ -672,7 +737,137 @@ async function rejectRecord(recordId){const t=translations[currentLang];const re
 
 function switchTab(tabId){if((tabId==='account'||tabId==='submit')&&!currentUid)tabId='login';if((tabId==='admin')&&(!currentUid||!currentUserData||!currentUserData.isAdmin))tabId='demons';document.querySelectorAll('.view-section').forEach(sec=>sec.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));const target=document.getElementById(`${tabId}-view`);if(target)target.classList.add('active');if(tabId==='demons')document.getElementById('nav-levels-btn').classList.add('active');if(tabId==='users')document.getElementById('nav-users-btn').classList.add('active');if(tabId==='history')document.getElementById('nav-history-btn').classList.add('active');if(tabId==='compare')document.getElementById('nav-compare-btn').classList.add('active');if(tabId==='submit')document.getElementById('submit-btn').classList.add('active');if(tabId==='login')document.getElementById('login-btn').classList.add('active');if(tabId==='account')renderAccountView();if(tabId==='submit')renderSubmitView();if(tabId==='history')renderHistoryView();if(tabId==='compare')renderCompareView();if(tabId==='admin'){document.getElementById('admin-btn').classList.add('active');renderAdminPanel();}window.scrollTo({top:0,behavior:'smooth'});}
 
-function startRealtimeListeners(){db.collection('levels').onSnapshot(snapshot=>{levelsData=[];snapshot.forEach(doc=>levelsData.push({id:doc.id,...doc.data()}));levelsData.sort((a,b)=>(a.rank||0)-(b.rank||0));if(!levelsData.find(l=>l.id===selectedLevelId))selectedLevelId=levelsData.length>0?levelsData[0].id:null;renderSidebarLevels();renderLevelDetail(selectedLevelId);renderUserArea();renderLeftBanners();if(document.getElementById('account-view').classList.contains('active'))renderAccountView();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>console.error("Levels listener:",err));db.collection('users').onSnapshot(snapshot=>{allUsers={};snapshot.forEach(doc=>allUsers[doc.id]={uid:doc.id,...doc.data()});if(currentUid&&allUsers[currentUid])currentUserData=allUsers[currentUid];renderUserArea();renderLevelDetail(selectedLevelId);updateAuthUI();if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>console.error("Users listener:",err));db.collection('pendingRecords').onSnapshot(snapshot=>{allPendingRecords={};snapshot.forEach(doc=>allPendingRecords[doc.id]={id:doc.id,...doc.data()});const count=snapshot.size;const badge=document.getElementById('pending-count');if(badge){if(count>0){badge.style.display='inline-block';badge.innerText=count;}else{badge.style.display='none';}}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();},err=>console.error("Pending listener:",err));db.collection('reactions').onSnapshot(snapshot=>{allReactions={};snapshot.forEach(doc=>allReactions[doc.id]=doc.data());if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}},err=>console.error("Reactions listener:",err));db.collection('changeLog').orderBy('createdAt','desc').limit(200).onSnapshot(snapshot=>{allChangeLogs=[];snapshot.forEach(doc=>allChangeLogs.push({id:doc.id,...doc.data()}));if(document.getElementById('history-view').classList.contains('active'))renderHistoryView();},err=>console.error("ChangeLog listener:",err));}
+
+// ================= COMENTARIOS DE LA COMUNIDAD =================
+const CT={
+en:{title:'Community Comments',placeholder:'Write a comment...',replyPlaceholder:'Write a reply...',send:'Comment',sendReply:'Reply',reply:'Reply',replyingTo:'Replying to',cancel:'Cancel',del:'Delete',edit:'Edit',save:'Save',edited:'edited',confirmDel:'Delete this comment? Its replies will be deleted too.',loginToComment:'Log in to join the conversation',empty:'No comments yet. Be the first!',now:'just now',wait:'Wait a few seconds before commenting again.',hint:'Ctrl + Enter to send',needLogin:'Log in first',empty2:'Write something first.',deleted:'Comment deleted.'},
+es:{title:'Comentarios de la Comunidad',placeholder:'Escribe un comentario...',replyPlaceholder:'Escribe una respuesta...',send:'Comentar',sendReply:'Responder',reply:'Responder',replyingTo:'Respondiendo a',cancel:'Cancelar',del:'Eliminar',edit:'Editar',save:'Guardar',edited:'editado',confirmDel:'¿Eliminar este comentario? Sus respuestas también se eliminarán.',loginToComment:'Inicia sesión para participar',empty:'Aún no hay comentarios. ¡Sé el primero!',now:'ahora mismo',wait:'Espera unos segundos antes de volver a comentar.',hint:'Ctrl + Enter para enviar',needLogin:'Inicia sesión primero',empty2:'Escribe algo primero.',deleted:'Comentario eliminado.'},
+ru:{title:'Комментарии сообщества',placeholder:'Напишите комментарий...',replyPlaceholder:'Напишите ответ...',send:'Отправить',sendReply:'Ответить',reply:'Ответить',replyingTo:'Ответ для',cancel:'Отмена',del:'Удалить',edit:'Изменить',save:'Сохранить',edited:'изменено',confirmDel:'Удалить комментарий? Ответы тоже будут удалены.',loginToComment:'Войдите, чтобы участвовать',empty:'Комментариев пока нет. Будьте первым!',now:'только что',wait:'Подождите несколько секунд.',hint:'Ctrl + Enter — отправить',needLogin:'Сначала войдите',empty2:'Сначала напишите что-нибудь.',deleted:'Комментарий удалён.'}
+};
+const MAX_COMMENT=500,COMMENT_COOLDOWN=3000;
+let commentsData=[],commentsShellKey='',commentReplyTo=null,commentReplyDraft='',commentEditId=null,commentEditDraft='',lastCommentAt=0;
+const commentDrafts={};
+const escHtml=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const cTs=c=>{const t=c.createdAt;if(!t)return Date.now();if(typeof t.toMillis==='function')return t.toMillis();if(t.seconds)return t.seconds*1000;return Number(t)||Date.now();};
+function commentTimeAgo(c){const C=CT[currentLang]||CT.en;if(!c.createdAt)return C.now;const diff=Math.floor((Date.now()-cTs(c))/1000);if(diff<45)return C.now;try{const rtf=new Intl.RelativeTimeFormat(currentLang,{numeric:'auto'});if(diff<3600)return rtf.format(-Math.floor(diff/60),'minute');if(diff<86400)return rtf.format(-Math.floor(diff/3600),'hour');if(diff<2592000)return rtf.format(-Math.floor(diff/86400),'day');}catch(e){}return new Date(cTs(c)).toLocaleDateString();}
+
+function commentAvatarHTML(uid,fallbackName){const u=allUsers[uid];const name=u?u.username:fallbackName;const frame=getFrameClass(u?u.avatarFrame:'none');const inner=(u&&u.avatar)?`<img src="${escHtml(u.avatar)}" class="user-avatar-mini ${frame}" data-u="${escHtml(name)}" onclick="openUserProfile(this.dataset.u)">`:`<div class="user-avatar-mini ${frame}" data-u="${escHtml(name)}" onclick="openUserProfile(this.dataset.u)">${escHtml((name||'?').charAt(0).toUpperCase())}</div>`;return inner;}
+
+function renderComments(){
+    const box=document.getElementById('comments-box');if(!box)return;
+    if(levelsData.length===0){box.innerHTML='';commentsShellKey='';return;}
+    const lvl=levelsData.find(l=>l.id===selectedLevelId)||levelsData[0];
+    const C=CT[currentLang]||CT.en;
+    const key=lvl.id+'|'+currentLang+'|'+(currentUserData?currentUid:'-');
+    if(key!==commentsShellKey){
+        commentsShellKey=key;commentReplyTo=null;commentReplyDraft='';commentEditId=null;
+        const composer=currentUserData?`<div class="comment-composer">${commentAvatarHTML(currentUid,currentUserData.username)}<div class="composer-main"><textarea id="comment-input" maxlength="${MAX_COMMENT}" placeholder="${C.placeholder}" oninput="commentDrafts['${lvl.id}']=this.value" onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();postComment('${lvl.id}');}">${escHtml(commentDrafts[lvl.id]||'')}</textarea><div class="composer-actions"><span class="composer-hint">${C.hint} · ${MAX_COMMENT}</span><button class="btn-primary" onclick="postComment('${lvl.id}')"><i class="fa-solid fa-paper-plane"></i> ${C.send}</button></div></div></div>`:`<div class="comment-login-prompt"><span><i class="fa-solid fa-lock"></i> ${C.loginToComment}</span><button class="btn-primary" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> ${translations[currentLang].navLogin}</button></div>`;
+        box.innerHTML=`<div class="comments-header"><h3><i class="fa-solid fa-comments"></i> ${C.title} <span class="comments-count" id="comments-count">0</span></h3><span class="comments-level">#${lvl.rank} ${escHtml(lvl.name)}</span></div>${composer}<div id="comments-list"></div>`;
+    }
+    renderCommentsList(lvl.id);
+}
+
+function commentHTML(cm,isReply,levelId){
+    const C=CT[currentLang]||CT.en;
+    const u=allUsers[cm.uid];const name=u?u.username:(cm.username||'?');
+    const ne=getNameEffectClass(u?u.nameEffect:'none'),font=getFontClass(u?u.nameFont:'');
+    const mine=!!currentUid&&cm.uid===currentUid;const isAdmin=!!(currentUserData&&currentUserData.isAdmin);
+    const likes=cm.likes||[];const liked=!!currentUid&&likes.includes(currentUid);
+    const adminTag=(u&&u.isAdmin)?' <i class="fa-solid fa-shield-halved admin-tag" title="Admin"></i>':'';
+    let bodyHTML;
+    if(commentEditId===cm.id){
+        bodyHTML=`<div class="comment-edit"><textarea id="edit-input" maxlength="${MAX_COMMENT}" oninput="commentEditDraft=this.value" onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();saveCommentEdit('${cm.id}');}">${escHtml(commentEditDraft)}</textarea><div class="composer-actions"><span></span><div style="display:flex;gap:8px;"><button class="btn-secondary" style="padding:8px 14px;" onclick="cancelCommentEdit()">${C.cancel}</button><button class="btn-primary" style="padding:8px 14px;" onclick="saveCommentEdit('${cm.id}')"><i class="fa-solid fa-floppy-disk"></i> ${C.save}</button></div></div></div>`;
+    }else{
+        const mention=cm.replyToUsername?`<span class="comment-mention">@${escHtml(cm.replyToUsername)}</span>`:'';
+        bodyHTML=`<div class="comment-text">${mention}${escHtml(cm.text)}</div>`;
+    }
+    const actions=`<div class="comment-actions"><button class="comment-action ${liked?'liked':''}" onclick="toggleCommentLike('${cm.id}')"><i class="fa-${liked?'solid':'regular'} fa-heart"></i> ${likes.length||''}</button>${currentUid?`<button class="comment-action" onclick="startCommentReply('${cm.id}')"><i class="fa-solid fa-reply"></i> ${C.reply}</button>`:''}${mine?`<button class="comment-action" onclick="startCommentEdit('${cm.id}')"><i class="fa-solid fa-pen"></i> ${C.edit}</button>`:''}${(mine||isAdmin)?`<button class="comment-action danger" onclick="deleteComment('${cm.id}')"><i class="fa-solid fa-trash"></i> ${C.del}</button>`:''}</div>`;
+    let replyBox='';
+    if(commentReplyTo&&commentReplyTo.id===cm.id){
+        replyBox=`<div class="comment-reply-box"><div class="comment-reply-label">${C.replyingTo} <strong>@${escHtml(commentReplyTo.username)}</strong></div><textarea id="reply-input" maxlength="${MAX_COMMENT}" placeholder="${C.replyPlaceholder}" oninput="commentReplyDraft=this.value" onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();postComment('${levelId}','${commentReplyTo.rootId}');}">${escHtml(commentReplyDraft)}</textarea><div class="composer-actions"><span class="composer-hint">${C.hint}</span><div style="display:flex;gap:8px;"><button class="btn-secondary" style="padding:8px 14px;" onclick="cancelCommentReply()">${C.cancel}</button><button class="btn-primary" style="padding:8px 14px;" onclick="postComment('${levelId}','${commentReplyTo.rootId}')"><i class="fa-solid fa-reply"></i> ${C.sendReply}</button></div></div></div>`;
+    }
+    return `<div class="comment ${isReply?'reply':''}">${commentAvatarHTML(cm.uid,name)}<div class="comment-body"><div class="comment-meta"><span class="comment-author ${ne} ${font}" data-u="${escHtml(name)}" onclick="openUserProfile(this.dataset.u)">${escHtml(name)}</span>${adminTag}<span class="comment-time">${commentTimeAgo(cm)}${cm.edited?' · '+C.edited:''}</span></div>${bodyHTML}${commentEditId===cm.id?'':actions}${replyBox}</div></div>`;
+}
+
+function renderCommentsList(levelId){
+    const list=document.getElementById('comments-list');if(!list)return;
+    const C=CT[currentLang]||CT.en;
+    const ae=document.activeElement;const focusId=(ae&&(ae.id==='reply-input'||ae.id==='edit-input'))?ae.id:null;const selStart=focusId?ae.selectionStart:0;
+    const all=commentsData.filter(x=>x.levelId===levelId);
+    const tops=all.filter(x=>!x.parentId).sort((a,b)=>cTs(b)-cTs(a));
+    const topIds=new Set(tops.map(t=>t.id));
+    const repliesOf=id=>all.filter(x=>x.parentId===id).sort((a,b)=>cTs(a)-cTs(b));
+    const shown=tops.length+all.filter(x=>x.parentId&&topIds.has(x.parentId)).length;
+    const counter=document.getElementById('comments-count');if(counter)counter.innerText=shown;
+    if(tops.length===0){list.innerHTML=`<div class="empty-state">${C.empty}</div>`;return;}
+    list.innerHTML=tops.map(t=>{const reps=repliesOf(t.id);return commentHTML(t,false,levelId)+(reps.length?`<div class="comment-replies">${reps.map(r=>commentHTML(r,true,levelId)).join('')}</div>`:'');}).join('');
+    if(focusId){const el=document.getElementById(focusId);if(el){el.focus();try{el.setSelectionRange(selStart,selStart);}catch(e){}}}
+}
+
+async function postComment(levelId,parentId=null){
+    const C=CT[currentLang]||CT.en;
+    if(!currentUid||!currentUserData){showToast(C.needLogin);return;}
+    const input=document.getElementById(parentId?'reply-input':'comment-input');if(!input)return;
+    const text=input.value.trim();
+    if(!text){playError();showToast(C.empty2);return;}
+    if(text.length>MAX_COMMENT){playError();return;}
+    if(Date.now()-lastCommentAt<COMMENT_COOLDOWN){playError();showToast(C.wait);return;}
+    lastCommentAt=Date.now();
+    const data={levelId,uid:currentUid,username:currentUserData.username,text,parentId:parentId||null,likes:[],edited:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+    if(parentId&&commentReplyTo&&commentReplyTo.id!==commentReplyTo.rootId)data.replyToUsername=commentReplyTo.username;
+    try{
+        await db.collection('comments').add(data);
+        if(parentId){commentReplyTo=null;commentReplyDraft='';}else{commentDrafts[levelId]='';input.value='';}
+        playSuccess();renderCommentsList(levelId);
+    }catch(err){console.error(err);lastCommentAt=0;playError();showToast('Error ('+(err.code||'comment')+')');}
+}
+async function toggleCommentLike(id){
+    const C=CT[currentLang]||CT.en;
+    if(!currentUid){showToast(C.needLogin);return;}
+    const cm=commentsData.find(x=>x.id===id);if(!cm)return;
+    const has=(cm.likes||[]).includes(currentUid);
+    try{await db.collection('comments').doc(id).update({likes:has?firebase.firestore.FieldValue.arrayRemove(currentUid):firebase.firestore.FieldValue.arrayUnion(currentUid)});playClick();}catch(err){console.error(err);playError();}
+}
+function startCommentReply(id){
+    const cm=commentsData.find(x=>x.id===id);if(!cm)return;
+    const u=allUsers[cm.uid];
+    commentReplyTo={id:cm.id,rootId:cm.parentId||cm.id,username:u?u.username:(cm.username||'?')};
+    commentReplyDraft='';commentEditId=null;
+    renderCommentsList(cm.levelId);
+    const el=document.getElementById('reply-input');if(el)el.focus();
+}
+function cancelCommentReply(){const lvl=selectedLevelId;commentReplyTo=null;commentReplyDraft='';renderComments();}
+function startCommentEdit(id){
+    const cm=commentsData.find(x=>x.id===id);if(!cm)return;
+    commentEditId=id;commentEditDraft=cm.text;commentReplyTo=null;
+    renderCommentsList(cm.levelId);
+    const el=document.getElementById('edit-input');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}
+}
+function cancelCommentEdit(){commentEditId=null;commentEditDraft='';renderComments();}
+async function saveCommentEdit(id){
+    const text=(document.getElementById('edit-input')||{}).value;
+    if(!text||!text.trim()){playError();return;}
+    try{await db.collection('comments').doc(id).update({text:text.trim().slice(0,MAX_COMMENT),edited:true});commentEditId=null;commentEditDraft='';playSuccess();renderComments();}catch(err){console.error(err);playError();showToast('Error ('+(err.code||'edit')+')');}
+}
+async function deleteComment(id){
+    const C=CT[currentLang]||CT.en;
+    if(!confirm(C.confirmDel))return;
+    try{
+        const batch=db.batch();
+        batch.delete(db.collection('comments').doc(id));
+        commentsData.filter(x=>x.parentId===id).forEach(r=>batch.delete(db.collection('comments').doc(r.id)));
+        await batch.commit();playClick();showToast(C.deleted);
+    }catch(err){console.error(err);playError();showToast('Error ('+(err.code||'delete')+')');}
+}
+function startCommentsListener(){
+    db.collection('comments').onSnapshot(snapshot=>{commentsData=[];snapshot.forEach(doc=>commentsData.push({id:doc.id,...doc.data()}));renderComments();},err=>fbError('Comments listener:',err));
+}
+// Re-dibujar comentarios cada vez que se dibuja el detalle del nivel (cambio de nivel, idioma, login...)
+const _renderLevelDetailOrig=renderLevelDetail;
+renderLevelDetail=function(levelId){_renderLevelDetailOrig(levelId);try{renderComments();}catch(e){console.error('renderComments:',e);}};
+// ================= FIN COMENTARIOS =================
+
+function startRealtimeListeners(){startCommentsListener();db.collection('levels').onSnapshot(snapshot=>{levelsData=[];snapshot.forEach(doc=>levelsData.push({id:doc.id,...doc.data()}));levelsData.sort((a,b)=>(a.rank||0)-(b.rank||0));if(!levelsData.find(l=>l.id===selectedLevelId))selectedLevelId=levelsData.length>0?levelsData[0].id:null;renderSidebarLevels();renderLevelDetail(selectedLevelId);renderUserArea();renderLeftBanners();if(document.getElementById('account-view').classList.contains('active'))renderAccountView();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Levels listener:",err));db.collection('users').onSnapshot(snapshot=>{allUsers={};snapshot.forEach(doc=>allUsers[doc.id]={uid:doc.id,...doc.data()});if(currentUid&&allUsers[currentUid])currentUserData=allUsers[currentUid];renderUserArea();renderLevelDetail(selectedLevelId);updateAuthUI();if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Users listener:",err));db.collection('pendingRecords').onSnapshot(snapshot=>{allPendingRecords={};snapshot.forEach(doc=>allPendingRecords[doc.id]={id:doc.id,...doc.data()});const count=snapshot.size;const badge=document.getElementById('pending-count');if(badge){if(count>0){badge.style.display='inline-block';badge.innerText=count;}else{badge.style.display='none';}}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();},err=>fbError("Pending listener:",err));db.collection('reactions').onSnapshot(snapshot=>{allReactions={};snapshot.forEach(doc=>allReactions[doc.id]=doc.data());if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}},err=>fbError("Reactions listener:",err));db.collection('changeLog').orderBy('createdAt','desc').limit(200).onSnapshot(snapshot=>{allChangeLogs=[];snapshot.forEach(doc=>allChangeLogs.push({id:doc.id,...doc.data()}));if(document.getElementById('history-view').classList.contains('active'))renderHistoryView();},err=>fbError("ChangeLog listener:",err));}
 
 auth.onAuthStateChanged(async user=>{
     try {
