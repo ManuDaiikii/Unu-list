@@ -660,6 +660,16 @@
         .wk-banner:hover{border-color:#38bdf8}.wk-banner>i{font-size:1.3rem;color:#38bdf8}.wk-banner div{display:flex;flex-direction:column;font-size:.75rem;color:var(--text-muted)}.wk-banner b{color:var(--text-color);font-size:.9rem}
         .wk-bn-r{margin-left:auto;text-align:right}.wk-bn-r b{color:#38bdf8}
         @media(max-width:768px){.wk-hero{flex-direction:column;text-align:center}}
+        /* ===== Verificación de niveles / mapa online ===== */
+        .vf-box{max-width:760px;margin:0 auto}
+        .vf-pts{margin:4px 0 14px;padding:10px 14px;border-radius:10px;background:rgba(255,51,102,.1);border:1px solid rgba(255,51,102,.35);font-weight:800;color:var(--accent-color);font-size:.9rem}
+        .vf-conf{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:.88rem;cursor:pointer}
+        .vf-err{margin-top:12px;padding:10px 14px;border-radius:10px;background:rgba(239,68,68,.12);border:1px solid var(--error-color);color:var(--error-color);font-weight:700;font-size:.85rem}
+        #map-online{position:absolute;right:12px;top:222px;width:100px;max-height:calc(100% - 300px);overflow-y:auto;display:flex;flex-direction:column;gap:4px;font-size:.72rem}
+        #map-online b{color:#22c55e;font-size:.72rem;padding:4px 6px;background:rgba(10,10,16,.75);border-radius:8px}#map-online b i{font-size:.5rem;margin-right:3px}
+        #map-online button{background:rgba(10,10,16,.75);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-family:inherit;font-weight:700;font-size:.7rem;padding:4px 6px;border-radius:8px;cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        #map-online em{font-style:normal;color:var(--text-muted);padding-left:6px}
+        @media(max-width:768px){#map-online{width:70px;top:162px}}
     </style>
 </head>
 <body class="theme-dark">
@@ -1565,7 +1575,7 @@ if(z){z.oninput=()=>{if(!bannerEditor)return;bannerEditor.zoom=+z.value;bnDraw()
 function handleBannerFile(event){const file=event.target.files[0];if(!file)return;const T=pfT();if(!/^image\//.test(file.type)){showToast(T.bnBad);event.target.value='';return;}if(file.size>15*1024*1024){showToast(T.bnBig);event.target.value='';return;}const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);bannerEditor={img,zoom:1,ox:.5,oy:.5};const z=document.getElementById('bn-zoom'),st=document.getElementById('bn-stage');if(z){z.disabled=false;z.value=1;}if(st)st.classList.add('active');bnDraw();bnExport();};img.onerror=()=>{URL.revokeObjectURL(url);showToast(T.bnBad);};img.src=url;}
 async function removeBanner(){if(!currentUid)return;pendingBannerData=null;bannerEditor=null;await db.collection('users').doc(currentUid).update({banner:null});renderAccountView();}
 
-function startRealtimeListeners(){initFilters();startCommentsListener();db.collection('levels').onSnapshot(snapshot=>{levelsData=[];snapshot.forEach(doc=>levelsData.push({id:doc.id,...doc.data()}));levelsData.sort((a,b)=>(a.rank||0)-(b.rank||0));if(!window._hashApplied&&levelsData.length){window._hashApplied=true;const hm=location.hash.match(/^#level=(.+)$/);if(hm){const hid=decodeURIComponent(hm[1]);if(levelsData.some(l=>l.id===hid))selectedLevelId=hid;}}if(!levelsData.find(l=>l.id===selectedLevelId))selectedLevelId=levelsData.length>0?levelsData[0].id:null;renderSidebarLevels();renderLevelDetail(selectedLevelId);renderUserArea();renderLeftBanners();scheduleBadgeSync();pfApplyHash();if(currentProfileUser&&document.getElementById('profile-view').classList.contains('active'))openUserProfile(currentProfileUser);if(document.getElementById('account-view').classList.contains('active'))renderAccountView();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Levels listener:",err));db.collection('users').onSnapshot(snapshot=>{allUsers={};snapshot.forEach(doc=>allUsers[doc.id]={uid:doc.id,...doc.data()});if(currentUid&&allUsers[currentUid])currentUserData=allUsers[currentUid];renderUserArea();pfApplyHash();renderLevelDetail(selectedLevelId);updateAuthUI();scheduleBadgeSync();if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Users listener:",err));db.collection('pendingRecords').onSnapshot(snapshot=>{allPendingRecords={};snapshot.forEach(doc=>allPendingRecords[doc.id]={id:doc.id,...doc.data()});const count=snapshot.size;const badge=document.getElementById('pending-count');if(badge){if(count>0){badge.style.display='inline-block';badge.innerText=count;}else{badge.style.display='none';}}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();},err=>fbError("Pending listener:",err));db.collection('reactions').onSnapshot(snapshot=>{allReactions={};snapshot.forEach(doc=>allReactions[doc.id]=doc.data());if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}},err=>fbError("Reactions listener:",err));db.collection('changeLog').orderBy('createdAt','desc').limit(200).onSnapshot(snapshot=>{allChangeLogs=[];snapshot.forEach(doc=>allChangeLogs.push({id:doc.id,...doc.data()}));if(document.getElementById('history-view').classList.contains('active'))renderHistoryView();},err=>fbError("ChangeLog listener:",err));}
+function startRealtimeListeners(){initFilters();startCommentsListener();db.collection('levels').onSnapshot(snapshot=>{levelsData=[];snapshot.forEach(doc=>levelsData.push({id:doc.id,...doc.data()}));levelsData.sort((a,b)=>(a.rank||0)-(b.rank||0));normLevels();if(!window._hashApplied&&levelsData.length){window._hashApplied=true;const hm=location.hash.match(/^#level=(.+)$/);if(hm){const hid=decodeURIComponent(hm[1]);if(levelsData.some(l=>l.id===hid))selectedLevelId=hid;}}if(!levelsData.find(l=>l.id===selectedLevelId))selectedLevelId=levelsData.length>0?levelsData[0].id:null;renderSidebarLevels();renderLevelDetail(selectedLevelId);renderUserArea();renderLeftBanners();scheduleBadgeSync();pfApplyHash();if(currentProfileUser&&document.getElementById('profile-view').classList.contains('active'))openUserProfile(currentProfileUser);if(document.getElementById('account-view').classList.contains('active'))renderAccountView();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Levels listener:",err));db.collection('users').onSnapshot(snapshot=>{allUsers={};snapshot.forEach(doc=>allUsers[doc.id]={uid:doc.id,...doc.data()});if(currentUid&&allUsers[currentUid])currentUserData=allUsers[currentUid];renderUserArea();pfApplyHash();renderLevelDetail(selectedLevelId);updateAuthUI();scheduleBadgeSync();if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();},err=>fbError("Users listener:",err));db.collection('pendingRecords').onSnapshot(snapshot=>{allPendingRecords={};snapshot.forEach(doc=>allPendingRecords[doc.id]={id:doc.id,...doc.data()});const count=snapshot.size;const badge=document.getElementById('pending-count');if(badge){if(count>0){badge.style.display='inline-block';badge.innerText=count;}else{badge.style.display='none';}}if(document.getElementById('admin-view').classList.contains('active'))renderAdminPanel();if(document.getElementById('submit-view').classList.contains('active'))renderSubmitView();},err=>fbError("Pending listener:",err));db.collection('reactions').onSnapshot(snapshot=>{allReactions={};snapshot.forEach(doc=>allReactions[doc.id]=doc.data());if(currentProfileUser){const stillExists=getUserByUsername(currentProfileUser);if(stillExists)openUserProfile(currentProfileUser);}},err=>fbError("Reactions listener:",err));db.collection('changeLog').orderBy('createdAt','desc').limit(200).onSnapshot(snapshot=>{allChangeLogs=[];snapshot.forEach(doc=>allChangeLogs.push({id:doc.id,...doc.data()}));if(document.getElementById('history-view').classList.contains('active'))renderHistoryView();},err=>fbError("ChangeLog listener:",err));}
 
 auth.onAuthStateChanged(async user=>{
     try {
@@ -2217,6 +2227,83 @@ async function xpExport(){
         comp.slice(1,4).forEach((x,i)=>{const y=1070+i*70;c.fillStyle='rgba(255,255,255,.06)';c.beginPath();c.roundRect(60,y,960,58,16);c.fill();c.fillStyle=tc[0];c.beginPath();c.roundRect(60,y,110,58,16);c.fill();c.fillStyle='#000';c.font='800 28px Inter,sans-serif';c.textAlign='center';c.fillText('#'+(x.i+1),115,y+39);c.textAlign='left';c.fillStyle='#fff';c.font='700 30px Inter,sans-serif';c.fillText((x.l.name||'').slice(0,36),195,y+39);});}
     c.textAlign='center';c.fillStyle='#6b6b7b';c.font='600 22px Inter,sans-serif';c.fillText('unu list · '+new Date().getFullYear(),W/2,1320);
     try{cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='unu-list-'+String(user.username).replace(/[^\w-]+/g,'_')+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000);showToast(T.saved,{icon:'fa-download'});},'image/png');}catch(e){showToast('Error');}
+}
+// ================= PUNTOS AUTOMÁTICOS + VERIFICACIÓN DE NIVELES + MINIMAPA ONLINE =================
+// Puntos según la posición en el top. Cambia estas 3 constantes para ajustar la curva.
+const UNU_TOP=100,UNU_DECAY=0.96,UNU_MIN=1;
+function unuPoints(rank){return Math.max(UNU_MIN,Math.round(UNU_TOP*Math.pow(UNU_DECAY,Math.max(1,rank)-1)*100)/100);}
+function normLevels(){levelsData.forEach((l,i)=>{l._raw=l.rank;l._rawPts=l.points;l.rank=i+1;l.points=unuPoints(i+1);});scheduleRankRepair();}
+let rrT=0;
+function scheduleRankRepair(){clearTimeout(rrT);rrT=setTimeout(rankRepair,3000);}
+async function rankRepair(){
+    if(!currentUserData||!currentUserData.isAdmin||!levelsData.length)return;
+    const bad=levelsData.filter(l=>l._raw!==l.rank||Number(l._rawPts)!==l.points);if(!bad.length)return;
+    try{for(let i=0;i<bad.length;i+=400){const b=db.batch();bad.slice(i,i+400).forEach(l=>b.update(db.collection('levels').doc(l.id),{rank:l.rank,points:l.points}));await b.commit();}}catch(e){console.error('rankRepair',e);}
+}
+function vfHidePts(){document.querySelectorAll('input[id$="level-points"]').forEach(i=>{if(i.dataset.h)return;i.dataset.h='1';if(i.id==='new-level-points')i.value=i.value||'1';i.required=false;const g=i.closest('.form-group');if(g)g.style.display='none';});}
+new MutationObserver(()=>vfHidePts()).observe(document.body,{childList:true,subtree:true});
+
+const VFT={en:{rec:'Submit record',ver:'Verify a level',title:'Verify a level',sub:'Fill in the level data and it will be added to the list automatically. Points are calculated from its position in the top.',name:'Level name',creator:'Creator(s)',verifier:'Verifier',video:'Verification video (URL)',gdid:'Geometry Dash ID',diff:'Difficulty',team:'Mode',song:'Song',len:'Length',thumb:'Thumbnail',pos:'Position in the top',posPh:'Empty = bottom of the list',pv:(p,n)=>`Position #${p} of ${n} → ${unuPoints(p)} pts`,conf:'I confirm I verified this level and the data is correct',send:'Add to the list',req:'Fill in name, creator, video and ID',badUrl:'The video must be a valid link (https://...)',confirm:'You must confirm the verification',exists:'A level with that name already exists',fail:'Could not add the level',done:'Level added to the list!'},
+es:{rec:'Enviar récord',ver:'Verificar nivel',title:'Verificar un nivel',sub:'Rellena los datos del nivel y se añadirá a la lista automáticamente. Los puntos se calculan según su posición en el top.',name:'Nombre del nivel',creator:'Creador(es)',verifier:'Verificador',video:'Vídeo de verificación (URL)',gdid:'ID de Geometry Dash',diff:'Dificultad',team:'Modo',song:'Canción',len:'Duración',thumb:'Miniatura',pos:'Posición en el top',posPh:'Vacío = final de la lista',pv:(p,n)=>`Posición #${p} de ${n} → ${unuPoints(p)} pts`,conf:'Confirmo que verifiqué este nivel y los datos son correctos',send:'Añadir a la lista',req:'Rellena nombre, creador, vídeo e ID',badUrl:'El vídeo debe ser un enlace válido (https://...)',confirm:'Debes confirmar la verificación',exists:'Ya existe un nivel con ese nombre',fail:'No se pudo añadir el nivel',done:'¡Nivel añadido a la lista!'},
+ru:{rec:'Отправить рекорд',ver:'Верифицировать уровень',title:'Верификация уровня',sub:'Заполните данные уровня, и он автоматически добавится в список. Очки считаются по месту в топе.',name:'Название уровня',creator:'Создатель(и)',verifier:'Верификатор',video:'Видео верификации (URL)',gdid:'ID в Geometry Dash',diff:'Сложность',team:'Режим',song:'Музыка',len:'Длина',thumb:'Превью',pos:'Место в топе',posPh:'Пусто = в конец списка',pv:(p,n)=>`Место #${p} из ${n} → ${unuPoints(p)} очк.`,conf:'Подтверждаю, что прошёл этот уровень, данные верны',send:'Добавить в список',req:'Заполните название, создателя, видео и ID',badUrl:'Видео должно быть ссылкой (https://...)',confirm:'Нужно подтвердить верификацию',exists:'Уровень с таким названием уже есть',fail:'Не удалось добавить уровень',done:'Уровень добавлен в список!'}};
+const vfT=()=>VFT[currentLang]||VFT.en;
+const VF={mode:'record',d:{},ok:false};
+function vfSeg(){const T=vfT(),b=(k,i,t)=>`<button class="${VF.mode===k?'active':''}" onclick="vfMode('${k}')"><i class="fa-solid ${i}"></i> ${t}</button>`;return`<div class="com-seg" style="margin-bottom:16px">${b('record','fa-flag-checkered',T.rec)}${b('level','fa-circle-check',T.ver)}</div>`;}
+function vfMode(m){VF.mode=m;playClick();renderSubmitView();}
+function vfForm(){
+    const T=vfT(),d=VF.d,f=(k,l,type,ph)=>`<div class="form-group"><label>${l}</label><input type="${type||'text'}" id="vf-${k}" data-k="${k}" value="${escHtml(d[k]||'')}" placeholder="${escHtml(ph||'')}" oninput="VF.d[this.dataset.k]=this.value;vfPreview()"></div>`;
+    const sel=(k,l,arr)=>`<div class="form-group"><label>${l}</label><select id="vf-${k}" onchange="VF.d.${k}=this.value">${k==='diff'?'<option value="">—</option>':''}${arr.map(x=>`<option value="${x.id}"${d[k]===x.id?' selected':''}>${x.label}</option>`).join('')}</select></div>`;
+    return`<div class="vf-box"><h2 style="font-size:1.4rem;font-weight:800">${T.title}</h2><p style="color:var(--text-muted);font-size:.88rem;margin:4px 0 18px">${T.sub}</p>
+    <div class="form-row">${f('name',T.name)}${f('creator',T.creator)}</div>
+    <div class="form-row">${f('verifier',T.verifier,'text',currentUserData.username)}${f('video',T.video,'url','https://...')}</div>
+    <div class="form-row">${f('gdid',T.gdid)}${sel('diff',T.diff,DIFFICULTIES)}</div>
+    <div class="form-row">${sel('team',T.team,TEAM_TYPES)}${f('song',T.song)}</div>
+    <div class="form-row">${f('length',T.len,'text','2:34')}${f('pos',T.pos,'number',T.posPh)}</div>
+    <div class="vf-pts" id="vf-pts"></div>
+    <div class="form-row">${f('thumbnail',T.thumb)}</div>
+    <label class="vf-conf"><input type="checkbox" ${VF.ok?'checked':''} onchange="VF.ok=this.checked"> ${T.conf}</label>
+    <div class="vf-err" id="vf-err" style="display:none"></div>
+    <button class="btn-primary" id="vf-btn" onclick="vfSubmit()" style="width:100%;margin-top:14px"><i class="fa-solid fa-circle-check"></i> ${T.send}</button></div>`;
+}
+function vfPreview(){const e=document.getElementById('vf-pts');if(!e)return;const n=levelsData.length,p=parseInt(VF.d.pos,10),pos=(isNaN(p)||p<1||p>n+1)?n+1:p;e.innerText=vfT().pv(pos,n+1);}
+const _rsvV=renderSubmitView;
+renderSubmitView=function(){_rsvV.apply(this,arguments);try{vfInject();}catch(e){console.error(e);}};
+function vfInject(){const c=document.getElementById('submit-container');if(!c||!currentUid||!currentUserData)return;if(VF.mode==='level'){c.innerHTML=vfSeg()+vfForm();vfPreview();}else if(!c.querySelector('.com-seg'))c.insertAdjacentHTML('afterbegin',vfSeg());}
+async function vfSubmit(){
+    const T=vfT(),d=VF.d,g=k=>(d[k]||'').trim(),btn=document.getElementById('vf-btn');
+    const err=m=>{const e=document.getElementById('vf-err');if(e){e.innerText=m;e.style.display='block';}playError();};
+    const name=g('name'),creator=g('creator'),verifier=g('verifier')||currentUserData.username,video=g('video'),gdid=g('gdid');
+    if(!name||!creator||!video||!gdid)return err(T.req);
+    if(!/^https?:\/\//i.test(video))return err(T.badUrl);
+    if(!VF.ok)return err(T.confirm);
+    const id=slugify(name);if(!id)return err(T.req);
+    btn.disabled=true;
+    try{
+        const ex=await db.collection('levels').doc(id).get();if(ex.exists){btn.disabled=false;return err(T.exists);}
+        const n=levelsData.length;let pos=parseInt(g('pos'),10);if(isNaN(pos)||pos<1||pos>n+1)pos=n+1;
+        const prev=pos>1?(levelsData[pos-2]._raw??pos-1):0,next=pos<=n?levelsData[pos-1]._raw:null,rank=next==null?prev+1:(prev+next)/2;
+        await db.collection('levels').doc(id).set({rank,name,creator,verifier,points:unuPoints(pos),thumbnail:g('thumbnail'),videoUrl:video,gdId:gdid,difficulty:d.diff||'',teamType:d.team||'solo',song:g('song'),length:g('length'),source:'verification',submittedBy:currentUid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        try{logChange('level_added',`Nivel "${name}" añadido en #${pos} (verificación de ${currentUserData.username})`,{levelId:id,rank:pos});}catch(e){}
+        VF.d={};VF.ok=false;VF.mode='record';playSuccess();showToast(T.done,{icon:'fa-circle-check',color:'#22c55e'});
+        switchTab('demons');setTimeout(()=>{try{selectLevel(id);}catch(e){}},700);
+    }catch(e){console.error(e);btn.disabled=false;err(T.fail+' ('+(e.code||'error')+')');}
+}
+
+// --- Minimapa: todos ven a los jugadores conectados ---
+const _mapMiniV=mapMini;
+mapMini=function(){
+    _mapMiniV();
+    const m=document.getElementById('map-mini'),c=m.getContext('2d'),sx=m.width/MAP.W,sy=m.height/MAP.H,now=Date.now();
+    Object.values(MAP.others).forEach(o=>{if(now-o.t>=20000)return;c.fillStyle='#fbbf24';c.strokeStyle='#000';c.lineWidth=1.5;c.beginPath();c.arc(o.x*sx,o.y*sy,4.5,0,6.3);c.fill();c.stroke();});
+    mapOnline(now);
+};
+let moT=0;
+function mapOnline(now){
+    if(now-moT<1000)return;moT=now;const w=document.getElementById('map-wrap');if(!w)return;
+    let el=document.getElementById('map-online');
+    if(!el){el=document.createElement('div');el.id='map-online';w.appendChild(el);el.addEventListener('pointerdown',e=>e.stopPropagation());el.onclick=e=>{const b=e.target.closest('button');if(!b)return;const o=MAP.others[b.dataset.id];if(o){MAP.px=o.tx;MAP.py=o.ty+60;MAP.cx=MAP.px;MAP.cy=MAP.py;}};}
+    const list=Object.entries(MAP.others).filter(([id,o])=>now-o.t<20000);
+    el.innerHTML='<b><i class="fa-solid fa-circle"></i> '+(list.length+1)+' '+mapT().on+'</b>'+list.slice(0,10).map(([id,o])=>'<button data-id="'+escHtml(id)+'">'+escHtml(o.u||'?')+'</button>').join('')+(list.length>10?'<em>+'+(list.length-10)+'</em>':'');
 }
 // ================= FIN NOTIFICACIONES + HISTORIAL =================
     </script>
