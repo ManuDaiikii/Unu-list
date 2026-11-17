@@ -2029,7 +2029,7 @@ function crData(){
     const s=COM.sort;XS.arr=Object.values(m).sort((a,b)=>s==='pts'?b.pts-a.pts||b.lv.length-a.lv.length:s==='hard'?a.lv[0].rank-b.lv[0].rank:b.lv.length-a.lv.length||b.pts-a.pts);
 }
 const crUser=n=>Object.values(allUsers).find(u=>(u.username||'').toLowerCase()===String(n).toLowerCase());
-const crPts=p=>p%1?p.toFixed(1):String(p);
+const crPts=p=>String(Math.round(p*100)/100);
 function comInit(){const v=document.getElementById('users-view');if(!v||v.dataset.com)return;v.dataset.com='1';v.insertAdjacentHTML('afterbegin','<div class="com-seg" id="com-seg"></div>');v.insertAdjacentHTML('beforeend','<div id="cr-panel" style="display:none"></div>');}
 function comAttach(){if(COM.unsub||typeof db==='undefined')return;try{COM.unsub=db.collection('siteConfig').doc('creatorOfMonth').onSnapshot(d=>{COM.cfg=d.exists?d.data():null;if(COM.mode==='creators'&&document.getElementById('users-view').classList.contains('active'))crPanel();},()=>{COM.unsub=null;});}catch(e){}}
 function comSetMode(m){COM.mode=m;playClick();comRender();}
@@ -2218,7 +2218,7 @@ async function xpExport(){
     c.fillStyle='#fff';c.fillText(user.username,W/2,505);
     const bs=(user.badges||[]).filter(b=>BADGES[b]).slice(0,8),bx=W/2-(bs.length-1)*30;
     bs.forEach((b,i)=>{const x=bx+i*60,bd=BADGES[b];c.fillStyle=bd.color;c.beginPath();c.arc(x,560,24,0,6.3);c.fill();c.fillStyle='#000';c.font='800 24px Inter,sans-serif';c.fillText((bd.label[currentLang]||bd.label.en||'?')[0].toUpperCase(),x,569);});
-    const st=[[T.cPts,pts%1?pts.toFixed(1):pts],[T.cDone,comp.length],[(Math.round(comp.length/n*1000)/10)+'%',T.cList],[wkWeeks(user).size,T.cWeeks]];
+    const st=[[T.cPts,Math.round(pts*100)/100],[T.cDone,comp.length],[(Math.round(comp.length/n*1000)/10)+'%',T.cList],[wkWeeks(user).size,T.cWeeks]];
     st.forEach((s,i)=>{const w=210,x=60+i*(w+20),y=610;c.fillStyle='rgba(255,255,255,.06)';c.beginPath();c.roundRect(x,y,w,140,22);c.fill();c.fillStyle=tc[0];c.font='800 52px Inter,sans-serif';c.fillText(String(i===2?s[0]:s[1]===undefined?'':i===3?s[0]:s[1]),x+w/2,y+70);c.fillStyle='#9a9aab';c.font='700 22px Inter,sans-serif';c.fillText(String(i===2?s[1]:i===3?s[1]:s[0]),x+w/2,y+112);});
     if(comp[0]){const h=comp[0];c.fillStyle='rgba(255,255,255,.06)';c.strokeStyle=tc[0];c.lineWidth=3;c.beginPath();c.roundRect(60,785,960,200,26);c.fill();c.stroke();
         c.textAlign='left';c.fillStyle=tc[0];c.font='800 24px Inter,sans-serif';c.fillText(T.cHard,100,832);c.font='800 96px Inter,sans-serif';c.fillText('#'+(h.i+1),100,935);
@@ -2230,7 +2230,7 @@ async function xpExport(){
 }
 // ================= PUNTOS AUTOMÁTICOS + VERIFICACIÓN DE NIVELES + MINIMAPA ONLINE =================
 // Puntos según la posición en el top. Cambia estas 3 constantes para ajustar la curva.
-const UNU_TOP=100,UNU_DECAY=0.96,UNU_MIN=1;
+const UNU_TOP=350,UNU_DECAY=0.96,UNU_MIN=1;
 function unuPoints(rank){return Math.max(UNU_MIN,Math.round(UNU_TOP*Math.pow(UNU_DECAY,Math.max(1,rank)-1)*100)/100);}
 function normLevels(){levelsData.forEach((l,i)=>{l._raw=l.rank;l._rawPts=l.points;l.rank=i+1;l.points=unuPoints(i+1);});scheduleRankRepair();}
 let rrT=0;
@@ -2305,6 +2305,10 @@ function mapOnline(now){
     const list=Object.entries(MAP.others).filter(([id,o])=>now-o.t<20000);
     el.innerHTML='<b><i class="fa-solid fa-circle"></i> '+(list.length+1)+' '+mapT().on+'</b>'+list.slice(0,10).map(([id,o])=>'<button data-id="'+escHtml(id)+'">'+escHtml(o.u||'?')+'</button>').join('')+(list.length>10?'<em>+'+(list.length-10)+'</em>':'');
 }
+
+// Puntos totales siempre con máximo 2 decimales
+const _gupR=getUserPoints;
+getUserPoints=function(){const v=_gupR.apply(this,arguments);return typeof v==='number'?Math.round(v*100)/100:v;};
 // ================= FIN NOTIFICACIONES + HISTORIAL =================
     </script>
 </body>
